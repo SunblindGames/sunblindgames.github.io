@@ -321,39 +321,70 @@
           Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
       ]);
 
-      // Invisible Mouse Interaction
-      const mouse = Mouse.create(document.body);
-      // Fix scrolling issue with Matter Mouse mapping
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-          if(!ticking) {
-              window.requestAnimationFrame(() => {
-                  mouse.offset = { x: 0, y: window.scrollY };
-                  ticking = false;
-              });
-              ticking = true;
-          }
-      });
-      mouse.offset = { x: 0, y: window.scrollY };
-
-      const mouseConstraint = MouseConstraint.create(engine, {
-          mouse: mouse,
-          constraint: { stiffness: 0.1, render: { visible: false } }
-      });
-      Composite.add(world, mouseConstraint);
-
       // DOM Elements hook
       const domHead = document.getElementById('part-head');
       const domNeck = document.getElementById('part-neck');
       const domBody = document.getElementById('part-body');
       const domFeet = document.getElementById('part-feet');
-      
+
+      // Custom DOM-to-Physics Interaction (Replacing glitchy Matter Mouse)
+      let dragConstraint = null;
+
+      const handleGrab = (e, tgtBody, domEl) => {
+         e.preventDefault();
+         if(dragConstraint) return; // already dragging something
+         
+         let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+         let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+         
+         dragConstraint = Constraint.create({
+             pointA: { x: clientX, y: clientY },
+             bodyB: tgtBody,
+             pointB: { x: 0, y: 0 },
+             stiffness: 0.1, // Elastic feel
+             damping: 0.1
+         });
+         Composite.add(world, dragConstraint);
+         domEl.classList.add('is-grabbing');
+         dragConstraint.renderEl = domEl;
+      };
+
+      // Ensure every part can be grabbed like a true ragdoll!
+      domHead.addEventListener('mousedown', (e) => handleGrab(e, head, domHead));
+      domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), {passive: false});
+      domNeck.addEventListener('mousedown', (e) => handleGrab(e, neck, domNeck));
+      domNeck.addEventListener('touchstart', (e) => handleGrab(e, neck, domNeck), {passive: false});
+      domBody.addEventListener('mousedown', (e) => handleGrab(e, body, domBody));
+      domBody.addEventListener('touchstart', (e) => handleGrab(e, body, domBody), {passive: false});
+      domFeet.addEventListener('mousedown', (e) => handleGrab(e, feet, domFeet));
+      domFeet.addEventListener('touchstart', (e) => handleGrab(e, feet, domFeet), {passive: false});
+
+      const handleMove = (e) => {
+         if(dragConstraint) {
+             let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+             let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+             dragConstraint.pointA = { x: clientX, y: clientY };
+         }
+      };
+
+      const handleRelease = () => {
+         if(dragConstraint) {
+             Composite.remove(world, dragConstraint);
+             if(dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
+             dragConstraint = null;
+         }
+      };
+
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('touchmove', handleMove, {passive: false});
+      document.addEventListener('mouseup', handleRelease);
+      document.addEventListener('touchend', handleRelease);
+
       const updateDom = (physicsBody, element) => {
         if (!element) return;
-        // Position fixed mapped to body center
+        // Position fixed mapped to body center (viewport space exactly maps to physics space)
         element.style.left = (physicsBody.position.x - element.offsetWidth / 2) + 'px';
-        // Subtract scrollY because Matter Y adds it, but element is fixed!
-        element.style.top = (physicsBody.position.y - window.scrollY - element.offsetHeight / 2) + 'px';
+        element.style.top = (physicsBody.position.y - element.offsetHeight / 2) + 'px';
         element.style.transform = `rotate(${physicsBody.angle}rad)`;
       };
 
@@ -362,12 +393,6 @@
           updateDom(neck, domNeck);
           updateDom(body, domBody);
           updateDom(feet, domFeet);
-          
-          if(mouseConstraint.body) {
-              domBody.classList.add('is-grabbing');
-          } else {
-              domBody.classList.remove('is-grabbing');
-          }
       });
 
       Runner.run(Runner.create(), engine);

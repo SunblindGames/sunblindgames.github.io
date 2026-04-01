@@ -114,39 +114,12 @@ a:hover {
   width: auto;
 }
 
-.top-bar-nav {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-}
-
-.top-bar-nav a {
-  color: var(--text-muted);
-  font-weight: 400;
+.top-bar-studio-name {
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  position: relative;
-  padding-bottom: 4px;
-}
-
-.top-bar-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--orange);
-  border-radius: 2px;
-  transition: width var(--transition);
-}
-
-.top-bar-nav a:hover {
-  color: var(--text);
-}
-
-.top-bar-nav a:hover::after {
-  width: 100%;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
 /* ============================================

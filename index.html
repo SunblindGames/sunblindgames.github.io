@@ -490,22 +490,31 @@
       setTimeout(() => {
         // Swap image to broken egg splatter
         egg.src = 'broken_egg.png';
-        const randomRot = (Math.random() - 0.5) * 360; // Splat in any angle
+        const randomRot = (Math.random() - 0.5) * 90; // Tilt but not full spin so splat looks natural
 
         // Remove transitions momentarily to lock the new size and setup
         egg.style.transition = 'none';
         egg.style.width = '140px';
-        egg.style.left = (e.clientX - 70) + 'px';
-        egg.style.top = (e.clientY - 70) + 'px';
+
+        // Anchor to impact point
+        const splatLeft = e.clientX - 70;
+        const splatTop  = e.clientY - 70;
+        egg.style.left = splatLeft + 'px';
+        egg.style.top  = splatTop  + 'px';
         egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
 
         // Reflow to apply instant changes
         void egg.offsetWidth;
 
-        // Add "dripping off the screen" and fade-out animations
-        egg.style.transition = 'transform 3.5s ease-in, opacity 2s ease-in 1.5s';
-        egg.style.transform = `scale(1) rotate(${randomRot}deg) translateY(120px)`; // Drip down 120px
-        egg.style.opacity = '0'; // Starts fading at 1.5s, ends at 3.5s
+        // Gravity drip: always falls DOWN using top (absolute coords, not local axis)
+        // Varied trajectories: random horizontal drift + random fall distance
+        const driftX   = (Math.random() - 0.5) * 80;  // -40px to +40px sideways
+        const fallY    = 100 + Math.random() * 120;     // 100–220px downward
+
+        egg.style.transition = 'left 3.5s ease-in, top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in 1.5s';
+        egg.style.left    = (splatLeft + driftX) + 'px';
+        egg.style.top     = (splatTop  + fallY)  + 'px';  // always moves down
+        egg.style.opacity = '0';
 
         // Clean up DOM after the drip finishes
         setTimeout(() => {

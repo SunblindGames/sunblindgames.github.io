@@ -116,8 +116,12 @@ a:hover {
 
 .top-bar-nav {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 32px;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .top-bar-nav a {
@@ -622,6 +626,13 @@ body::before {
   cursor: pointer;
 }
 
+.gallery-item.full-width {
+  column-span: all;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
 .gallery-item:hover {
   transform: scale(1.03);
   box-shadow: var(--shadow-xl);
@@ -902,14 +913,14 @@ body::before {
 
 /* Floating feather decorations */
 .feather {
-  position: absolute;
+  position: fixed;
   width: 12px;
   height: 12px;
   background: var(--orange);
   opacity: 0;
   border-radius: 50% 50% 50% 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 90;
 }
 
 .feather:nth-child(1) {

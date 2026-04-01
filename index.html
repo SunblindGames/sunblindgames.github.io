@@ -46,7 +46,6 @@
 
   <!-- GAMEPLAY VIDEO -->
   <section class="gameplay" id="gameplay">
-    <img src="fallingChicken.png" alt="Falling Chicken" class="floating-chicken" aria-hidden="true">
     <div class="gameplay-inner reveal">
       <div class="video-wrapper">
         <video autoplay muted loop playsinline>
@@ -105,6 +104,10 @@
     </div>
 
     <div class="gallery-grid">
+      <div class="gallery-item full-width reveal">
+        <img src="fallingChicken.png" alt="Falling Chicken artwork">
+      </div>
+
       <div class="gallery-item reveal">
         <img src="big_characterSheet.png" alt="Big Chicken character sheet">
       </div>

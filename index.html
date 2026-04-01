@@ -93,7 +93,7 @@
         <p>
           <strong>FKC!</strong> is a <strong>comedic bullet-heaven action game</strong> that turns the genre on its
           head.
-          Forget auto-fire — here you <strong>grab enemies and hurl them</strong> back into the chaos.
+          Forget auto-fire! Here you <strong>grab enemies and throw them</strong> back into the chaos.
         </p>
       </div>
       <div class="about-visual reveal reveal-delay-2">
@@ -106,7 +106,7 @@
   <section class="modes" id="modes">
     <div class="section-header reveal">
       <h2>Three Ways to Play</h2>
-      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos — FKC! has you covered.</p>
+      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos,FKC! has you covered.</p>
     </div>
 
     <div class="modes-grid">
@@ -219,13 +219,18 @@
 
     <div class="footer-disclaimer">
       <p>
-        <strong>FKC! Fighting Krazy Chickens!</strong>, the <strong>Sunblind Games</strong> name, logo, all game characters, artwork, assets, and associated intellectual property are the exclusive property of <strong>Sunblind Games</strong>. All rights reserved.
+        <strong>FKC! Fighting Krazy Chickens!</strong>, the <strong>Sunblind Games</strong> name, logo, all game
+        characters, artwork, assets, and associated intellectual property are the exclusive property of <strong>Sunblind
+          Games</strong>. All rights reserved.
       </p>
       <p>
-        Unauthorized reproduction, distribution, modification, or commercial use of any content from this website or the game — including but not limited to character designs, game mechanics, visual assets, and branding — is strictly prohibited without prior written consent from Sunblind Games.
+        Unauthorized reproduction, distribution, modification, or commercial use of any content from this website or the
+        game — including but not limited to character designs, game mechanics, visual assets, and branding — is strictly
+        prohibited without prior written consent from Sunblind Games.
       </p>
       <p>
-        FKC! is a trademark of Sunblind Games. All trademarks referenced herein are the property of their respective owners.
+        FKC! is a trademark of Sunblind Games. All trademarks referenced herein are the property of their respective
+        owners.
       </p>
     </div>
   </footer>
@@ -396,31 +401,31 @@
       domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), { passive: false });
 
       const handleMove = (e) => {
-         if(dragConstraint) {
-             lastInteractionTime = Date.now();
-             let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-             let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-             
-             // Clamp values so the drag anchor doesn't cross the thick physics walls
-             // If we pull it through the wall, physics bugs out and they get stuck!
-             clientX = Math.max(30, Math.min(window.innerWidth - 30, clientX));
-             clientY = Math.max(30, Math.min(window.innerHeight - 30, clientY));
+        if (dragConstraint) {
+          lastInteractionTime = Date.now();
+          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
 
-             dragConstraint.pointA = { x: clientX, y: clientY };
-         }
+          // Clamp values so the drag anchor doesn't cross the thick physics walls
+          // If we pull it through the wall, physics bugs out and they get stuck!
+          clientX = Math.max(30, Math.min(window.innerWidth - 30, clientX));
+          clientY = Math.max(30, Math.min(window.innerHeight - 30, clientY));
+
+          dragConstraint.pointA = { x: clientX, y: clientY };
+        }
       };
 
       const handleRelease = () => {
-         if(dragConstraint) {
-             Composite.remove(world, dragConstraint);
-             if(dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
-             dragConstraint = null;
-         }
+        if (dragConstraint) {
+          Composite.remove(world, dragConstraint);
+          if (dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
+          dragConstraint = null;
+        }
       };
 
       document.addEventListener('mousemove', handleMove);
-      document.addEventListener('touchmove', handleMove, {passive: false});
-      
+      document.addEventListener('touchmove', handleMove, { passive: false });
+
       // Release grabs if mouse is lifted, OR if the mouse leaves the window
       document.addEventListener('mouseup', handleRelease);
       document.addEventListener('touchend', handleRelease);
@@ -498,9 +503,9 @@
 
         // Anchor to impact point
         const splatLeft = e.clientX - 70;
-        const splatTop  = e.clientY - 70;
+        const splatTop = e.clientY - 70;
         egg.style.left = splatLeft + 'px';
-        egg.style.top  = splatTop  + 'px';
+        egg.style.top = splatTop + 'px';
         egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
 
         // Reflow to apply instant changes
@@ -508,12 +513,12 @@
 
         // Gravity drip: always falls DOWN using top (absolute coords, not local axis)
         // Varied trajectories: random horizontal drift + random fall distance
-        const driftX   = (Math.random() - 0.5) * 80;  // -40px to +40px sideways
-        const fallY    = 100 + Math.random() * 120;     // 100–220px downward
+        const driftX = (Math.random() - 0.5) * 80;  // -40px to +40px sideways
+        const fallY = 100 + Math.random() * 120;     // 100–220px downward
 
         egg.style.transition = 'left 3.5s ease-in, top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in 1.5s';
-        egg.style.left    = (splatLeft + driftX) + 'px';
-        egg.style.top     = (splatTop  + fallY)  + 'px';  // always moves down
+        egg.style.left = (splatLeft + driftX) + 'px';
+        egg.style.top = (splatTop + fallY) + 'px';  // always moves down
         egg.style.opacity = '0';
 
         // Clean up DOM after the drip finishes
@@ -525,12 +530,12 @@
     });
 
     // --- TOGGLE CHICKEN BUTTON ---
-    (function() {
+    (function () {
       const btn = document.getElementById('toggleChickenBtn');
       const container = document.getElementById('ragdoll-container');
       let chickenVisible = true;
 
-      btn.addEventListener('click', function(e) {
+      btn.addEventListener('click', function (e) {
         e.stopPropagation(); // don't throw an egg!
         chickenVisible = !chickenVisible;
         container.style.transition = 'opacity 0.4s ease';

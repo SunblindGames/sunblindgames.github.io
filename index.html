@@ -295,19 +295,19 @@
       // Constraints (Hinges) - Hight stiffness to prevent separation!
       const neckToHead = Constraint.create({
           bodyA: neck, bodyB: head,
-          pointA: { x: 0, y: -40 }, pointB: { x: 0, y: 40 },
+          pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
           stiffness: 0.99, damping: 0.1
       });
 
       const bodyToNeck = Constraint.create({
           bodyA: body, bodyB: neck,
-          pointA: { x: 0, y: -80 }, pointB: { x: 0, y: 40 },
+          pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
           stiffness: 0.99, damping: 0.1
       });
 
       const bodyToFeet = Constraint.create({
           bodyA: body, bodyB: feet,
-          pointA: { x: 0, y: 80 }, pointB: { x: 0, y: -15 },
+          pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
           stiffness: 0.99, damping: 0.1
       });
 

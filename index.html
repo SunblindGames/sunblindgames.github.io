@@ -398,42 +398,59 @@
       Runner.run(Runner.create(), engine);
     })();
 
-    // --- CLICK PARTICLE SYSTEM (SHOOT CHICKENS) ---
+    // --- CLICK PARTICLE SYSTEM (EGG SPLATTER) ---
     document.addEventListener('click', function(e) {
-      // Ignore clicks on the grabbable chicken to avoid interfering with it
-      if (e.target.id === 'draggableChicken') return;
-      // Ignore clicks on hoverable cards, gallery items, links and buttons
+      // Ignore clicks on hoverable cards, gallery items, links, buttons, and ragdoll
       if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button') || e.target.closest('#ragdoll-container')) return;
 
-      const bulletChicken = document.createElement('img');
-      const chickenAssets = ['basic.png', 'bomba.png', 'fast.png', 'big.png', 'krazeCute.png'];
-      bulletChicken.src = chickenAssets[Math.floor(Math.random() * chickenAssets.length)];
-      bulletChicken.style.position = 'fixed';
-      // Center the image around the pointer
-      bulletChicken.style.left = (e.clientX - 30) + 'px';
-      bulletChicken.style.top = (e.clientY - 30) + 'px';
-      bulletChicken.style.width = '60px';
-      bulletChicken.style.pointerEvents = 'none'; // Clicks go through it
-      bulletChicken.style.zIndex = '9999';
-      bulletChicken.style.transition = 'transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-in';
+      const egg = document.createElement('img');
+      egg.src = 'egg.png';
+      egg.style.position = 'fixed';
+      egg.style.left = (e.clientX - 20) + 'px'; // Center 40px egg
+      egg.style.top = (e.clientY - 20) + 'px';
+      egg.style.width = '40px';
+      egg.style.pointerEvents = 'none'; // Clicks go through it
+      egg.style.zIndex = '9999';
       
-      document.body.appendChild(bulletChicken);
+      // Start small simulating depth
+      egg.style.transform = 'scale(0.1)';
+      egg.style.transition = 'transform 0.15s cubic-bezier(0.55, 0.085, 0.68, 0.53)'; // Fast accelerating "throw"
       
-      // Calculate random spread and flight path
-      const randomRot = (Math.random() - 0.5) * 360; // Spin wildly
-      const randomX = (Math.random() - 0.5) * 300; // Drift left or right
+      document.body.appendChild(egg);
       
       // Force repaint
-      void bulletChicken.offsetWidth;
+      void egg.offsetWidth;
       
-      // Shoot upwards and "into the distance" (scale to 0)
-      bulletChicken.style.transform = `translate(${randomX}px, -400px) rotate(${randomRot}deg) scale(0)`;
-      bulletChicken.style.opacity = '0';
+      // Animate: throw it *at the screen* (scale up wildly to smack the viewport)
+      egg.style.transform = 'scale(3)';
       
-      // Clean up DOM after animation
+      // Impact logic
       setTimeout(() => {
-        if (bulletChicken.parentNode) bulletChicken.parentNode.removeChild(bulletChicken);
-      }, 1200);
+        // Swap image to broken egg splatter
+        egg.src = 'broken_egg.png';
+        const randomRot = (Math.random() - 0.5) * 360; // Splat in any angle
+        
+        // Remove transitions momentarily to lock the new size and setup
+        egg.style.transition = 'none';
+        egg.style.width = '140px';
+        egg.style.left = (e.clientX - 70) + 'px'; 
+        egg.style.top = (e.clientY - 70) + 'px';
+        egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
+        
+        // Reflow to apply instant changes
+        void egg.offsetWidth;
+        
+        // Add "dripping off the screen" and fade-out animations
+        egg.style.transition = 'transform 3.5s ease-in, opacity 2s ease-in 1.5s';
+        egg.style.transform = `scale(1) rotate(${randomRot}deg) translateY(120px)`; // Drip down 120px
+        egg.style.opacity = '0'; // Starts fading at 1.5s, ends at 3.5s
+        
+        // Clean up DOM after the drip finishes
+        setTimeout(() => {
+          if (egg.parentNode) egg.parentNode.removeChild(egg);
+        }, 3500);
+        
+      }, 150); // Impact hits after 150ms of flight
     });
   </script>
 </body>

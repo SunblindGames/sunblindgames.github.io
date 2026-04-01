@@ -265,29 +265,31 @@ body::before {
   animation: titleSlideUp 0.8s ease 0.3s both;
 }
 
-.floating-chicken {
-  position: absolute;
-  right: 5%;
-  top: 10%;
-  max-width: 280px;
-  width: 25vw;
-  z-index: 50; /* Higher z-index for grabbing */
-  animation: float 5s ease-in-out infinite, titleSlideUp 0.8s ease 0.6s both;
-  /* pointer-events: none; Removed so we can grab it! */
-}
-
 /* Grabbable Physics Chicken Styles */
-.grabbable {
+#ragdoll-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none; /* Allows clicks to go through the invisible container */
+  z-index: 50;
+}
+.ragdoll-part {
+  position: absolute;
+  pointer-events: auto; /* But parts themselves are clickable/grabbable */
   cursor: grab !important;
   user-select: none;
   -webkit-user-drag: none;
   touch-action: none;
+  will-change: transform, left, top;
+  transform-origin: center center;
 }
-.grabbable.is-grabbing {
+#part-body { height: 160px; object-fit: contain; }
+#part-head { height: 80px; object-fit: contain; }
+#part-neck { height: 60px; object-fit: contain; }
+#part-feet { height: 50px; object-fit: contain; }
+
+.ragdoll-part.is-grabbing {
   cursor: grabbing !important;
-  animation: none !important; /* stop the float animation while dragging */
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform: scale(1.15) rotate(-5deg); /* scale up and pop slightly when grabbed */
   filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
 }
 
@@ -644,65 +646,76 @@ body::before {
 .gallery-grid {
   max-width: 1400px;
   margin: 0 auto;
-  columns: 3;
-  column-gap: 24px;
+}
+
+.arsenal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
 }
 
 .gallery-item {
-  break-inside: avoid;
-  margin-bottom: 24px;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: transform var(--transition-bounce), box-shadow var(--transition);
   position: relative;
   cursor: pointer;
   transform-style: preserve-3d; /* For Vanilla Tilt */
 }
 
-.gallery-item.full-width {
-  column-span: all;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto 40px;
+.arsenal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 32px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.gallery-item:hover {
-  transform: scale(1.03);
+.arsenal-card:hover {
   box-shadow: var(--shadow-xl);
   z-index: 2;
 }
 
-.gallery-item img {
+.arsenal-img-container {
+  position: relative;
   width: 100%;
-  display: block;
-  transition: transform var(--transition);
-  transform: translateZ(20px); /* 3D pop inside card on tilt */
+  aspect-ratio: 1;
+  transform: translateZ(30px); /* 3D pop inside card on tilt */
+  margin-bottom: 16px;
 }
 
-.gallery-item:hover img {
-  transform: scale(1.05);
-}
-
-.gallery-item-label {
+.arsenal-img-container img {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 20px 16px;
-  background: linear-gradient(to top, rgba(42, 35, 32, 0.85), transparent);
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.03em;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity var(--transition), transform var(--transition);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease-in-out, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.gallery-item:hover .gallery-item-label {
+.arsenal-card:hover .img-hover {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1.1);
+}
+
+.arsenal-card:hover .img-base {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.img-hover {
+  opacity: 0;
+}
+
+.arsenal-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: 0.03em;
+  transform: translateZ(20px);
 }
 
 /* ============================================

@@ -35,10 +35,13 @@
   <section class="hero" id="hero">
     <div class="feather"></div>
     <div class="feather"></div>
-    <div class="feather"></div>
-    <div class="feather"></div>
-
-    <img src="fallingChicken.png" alt="Pollo flotante" class="floating-chicken grabbable" id="draggableChicken" title="¡Agárrame y lánzame!" draggable="false" ondragstart="return false;">
+    <!-- RAGDOLL PARTS -->
+    <div id="ragdoll-container">
+      <img src="basic_neck.png" id="part-neck" class="ragdoll-part" draggable="false">
+      <img src="basic_body.png" id="part-body" class="ragdoll-part" draggable="false">
+      <img src="basic_head.png" id="part-head" class="ragdoll-part" draggable="false">
+      <img src="basic_feet.png" id="part-feet" class="ragdoll-part" draggable="false">
+    </div>
 
     <h1 class="hero-title">
       <span class="hero-title-fkc">
@@ -101,36 +104,59 @@
     </div>
   </section>
 
-  <!-- GALLERY -->
+  <!-- GALLERY / ARSENAL -->
   <section class="gallery" id="gallery">
     <div class="section-header reveal">
-      <h2>Meet the Chickens</h2>
+      <h2>Your Poultry Arsenal</h2>
+      <p>Hover over them to enrage them!</p>
     </div>
 
-    <div class="gallery-grid">
-      <div class="gallery-item full-width reveal">
-        <img src="fallingChicken.png" alt="Falling Chicken artwork">
+    <div class="gallery-grid arsenal-grid">
+      
+      <!-- Basic Chicken -->
+      <div class="gallery-item arsenal-card reveal">
+        <div class="arsenal-img-container">
+          <img src="basic.png" alt="Basic Chicken" class="img-base">
+        </div>
+        <h4>Basic Chicken</h4>
       </div>
 
-      <div class="gallery-item reveal">
-        <img src="big_characterSheet.png" alt="Big Chicken character sheet">
+      <!-- Bomba Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-1">
+        <div class="arsenal-img-container">
+          <img src="bomba.png" alt="Bomba Chicken" class="img-base">
+          <img src="bomb2.png" alt="Bomba Chicken Enraged" class="img-hover">
+        </div>
+        <h4>Bomba Chicken</h4>
       </div>
 
-      <div class="gallery-item reveal reveal-delay-1">
-        <img src="fast_characterSheet.png" alt="Fast Chicken character sheet">
+      <!-- Fast Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-2">
+        <div class="arsenal-img-container">
+          <img src="fast.png" alt="Fast Chicken" class="img-base">
+          <img src="fast2.png" alt="Fast Chicken Enraged" class="img-hover">
+        </div>
+        <h4>Fast Chicken</h4>
       </div>
 
-      <div class="gallery-item reveal reveal-delay-2">
-        <img src="bomba_character_sheet.png" alt="Bomba Chicken character sheet">
+      <!-- Kraze Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-3">
+        <div class="arsenal-img-container">
+          <img src="krazeCute.png" alt="Kraze Chicken" class="img-base">
+          <img src="kraze2.png" alt="Kraze Chicken Enraged" class="img-hover">
+        </div>
+        <h4>Kraze Chicken</h4>
       </div>
 
-      <div class="gallery-item reveal reveal-delay-3">
-        <img src="bomba_draft.png" alt="Bomba Chicken concept art">
+      <!-- Big Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-4">
+        <div class="arsenal-img-container">
+          <img src="big.png" alt="Big Chicken" class="img-base">
+          <img src="big2.png" alt="Big Chicken Enraged" class="img-hover">
+        </div>
+        <h4>Big Chicken</h4>
       </div>
 
-      <div class="gallery-item reveal reveal-delay-4">
-        <img src="poster feria.png" alt="FKC! official poster artwork">
-      </div>
     </div>
   </section>
 
@@ -165,7 +191,7 @@
   </footer>
 
   <!-- SCRIPTS -->
-  <!-- Vanilla Tilt 3D Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   
   <script>
@@ -235,131 +261,117 @@
       });
     }
 
-    // --- GRABBABLE CHICKEN PHYSICS ---
+    // --- MATTER.JS HEADLESS RAGDOLL PHYSICS ---
     (function() {
-      const el = document.getElementById('draggableChicken');
-      if (!el) return;
+      if (typeof Matter === 'undefined') return;
       
-      let isDragging = false;
-      let startX, startY, initialX, initialY;
-      let velocityX = 0, velocityY = 0;
-      let lastX, lastY, lastTime;
-      
-      let posX = window.innerWidth * 0.7;
-      let posY = window.innerHeight * 0.15;
-      
-      // Force Absolute positioning for smooth Physics
-      el.style.position = 'fixed';
-      el.style.right = 'auto';
-      el.style.top = posY + 'px';
-      el.style.left = posX + 'px';
-      el.style.animation = 'none';
+      const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Composites = Matter.Composites,
+            MouseConstraint = Matter.MouseConstraint,
+            Mouse = Matter.Mouse,
+            Composite = Matter.Composite,
+            Constraint = Matter.Constraint,
+            Bodies = Matter.Bodies;
 
-      function updatePhysics() {
-        if (!isDragging) {
-          velocityY += 0.5; // Gravity
-          posX += velocityX;
-          posY += velocityY;
-          
-          velocityX *= 0.99; // Air friction
-          velocityY *= 0.99;
+      const engine = Engine.create();
+      const world = engine.world;
 
-          const rect = el.getBoundingClientRect();
-          // Floor bounce
-          if (posY + rect.height > window.innerHeight) {
-            posY = window.innerHeight - rect.height;
-            velocityY *= -0.6;
-            velocityX *= 0.8;
+      const group = Matter.Body.nextGroup(true); // Don't collide with self
+      
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      const startX = w * 0.7;
+      const startY = h * 0.2;
+      
+      // Ragdoll Part Bodies
+      const head = Bodies.circle(startX, startY - 50, 25, { collisionFilter: { group: group }, density: 0.05, frictionAir: 0.02, restitution: 0.5 });
+      const neck = Bodies.rectangle(startX, startY - 20, 15, 30, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.02, restitution: 0.5 });
+      const body = Bodies.rectangle(startX, startY + 20, 70, 90, { collisionFilter: { group: group }, density: 0.1, frictionAir: 0.01, restitution: 0.5 });
+      const feet = Bodies.rectangle(startX, startY + 80, 40, 20, { collisionFilter: { group: group }, density: 0.05, frictionAir: 0.02, restitution: 0.5 });
+
+      // Constraints (Hinges)
+      const neckToHead = Constraint.create({
+          bodyA: neck, bodyB: head,
+          pointA: { x: 0, y: -15 }, pointB: { x: 0, y: 15 },
+          stiffness: 0.6, damping: 0.1
+      });
+
+      const bodyToNeck = Constraint.create({
+          bodyA: body, bodyB: neck,
+          pointA: { x: 0, y: -40 }, pointB: { x: 0, y: 15 },
+          stiffness: 0.5, damping: 0.1
+      });
+
+      const bodyToFeet = Constraint.create({
+          bodyA: body, bodyB: feet,
+          pointA: { x: 0, y: 40 }, pointB: { x: 0, y: -10 },
+          stiffness: 0.4, damping: 0.1
+      });
+
+      Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);
+
+      // Invisible Walls for fixed Viewport
+      const wallOptions = { isStatic: true, friction: 0.1, restitution: 0.5 };
+      Composite.add(world, [
+          Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions), // Ceiling
+          Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions), // Floor
+          Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions), // Left
+          Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
+      ]);
+
+      // Invisible Mouse Interaction
+      const mouse = Mouse.create(document.body);
+      // Fix scrolling issue with Matter Mouse mapping
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+          if(!ticking) {
+              window.requestAnimationFrame(() => {
+                  mouse.offset = { x: 0, y: window.scrollY };
+                  ticking = false;
+              });
+              ticking = true;
           }
-          // Walls bounce
-          if (posX + rect.width > window.innerWidth) {
-            posX = window.innerWidth - rect.width;
-            velocityX *= -0.6;
-          } else if (posX < 0) {
-            posX = 0;
-            velocityX *= -0.6;
-          }
-          // Ceiling bounce
-          if (posY < 0) {
-            posY = 0;
-            velocityY *= -0.6;
-          }
-          
-          el.style.left = posX + 'px';
-          el.style.top = posY + 'px';
-          
-          // Add chaotic spin based on horizontal speed
-          let rot = velocityX * 1.5;
-          el.style.transform = `rotate(${rot}deg)`;
-        }
-        requestAnimationFrame(updatePhysics);
-      }
+      });
+      mouse.offset = { x: 0, y: window.scrollY };
+
+      const mouseConstraint = MouseConstraint.create(engine, {
+          mouse: mouse,
+          constraint: { stiffness: 0.1, render: { visible: false } }
+      });
+      Composite.add(world, mouseConstraint);
+
+      // DOM Elements hook
+      const domHead = document.getElementById('part-head');
+      const domNeck = document.getElementById('part-neck');
+      const domBody = document.getElementById('part-body');
+      const domFeet = document.getElementById('part-feet');
       
-      el.addEventListener('mousedown', dragStart);
-      el.addEventListener('touchstart', dragStart, {passive: false});
+      const updateDom = (physicsBody, element) => {
+        if (!element) return;
+        // Position fixed mapped to body center
+        element.style.left = (physicsBody.position.x - element.offsetWidth / 2) + 'px';
+        // Subtract scrollY because Matter Y adds it, but element is fixed!
+        element.style.top = (physicsBody.position.y - window.scrollY - element.offsetHeight / 2) + 'px';
+        element.style.transform = `rotate(${physicsBody.angle}rad)`;
+      };
 
-      function dragStart(e) {
-        if (e.target.tagName === 'A') return;
-        e.preventDefault(); // SUPER IMPORTANT: Prevents native browser image dragging
-        isDragging = true;
-        el.classList.add('is-grabbing');
-        
-        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        
-        startX = clientX;
-        startY = clientY;
-        initialX = posX;
-        initialY = posY;
-        
-        lastX = clientX;
-        lastY = clientY;
-        lastTime = Date.now();
-        
-        velocityX = 0;
-        velocityY = 0;
-        
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', drag, {passive: false});
-        document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchend', dragEnd);
-      }
+      Matter.Events.on(engine, 'afterUpdate', function() {
+          updateDom(head, domHead);
+          updateDom(neck, domNeck);
+          updateDom(body, domBody);
+          updateDom(feet, domFeet);
+          
+          if(mouseConstraint.body) {
+              domBody.classList.add('is-grabbing');
+          } else {
+              domBody.classList.remove('is-grabbing');
+          }
+      });
 
-      function drag(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        
-        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        
-        posX = initialX + (clientX - startX);
-        posY = initialY + (clientY - startY);
-        
-        el.style.left = posX + 'px';
-        el.style.top = posY + 'px';
-        
-        let now = Date.now();
-        let dt = now - lastTime;
-        if (dt > 0) {
-          velocityX = (clientX - lastX) / dt * 7;
-          velocityY = (clientY - lastY) / dt * 7;
-        }
-        
-        lastX = clientX;
-        lastY = clientY;
-        lastTime = now;
-      }
-
-      function dragEnd() {
-        isDragging = false;
-        el.classList.remove('is-grabbing');
-        document.removeEventListener('mousemove', drag);
-        document.removeEventListener('touchmove', drag);
-        document.removeEventListener('mouseup', dragEnd);
-        document.removeEventListener('touchend', dragEnd);
-      }
-      
-      requestAnimationFrame(updatePhysics);
+      Runner.run(Runner.create(), engine);
     })();
 
     // --- CLICK PARTICLE SYSTEM (SHOOT CHICKENS) ---
@@ -367,10 +379,11 @@
       // Ignore clicks on the grabbable chicken to avoid interfering with it
       if (e.target.id === 'draggableChicken') return;
       // Ignore clicks on hoverable cards, gallery items, links and buttons
-      if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button')) return;
+      if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button') || e.target.closest('#ragdoll-container')) return;
 
       const bulletChicken = document.createElement('img');
-      bulletChicken.src = 'fallingChicken.png'; // Reuses the loaded image
+      const chickenAssets = ['basic.png', 'bomba.png', 'fast.png', 'big.png', 'krazeCute.png'];
+      bulletChicken.src = chickenAssets[Math.floor(Math.random() * chickenAssets.length)];
       bulletChicken.style.position = 'fixed';
       // Center the image around the pointer
       bulletChicken.style.left = (e.clientX - 30) + 'px';

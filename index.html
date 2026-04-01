@@ -254,10 +254,8 @@
         "max-glare": 0.2
       });
       VanillaTilt.init(document.querySelectorAll(".gallery-item"), {
-        max: 10,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.5
+        max: 8,
+        speed: 400
       });
     }
 
@@ -287,28 +285,29 @@
       const startY = h * 0.2;
       
       // Ragdoll Part Bodies
-      const head = Bodies.circle(startX, startY - 50, 25, { collisionFilter: { group: group }, density: 0.05, frictionAir: 0.02, restitution: 0.5 });
-      const neck = Bodies.rectangle(startX, startY - 20, 15, 30, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.02, restitution: 0.5 });
-      const body = Bodies.rectangle(startX, startY + 20, 70, 90, { collisionFilter: { group: group }, density: 0.1, frictionAir: 0.01, restitution: 0.5 });
-      const feet = Bodies.rectangle(startX, startY + 80, 40, 20, { collisionFilter: { group: group }, density: 0.05, frictionAir: 0.02, restitution: 0.5 });
+      // Sizes calculated based on original image proportions to fit their transparent paddings better
+      const head = Bodies.circle(startX, startY - 90, 45, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
+      const neck = Bodies.rectangle(startX, startY - 40, 25, 75, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.05, restitution: 0.4 });
+      const body = Bodies.circle(startX, startY + 50, 85, { collisionFilter: { group: group }, density: 0.1, frictionAir: 0.01, restitution: 0.4 });
+      const feet = Bodies.rectangle(startX, startY + 120, 65, 40, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
 
       // Constraints (Hinges)
       const neckToHead = Constraint.create({
           bodyA: neck, bodyB: head,
-          pointA: { x: 0, y: -15 }, pointB: { x: 0, y: 15 },
-          stiffness: 0.6, damping: 0.1
+          pointA: { x: 0, y: -35 }, pointB: { x: 0, y: 40 },
+          stiffness: 0.8, damping: 0.05
       });
 
       const bodyToNeck = Constraint.create({
           bodyA: body, bodyB: neck,
-          pointA: { x: 0, y: -40 }, pointB: { x: 0, y: 15 },
-          stiffness: 0.5, damping: 0.1
+          pointA: { x: 0, y: -80 }, pointB: { x: 0, y: 35 },
+          stiffness: 0.8, damping: 0.05
       });
 
       const bodyToFeet = Constraint.create({
           bodyA: body, bodyB: feet,
-          pointA: { x: 0, y: 40 }, pointB: { x: 0, y: -10 },
-          stiffness: 0.4, damping: 0.1
+          pointA: { x: 0, y: 80 }, pointB: { x: 0, y: -15 },
+          stiffness: 0.8, damping: 0.05
       });
 
       Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);

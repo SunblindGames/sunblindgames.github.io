@@ -24,6 +24,11 @@
   <!-- TOP BAR -->
   <nav class="top-bar" id="topBar">
     <img src="LOGO.png" alt="Sunblind Games" class="top-bar-logo">
+    <ul class="top-bar-nav">
+      <li><a href="#gameplay">Teaser</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
 
   <!-- HERO -->
@@ -37,12 +42,11 @@
       <span class="hero-title-fkc">FKC!</span>
       <span class="hero-title-sub">Fighting Krazy Chickens!</span>
     </h1>
-
-    <img src="fallingChicken.png" alt="Falling Chicken" class="floating-chicken" aria-hidden="true">
   </section>
 
   <!-- GAMEPLAY VIDEO -->
   <section class="gameplay" id="gameplay">
+    <img src="fallingChicken.png" alt="Falling Chicken" class="floating-chicken" aria-hidden="true">
     <div class="gameplay-inner reveal">
       <div class="video-wrapper">
         <video autoplay muted loop playsinline>
@@ -191,6 +195,17 @@
         }
       });
     })();
+    
+    // Smooth scroll for nav links
+    document.querySelectorAll('.top-bar-nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   </script>
 
 </body>

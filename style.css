@@ -209,6 +209,17 @@ a:hover {
   animation: titleSlideUp 0.8s ease 0.3s both;
 }
 
+.floating-chicken {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  max-width: 280px;
+  width: 25vw;
+  z-index: 2;
+  animation: float 5s ease-in-out infinite, titleSlideUp 0.8s ease 0.6s both;
+  pointer-events: none;
+}
+
 .hero-tagline {
   font-size: clamp(1rem, 2vw, 1.3rem);
   color: var(--text-muted);

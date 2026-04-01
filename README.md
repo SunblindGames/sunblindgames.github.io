@@ -23,7 +23,7 @@
 
   <!-- TOP BAR -->
   <nav class="top-bar" id="topBar">
-    <img src="logosSunblind.png" alt="Sunblind Games" class="top-bar-logo">
+    <img src="LOGO.png" alt="Sunblind Games" class="top-bar-logo">
   </nav>
 
   <!-- HERO -->
@@ -38,6 +38,7 @@
       <span class="hero-title-sub">Fighting Krazy Chickens!</span>
     </h1>
 
+    <img src="fallingChicken.png" alt="Falling Chicken" class="floating-chicken" aria-hidden="true">
   </section>
 
   <!-- GAMEPLAY VIDEO -->
@@ -63,7 +64,7 @@
         </p>
       </div>
       <div class="about-visual reveal reveal-delay-2">
-        <img src="bomba.png" alt="Bomba chicken character — a bomb-shaped chicken with a skull emblem">
+        <img src="tractor_chcken.png" alt="Chicken driving a crazy tractor">
       </div>
     </div>
   </section>
@@ -145,7 +146,7 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <img src="logosSunblind.png" alt="Sunblind Games" class="site-footer-logo">
+    <img src="LOGO.png" alt="Sunblind Games" class="site-footer-logo">
     <p>&copy; 2026 Sunblind Games · Madrid, Spain</p>
     <p>Made with 🐔 and a lot of chaos</p>
   </footer>

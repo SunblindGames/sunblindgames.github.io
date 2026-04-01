@@ -46,9 +46,6 @@
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button id="toggleChickenBtn" class="btn-toggle-chicken" title="Toggle floating chicken">
-        🐔 Hide
-      </button>
     </div>
   </nav>
 
@@ -56,13 +53,6 @@
   <section class="hero" id="hero">
     <div class="feather"></div>
     <div class="feather"></div>
-    <!-- RAGDOLL PARTS -->
-    <div id="ragdoll-container">
-      <img src="basic_neck.png" id="part-neck" class="ragdoll-part" draggable="false">
-      <img src="basic_body.png" id="part-body" class="ragdoll-part" draggable="false">
-      <img src="basic_head.png" id="part-head" class="ragdoll-part" draggable="false">
-      <img src="basic_feet.png" id="part-feet" class="ragdoll-part" draggable="false">
-    </div>
 
     <h1 class="hero-title">
       <span class="hero-title-fkc">
@@ -236,7 +226,6 @@
   </footer>
 
   <!-- SCRIPTS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
   <script>
@@ -304,166 +293,6 @@
       });
     }
 
-    // --- MATTER.JS HEADLESS RAGDOLL PHYSICS ---
-    (function () {
-      if (typeof Matter === 'undefined') return;
-
-      const Engine = Matter.Engine,
-        Render = Matter.Render,
-        Runner = Matter.Runner,
-        Composites = Matter.Composites,
-        MouseConstraint = Matter.MouseConstraint,
-        Mouse = Matter.Mouse,
-        Composite = Matter.Composite,
-        Constraint = Matter.Constraint,
-        Bodies = Matter.Bodies;
-
-      const engine = Engine.create();
-      const world = engine.world;
-
-      const group = Matter.Body.nextGroup(true); // Don't collide with self
-
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-
-      const startX = w * 0.7;
-      const startY = h * 0.2;
-
-      // Ragdoll Part Bodies
-      const head = Bodies.circle(startX, startY - 90, 45, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
-      const neck = Bodies.rectangle(startX, startY - 40, 29, 86, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.05, restitution: 0.4 });
-      const body = Bodies.circle(startX, startY + 50, 85, { collisionFilter: { group: group }, density: 0.1, frictionAir: 0.01, restitution: 0.4 });
-      const feet = Bodies.rectangle(startX, startY + 120, 65, 40, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
-
-      // Constraints (Hinges) - High stiffness to prevent separation!
-      const neckToHead = Constraint.create({
-        bodyA: neck, bodyB: head,
-        pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
-        length: 0, stiffness: 0.99, damping: 0.1
-      });
-
-      const bodyToNeck = Constraint.create({
-        bodyA: body, bodyB: neck,
-        pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
-        length: 0, stiffness: 0.99, damping: 0.1
-      });
-
-      const bodyToFeet = Constraint.create({
-        bodyA: body, bodyB: feet,
-        pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
-        length: 0, stiffness: 0.99, damping: 0.1
-      });
-
-      Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);
-
-      // Invisible Walls for fixed Viewport
-      const wallOptions = { isStatic: true, friction: 0.1, restitution: 0.5 };
-      Composite.add(world, [
-        Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions), // Ceiling
-        Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions), // Floor
-        Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions), // Left
-        Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
-      ]);
-
-      // DOM Elements hook
-      const domHead = document.getElementById('part-head');
-      const domNeck = document.getElementById('part-neck');
-      const domBody = document.getElementById('part-body');
-      const domFeet = document.getElementById('part-feet');
-
-      // Custom DOM-to-Physics Interaction
-      let dragConstraint = null;
-      let lastInteractionTime = Date.now(); // AFK Tracker
-
-      const handleGrab = (e, tgtBody, domEl) => {
-        e.preventDefault();
-        lastInteractionTime = Date.now();
-        if (dragConstraint) return;
-
-        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-        dragConstraint = Constraint.create({
-          pointA: { x: clientX, y: clientY },
-          bodyB: tgtBody,
-          pointB: { x: 0, y: 0 },
-          stiffness: 0.1,
-          damping: 0.1
-        });
-        Composite.add(world, dragConstraint);
-        domEl.classList.add('is-grabbing');
-        dragConstraint.renderEl = domEl;
-      };
-
-      // ALL parts can be grabbed — each maps to its physics body
-      domHead.addEventListener('mousedown', (e) => handleGrab(e, head, domHead));
-      domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), { passive: false });
-      domNeck.addEventListener('mousedown', (e) => handleGrab(e, neck, domNeck));
-      domNeck.addEventListener('touchstart', (e) => handleGrab(e, neck, domNeck), { passive: false });
-      domBody.addEventListener('mousedown', (e) => handleGrab(e, body, domBody));
-      domBody.addEventListener('touchstart', (e) => handleGrab(e, body, domBody), { passive: false });
-      domFeet.addEventListener('mousedown', (e) => handleGrab(e, feet, domFeet));
-      domFeet.addEventListener('touchstart', (e) => handleGrab(e, feet, domFeet), { passive: false });
-
-      const handleMove = (e) => {
-        if (dragConstraint) {
-          lastInteractionTime = Date.now();
-          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-          // Clamp values so the drag anchor doesn't cross the thick physics walls
-          clientX = Math.max(30, Math.min(window.innerWidth - 30, clientX));
-          clientY = Math.max(30, Math.min(window.innerHeight - 30, clientY));
-
-          dragConstraint.pointA = { x: clientX, y: clientY };
-        }
-      };
-
-      const handleRelease = () => {
-        if (dragConstraint) {
-          Composite.remove(world, dragConstraint);
-          if (dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
-          dragConstraint = null;
-        }
-      };
-
-      document.addEventListener('mousemove', handleMove);
-      document.addEventListener('touchmove', handleMove, { passive: false });
-
-      // Release grabs if mouse is lifted, OR if the mouse leaves the window
-      document.addEventListener('mouseup', handleRelease);
-      document.addEventListener('touchend', handleRelease);
-      document.addEventListener('mouseleave', handleRelease);
-      window.addEventListener('blur', handleRelease);
-
-      const updateDom = (physicsBody, element) => {
-        if (!element) return;
-        element.style.left = (physicsBody.position.x - element.offsetWidth / 2) + 'px';
-        element.style.top = (physicsBody.position.y - element.offsetHeight / 2) + 'px';
-        element.style.transform = `rotate(${physicsBody.angle}rad)`;
-      };
-
-      Matter.Events.on(engine, 'afterUpdate', function () {
-        updateDom(head, domHead);
-        updateDom(neck, domNeck);
-        updateDom(body, domBody);
-        updateDom(feet, domFeet);
-      });
-
-      // IDLE PULSE (gentle heartbeat instead of explosive jump)
-      const container = document.getElementById('ragdoll-container');
-      setInterval(() => {
-        if (!dragConstraint && (Date.now() - lastInteractionTime) > 4800) {
-          container.classList.add('pulsing');
-          // Remove the class after animation ends so it can re-trigger
-          setTimeout(() => container.classList.remove('pulsing'), 650);
-          lastInteractionTime = Date.now();
-        }
-      }, 5000);
-
-      Runner.run(Runner.create(), engine);
-    })();
-
     // --- CLICK PARTICLE SYSTEM (BROKEN EGG DIRECT) ---
     document.addEventListener('click', function (e) {
       // Ignore clicks on hoverable cards, gallery items, links, buttons, and ragdoll
@@ -501,22 +330,6 @@
       }, 3500);
     });
 
-    // --- TOGGLE CHICKEN BUTTON ---
-    (function () {
-      const btn = document.getElementById('toggleChickenBtn');
-      const container = document.getElementById('ragdoll-container');
-      let chickenVisible = true;
-
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation(); // don't throw an egg!
-        chickenVisible = !chickenVisible;
-        container.style.transition = 'opacity 0.4s ease';
-        container.style.opacity = chickenVisible ? '1' : '0';
-        container.style.pointerEvents = chickenVisible ? 'auto' : 'none';
-        btn.innerHTML = chickenVisible ? '🐔 Hide' : '🐔 Show';
-        btn.title = chickenVisible ? 'Hide floating chicken' : 'Show floating chicken';
-      });
-    })();
   </script>
 </body>
 

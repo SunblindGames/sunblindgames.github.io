@@ -31,7 +31,9 @@
 }
 
 /* --- Reset --- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -64,10 +66,12 @@ a {
   color: var(--orange);
   text-decoration: none;
   transition: color var(--transition);
-  cursor: inherit; /* Inherit the custom cursor */
+  cursor: inherit;
+  /* Inherit the custom cursor */
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   color: var(--orange-dark);
   cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMicgaGVpZ2h0PSczMicgdmlld0JveD0nMCAwIDMyIDMyJz48Y2lyY2xlIGZpbGw9J25vbmUnIHN0cm9rZT0nI0I4NTAyQScgc3Ryb2tlLXdpZHRoPSc0JyBjeD0nMTYnIGN5PScxNicgcj0nMTInLz48Y2lyY2xlIGZpbGw9JyNCODE1MDJBJyBjeD0nMTYnIGN5PScxNicgcj0nNCcvPjwvc3ZnPg==") 16 16, pointer !important;
 }
@@ -84,10 +88,21 @@ a:hover, button:hover {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.reveal-delay-4 {
+  transition-delay: 0.4s;
+}
 
 /* ============================================
    SECTION: Navigation / Top Bar
@@ -195,7 +210,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: 
+  background:
     radial-gradient(ellipse at 20% 80%, rgba(217, 106, 48, 0.18) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(139, 43, 62, 0.12) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(217, 106, 48, 0.08) 0%, transparent 70%),
@@ -205,7 +220,7 @@ body::before {
   animation: bgDrift 12s ease-in-out infinite alternate;
 }
 
-.hero > * {
+.hero>* {
   position: relative;
   z-index: 1;
 }
@@ -248,7 +263,7 @@ body::before {
   font-size: clamp(3.5rem, 18vw, 18rem);
   white-space: nowrap;
   color: var(--orange);
-  text-shadow: 
+  text-shadow:
     4px 4px 0px var(--orange-dark),
     8px 8px 0px rgba(184, 80, 42, 0.2);
   animation: titlePop 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -262,10 +277,26 @@ body::before {
   transform-origin: center;
   will-change: transform;
 }
-.hero-title-fkc span:nth-child(1) { animation-duration: 0.35s; animation-delay: 0.0s; }
-.hero-title-fkc span:nth-child(2) { animation-duration: 0.42s; animation-delay: 0.1s; }
-.hero-title-fkc span:nth-child(3) { animation-duration: 0.38s; animation-delay: 0.2s; }
-.hero-title-fkc span:nth-child(4) { animation-duration: 0.40s;  animation-delay: 0.05s; }
+
+.hero-title-fkc span:nth-child(1) {
+  animation-duration: 0.35s;
+  animation-delay: 0.0s;
+}
+
+.hero-title-fkc span:nth-child(2) {
+  animation-duration: 0.42s;
+  animation-delay: 0.1s;
+}
+
+.hero-title-fkc span:nth-child(3) {
+  animation-duration: 0.38s;
+  animation-delay: 0.2s;
+}
+
+.hero-title-fkc span:nth-child(4) {
+  animation-duration: 0.40s;
+  animation-delay: 0.05s;
+}
 
 .hero-title-sub {
   display: block;
@@ -279,24 +310,49 @@ body::before {
 /* Grabbable Physics Chicken Styles */
 #ragdoll-container {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  pointer-events: none; /* Allows clicks to go through the invisible container */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  /* Allows clicks to go through the invisible container */
   z-index: 50;
 }
+
 .ragdoll-part {
   position: absolute;
-  pointer-events: auto; /* But parts themselves are clickable/grabbable */
+  pointer-events: auto;
+  /* But parts themselves are clickable/grabbable */
   user-select: none;
   -webkit-user-drag: none;
   touch-action: none;
   will-change: transform, left, top;
   transform-origin: center center;
 }
-#part-head { width: 100px; height: auto; z-index: 4; }
-#part-neck { width: 52px; height: auto; z-index: 3; }
-#part-body { width: 180px; height: auto; z-index: 2; }
-#part-feet { width: 70px; height: auto; z-index: 1; }
+
+#part-head {
+  width: 100px;
+  height: auto;
+  z-index: 4;
+}
+
+#part-neck {
+  width: 52px;
+  height: auto;
+  z-index: 3;
+}
+
+#part-body {
+  width: 180px;
+  height: auto;
+  z-index: 2;
+}
+
+#part-feet {
+  width: 70px;
+  height: auto;
+  z-index: 1;
+}
 
 .ragdoll-part {
   cursor: grab !important;
@@ -304,17 +360,34 @@ body::before {
 
 .ragdoll-part.is-grabbing {
   cursor: grabbing !important;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3));
 }
 
 /* Idle heartbeat pulse */
 @keyframes chickenPulse {
-  0%   { transform: scale(1); }
-  15%  { transform: scale(1.08); }
-  30%  { transform: scale(0.97); }
-  45%  { transform: scale(1.05); }
-  60%  { transform: scale(0.99); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.08);
+  }
+
+  30% {
+    transform: scale(0.97);
+  }
+
+  45% {
+    transform: scale(1.05);
+  }
+
+  60% {
+    transform: scale(0.99);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 #ragdoll-container.pulsing .ragdoll-part {
@@ -559,7 +632,8 @@ body::before {
   transition: transform var(--transition-bounce), box-shadow var(--transition);
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d; /* For Vanilla-Tilt 3D Effect */
+  transform-style: preserve-3d;
+  /* For Vanilla-Tilt 3D Effect */
 }
 
 .mode-card::before {
@@ -599,7 +673,8 @@ body::before {
   font-size: 1.6rem;
   color: var(--text);
   margin-bottom: 12px;
-  transform: translateZ(30px); /* 3D pop out effect */
+  transform: translateZ(30px);
+  /* 3D pop out effect */
 }
 
 .mode-card p {
@@ -689,7 +764,8 @@ body::before {
   transition: transform var(--transition-bounce), box-shadow var(--transition);
   position: relative;
   cursor: pointer;
-  transform-style: preserve-3d; /* For Vanilla Tilt */
+  transform-style: preserve-3d;
+  /* For Vanilla Tilt */
 }
 
 .arsenal-card {
@@ -711,17 +787,21 @@ body::before {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  transform: translateZ(30px); /* 3D pop inside card on tilt */
+  transform: translateZ(30px);
+  /* 3D pop inside card on tilt */
   margin-bottom: 16px;
 }
 
 .arsenal-img-container img {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   transition: opacity 0.3s ease-in-out, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none; /* Let hover hit the card, not the image */
+  pointer-events: none;
+  /* Let hover hit the card, not the image */
 }
 
 .gallery-item:hover .img-hover {
@@ -763,7 +843,7 @@ body::before {
   color: #fff;
   padding: 72px 48px;
   border-radius: var(--radius-xl);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(217, 106, 48, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
@@ -920,11 +1000,25 @@ body::before {
    ANIMATIONS
    ============================================ */
 @keyframes jitter {
-  0% { transform: translate(1px, 0px) rotate(0deg); }
-  25% { transform: translate(-1px, -1px) rotate(-1deg); }
-  50% { transform: translate(0px, 1px) rotate(1deg); }
-  75% { transform: translate(-1px, 0px) rotate(-1deg); }
-  100% { transform: translate(1px, 0px) rotate(0deg); }
+  0% {
+    transform: translate(1px, 0px) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-1px, -1px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate(0px, 1px) rotate(1deg);
+  }
+
+  75% {
+    transform: translate(-1px, 0px) rotate(-1deg);
+  }
+
+  100% {
+    transform: translate(1px, 0px) rotate(0deg);
+  }
 }
 
 @keyframes titlePop {
@@ -933,11 +1027,13 @@ body::before {
     transform: scale(0.5) rotate(-5deg);
     filter: blur(8px);
   }
+
   60% {
     opacity: 1;
     transform: scale(1.05) rotate(1deg);
     filter: blur(0);
   }
+
   100% {
     transform: scale(1) rotate(0deg);
   }
@@ -948,6 +1044,7 @@ body::before {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -959,10 +1056,12 @@ body::before {
     transform: scale(1) translate(0, 0);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.15) translate(2%, -2%);
     opacity: 0.8;
   }
+
   100% {
     transform: scale(1.05) translate(-1%, 1%);
     opacity: 1;
@@ -970,24 +1069,35 @@ body::before {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   40% {
     transform: translateX(-50%) translateY(-8px);
   }
+
   60% {
     transform: translateX(-50%) translateY(-4px);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-10px) rotate(2deg);
   }
+
   75% {
     transform: translateY(5px) rotate(-1deg);
   }
@@ -998,12 +1108,15 @@ body::before {
     opacity: 0;
     transform: translateY(-20px) rotate(0deg) translateX(0);
   }
+
   10% {
     opacity: 0.6;
   }
+
   90% {
     opacity: 0.6;
   }
+
   100% {
     opacity: 0;
     transform: translateY(100vh) rotate(360deg) translateX(100px);
@@ -1126,15 +1239,26 @@ body::before {
   }
 
   /* Ragdoll más pequeño en móvil */
-  #part-body { width: 110px; }
-  #part-head { width: 60px; }
-  #part-neck { width: 32px; }
-  #part-feet { width: 44px; }
+  #part-body {
+    width: 110px;
+  }
+
+  #part-head {
+    width: 60px;
+  }
+
+  #part-neck {
+    width: 32px;
+  }
+
+  #part-feet {
+    width: 44px;
+  }
 }
 
 @media (max-width: 480px) {
   .hero-title-fkc {
-    text-shadow: 
+    text-shadow:
       3px 3px 0px var(--orange-dark),
       5px 5px 0px rgba(184, 80, 42, 0.15);
   }
@@ -1210,10 +1334,21 @@ body::before {
     display: block;
   }
 
-  #part-body { width: 110px; }
-  #part-head { width: 60px; }
-  #part-neck { width: 32px; }
-  #part-feet { width: 44px; }
+  #part-body {
+    width: 110px;
+  }
+
+  #part-head {
+    width: 60px;
+  }
+
+  #part-neck {
+    width: 32px;
+  }
+
+  #part-feet {
+    width: 44px;
+  }
 
   /* Show hide button on mobile */
   #toggleChickenBtn {

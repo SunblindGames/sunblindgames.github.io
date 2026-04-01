@@ -367,26 +367,36 @@
       domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), { passive: false });
 
       const handleMove = (e) => {
-        if (dragConstraint) {
-          lastInteractionTime = Date.now();
-          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-          dragConstraint.pointA = { x: clientX, y: clientY };
-        }
+         if(dragConstraint) {
+             lastInteractionTime = Date.now();
+             let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+             let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+             
+             // Clamp values so the drag anchor doesn't cross the thick physics walls
+             // If we pull it through the wall, physics bugs out and they get stuck!
+             clientX = Math.max(30, Math.min(window.innerWidth - 30, clientX));
+             clientY = Math.max(30, Math.min(window.innerHeight - 30, clientY));
+
+             dragConstraint.pointA = { x: clientX, y: clientY };
+         }
       };
 
       const handleRelease = () => {
-        if (dragConstraint) {
-          Composite.remove(world, dragConstraint);
-          if (dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
-          dragConstraint = null;
-        }
+         if(dragConstraint) {
+             Composite.remove(world, dragConstraint);
+             if(dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
+             dragConstraint = null;
+         }
       };
 
       document.addEventListener('mousemove', handleMove);
-      document.addEventListener('touchmove', handleMove, { passive: false });
+      document.addEventListener('touchmove', handleMove, {passive: false});
+      
+      // Release grabs if mouse is lifted, OR if the mouse leaves the window
       document.addEventListener('mouseup', handleRelease);
       document.addEventListener('touchend', handleRelease);
+      document.addEventListener('mouseleave', handleRelease);
+      window.addEventListener('blur', handleRelease);
 
       const updateDom = (physicsBody, element) => {
         if (!element) return;

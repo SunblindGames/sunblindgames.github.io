@@ -107,8 +107,8 @@
   <!-- GALLERY / ARSENAL -->
   <section class="gallery" id="gallery">
     <div class="section-header reveal">
-      <h2>Your Poultry Arsenal</h2>
-      <p>Hover over them to enrage them!</p>
+      <h2>Meet your enemies!</h2>
+      <p>From enemies to lovers?</p>
     </div>
 
     <div class="gallery-grid arsenal-grid">
@@ -296,19 +296,19 @@
       const neckToHead = Constraint.create({
           bodyA: neck, bodyB: head,
           pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
-          stiffness: 0.99, damping: 0.1
+          length: 0, stiffness: 0.99, damping: 0.1
       });
 
       const bodyToNeck = Constraint.create({
           bodyA: body, bodyB: neck,
           pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
-          stiffness: 0.99, damping: 0.1
+          length: 0, stiffness: 0.99, damping: 0.1
       });
 
       const bodyToFeet = Constraint.create({
           bodyA: body, bodyB: feet,
           pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
-          stiffness: 0.99, damping: 0.1
+          length: 0, stiffness: 0.99, damping: 0.1
       });
 
       Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);
@@ -330,9 +330,11 @@
 
       // Custom DOM-to-Physics Interaction (Replacing glitchy Matter Mouse)
       let dragConstraint = null;
+      let lastInteractionTime = Date.now(); // AFK Tracker
 
       const handleGrab = (e, tgtBody, domEl) => {
          e.preventDefault();
+         lastInteractionTime = Date.now();
          if(dragConstraint) return; // already dragging something
          
          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
@@ -356,6 +358,7 @@
 
       const handleMove = (e) => {
          if(dragConstraint) {
+             lastInteractionTime = Date.now();
              let clientX = e.clientX || (e.touches && e.touches[0].clientX);
              let clientY = e.clientY || (e.touches && e.touches[0].clientY);
              dragConstraint.pointA = { x: clientX, y: clientY };
@@ -389,6 +392,21 @@
           updateDom(body, domBody);
           updateDom(feet, domFeet);
       });
+
+      // IDLE JUMP MECHANIC (Botes AFK)
+      setInterval(() => {
+          if(!dragConstraint && (Date.now() - lastInteractionTime) > 4800) {
+              // Apply an explosive upward velocity to the body occasionally to keep it alive
+              Matter.Body.setVelocity(body, { 
+                  x: (Math.random() - 0.5) * 6, // Slight left/right unpredictable jump
+                  y: -18 // High upward snap
+              });
+              // Give the head a little twist for extra juice!
+              Matter.Body.setAngularVelocity(head, (Math.random() - 0.5) * 0.4);
+              
+              lastInteractionTime = Date.now(); // reset the timer
+          }
+      }, 5000); // Check every 5 seconds
 
       Runner.run(Runner.create(), engine);
     })();

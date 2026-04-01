@@ -24,7 +24,6 @@
   <!-- TOP BAR -->
   <nav class="top-bar" id="topBar">
     <img src="logosSunblind.png" alt="Sunblind Games" class="top-bar-logo">
-    <span class="top-bar-studio-name">Sunblind Games</span>
   </nav>
 
   <!-- HERO -->

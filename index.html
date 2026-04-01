@@ -306,11 +306,7 @@
       if (typeof Matter === 'undefined') return;
 
       const Engine = Matter.Engine,
-        Render = Matter.Render,
         Runner = Matter.Runner,
-        Composites = Matter.Composites,
-        MouseConstraint = Matter.MouseConstraint,
-        Mouse = Matter.Mouse,
         Composite = Matter.Composite,
         Constraint = Matter.Constraint,
         Bodies = Matter.Bodies;
@@ -326,30 +322,29 @@
       const startX = w * 0.7;
       const startY = h * 0.2;
 
-      // Ragdoll Part Bodies
-      // Sizes calculated based on original image proportions to fit their transparent paddings better (Neck increased 15%)
+      // --- FEATURE 1: Bodies sized to match PNGs ---
       const head = Bodies.circle(startX, startY - 90, 45, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
-      const neck = Bodies.rectangle(startX, startY - 40, 29, 86, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.05, restitution: 0.4 });
-      const body = Bodies.circle(startX, startY + 50, 85, { collisionFilter: { group: group }, density: 0.1, frictionAir: 0.01, restitution: 0.4 });
-      const feet = Bodies.rectangle(startX, startY + 120, 65, 40, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
+      const neck = Bodies.rectangle(startX, startY - 40, 29, 86, { collisionFilter: { group: group }, density: 0.005, frictionAir: 0.05, restitution: 0.3 });
+      const body = Bodies.circle(startX, startY + 50, 85, { collisionFilter: { group: group }, density: 0.15, frictionAir: 0.01, restitution: 0.4 });
+      const feet = Bodies.rectangle(startX, startY + 120, 65, 40, { collisionFilter: { group: group }, density: 0.01, frictionAir: 0.05, restitution: 0.3 });
 
-      // Constraints (Hinges) - Hight stiffness to prevent separation!
+      // --- FEATURE 1: Overlapping constraints (joints tuck INTO each other) ---
       const neckToHead = Constraint.create({
         bodyA: neck, bodyB: head,
-        pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
-        length: 0, stiffness: 0.99, damping: 0.1
+        pointA: { x: 5, y: -30 }, pointB: { x: -5, y: 25 },
+        length: 0, stiffness: 0.99, damping: 0.15
       });
 
       const bodyToNeck = Constraint.create({
         bodyA: body, bodyB: neck,
-        pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
-        length: 0, stiffness: 0.99, damping: 0.1
+        pointA: { x: -40, y: -55 }, pointB: { x: -5, y: 30 },
+        length: 0, stiffness: 0.99, damping: 0.15
       });
 
       const bodyToFeet = Constraint.create({
         bodyA: body, bodyB: feet,
-        pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
-        length: 0, stiffness: 0.99, damping: 0.1
+        pointA: { x: -15, y: 55 }, pointB: { x: 0, y: -10 },
+        length: 0, stiffness: 0.99, damping: 0.15
       });
 
       Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);
@@ -357,10 +352,10 @@
       // Invisible Walls for fixed Viewport
       const wallOptions = { isStatic: true, friction: 0.1, restitution: 0.5 };
       Composite.add(world, [
-        Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions), // Ceiling
-        Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions), // Floor
-        Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions), // Left
-        Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
+        Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions),
+        Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions),
+        Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions),
+        Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions)
       ]);
 
       // DOM Elements hook
@@ -369,14 +364,14 @@
       const domBody = document.getElementById('part-body');
       const domFeet = document.getElementById('part-feet');
 
-      // Custom DOM-to-Physics Interaction (Replacing glitchy Matter Mouse)
+      // Custom DOM-to-Physics Interaction
       let dragConstraint = null;
-      let lastInteractionTime = Date.now(); // AFK Tracker
+      let lastInteractionTime = Date.now();
 
       const handleGrab = (e, tgtBody, domEl) => {
         e.preventDefault();
         lastInteractionTime = Date.now();
-        if (dragConstraint) return; // already dragging something
+        if (dragConstraint) return;
 
         let clientX = e.clientX || (e.touches && e.touches[0].clientX);
         let clientY = e.clientY || (e.touches && e.touches[0].clientY);
@@ -385,7 +380,7 @@
           pointA: { x: clientX, y: clientY },
           bodyB: tgtBody,
           pointB: { x: 0, y: 0 },
-          stiffness: 0.1, // Elastic feel
+          stiffness: 0.1,
           damping: 0.1
         });
         Composite.add(world, dragConstraint);
@@ -393,7 +388,6 @@
         dragConstraint.renderEl = domEl;
       };
 
-      // Ensure ONLY HEAD can be grabbed as a pivot
       domHead.addEventListener('mousedown', (e) => handleGrab(e, head, domHead));
       domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), { passive: false });
 
@@ -402,12 +396,8 @@
           lastInteractionTime = Date.now();
           let clientX = e.clientX || (e.touches && e.touches[0].clientX);
           let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-          // Clamp values so the drag anchor doesn't cross the thick physics walls
-          // If we pull it through the wall, physics bugs out and they get stuck!
           clientX = Math.max(30, Math.min(window.innerWidth - 30, clientX));
           clientY = Math.max(30, Math.min(window.innerHeight - 30, clientY));
-
           dragConstraint.pointA = { x: clientX, y: clientY };
         }
       };
@@ -422,42 +412,104 @@
 
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('touchmove', handleMove, { passive: false });
-
-      // Release grabs if mouse is lifted, OR if the mouse leaves the window
       document.addEventListener('mouseup', handleRelease);
       document.addEventListener('touchend', handleRelease);
       document.addEventListener('mouseleave', handleRelease);
       window.addEventListener('blur', handleRelease);
 
-      const updateDom = (physicsBody, element) => {
+      // --- FEATURE 3: Squash & Stretch state ---
+      let bodySx = 1, bodySy = 1; // current scale
+      let squashTimer = 0; // frames remaining in squash state
+
+      // Listen for collisions on the body to trigger squash
+      Matter.Events.on(engine, 'collisionStart', function (event) {
+        event.pairs.forEach(function (pair) {
+          // Check if body is involved in collision
+          if (pair.bodyA === body || pair.bodyB === body) {
+            const impactSpeed = Math.abs(body.velocity.y) + Math.abs(body.velocity.x) * 0.5;
+            if (impactSpeed > 4) {
+              // Squash proportional to impact speed (capped)
+              const intensity = Math.min(impactSpeed * 0.02, 0.25);
+              bodySx = 1 + intensity;  // widen on impact
+              bodySy = 1 - intensity;  // flatten on impact
+              squashTimer = 12; // recover over ~12 frames
+            }
+          }
+        });
+      });
+
+      // DOM update with all features applied
+      const updateDom = (physicsBody, element, extraSx, extraSy) => {
         if (!element) return;
-        // Position fixed mapped to body center (viewport space exactly maps to physics space)
+        const sx = extraSx || 1;
+        const sy = extraSy || 1;
         element.style.left = (physicsBody.position.x - element.offsetWidth / 2) + 'px';
         element.style.top = (physicsBody.position.y - element.offsetHeight / 2) + 'px';
-        element.style.transform = `rotate(${physicsBody.angle}rad)`;
+        element.style.transform = `rotate(${physicsBody.angle}rad) scaleX(${sx}) scaleY(${sy})`;
       };
 
       Matter.Events.on(engine, 'afterUpdate', function () {
+        // --- FEATURE 2: Angular limits (soft) ---
+        // Head relative to neck: ±40°
+        const headNeckAngle = head.angle - neck.angle;
+        const maxHeadAngle = 0.7;
+        if (Math.abs(headNeckAngle) > maxHeadAngle) {
+          const correction = (headNeckAngle - Math.sign(headNeckAngle) * maxHeadAngle) * 0.3;
+          Matter.Body.setAngularVelocity(head, head.angularVelocity - correction);
+        }
+
+        // Neck relative to body: ±35°
+        const neckBodyAngle = neck.angle - body.angle;
+        const maxNeckAngle = 0.6;
+        if (Math.abs(neckBodyAngle) > maxNeckAngle) {
+          const correction = (neckBodyAngle - Math.sign(neckBodyAngle) * maxNeckAngle) * 0.4;
+          Matter.Body.setAngularVelocity(neck, neck.angularVelocity - correction);
+        }
+
+        // Feet relative to body: ±30°
+        const feetBodyAngle = feet.angle - body.angle;
+        const maxFeetAngle = 0.5;
+        if (Math.abs(feetBodyAngle) > maxFeetAngle) {
+          const correction = (feetBodyAngle - Math.sign(feetBodyAngle) * maxFeetAngle) * 0.4;
+          Matter.Body.setAngularVelocity(feet, feet.angularVelocity - correction);
+        }
+
+        // --- FEATURE 3: Velocity-based stretch (while falling) ---
+        const vy = Math.abs(body.velocity.y);
+        if (squashTimer > 0) {
+          // Recovering from squash: lerp back to 1.0
+          squashTimer--;
+          bodySx += (1 - bodySx) * 0.2;
+          bodySy += (1 - bodySy) * 0.2;
+        } else if (vy > 5) {
+          // Stretch while falling fast
+          const stretch = Math.min(vy * 0.008, 0.12);
+          bodySx = 1 - stretch * 0.6;
+          bodySy = 1 + stretch;
+        } else {
+          // At rest: snap back to normal
+          bodySx += (1 - bodySx) * 0.15;
+          bodySy += (1 - bodySy) * 0.15;
+        }
+
+        // Update all parts
         updateDom(head, domHead);
         updateDom(neck, domNeck);
-        updateDom(body, domBody);
+        updateDom(body, domBody, bodySx, bodySy); // Only body squishes
         updateDom(feet, domFeet);
       });
 
       // IDLE JUMP MECHANIC (Botes AFK)
       setInterval(() => {
         if (!dragConstraint && (Date.now() - lastInteractionTime) > 4800) {
-          // Apply an explosive upward velocity to the body occasionally to keep it alive
           Matter.Body.setVelocity(body, {
-            x: (Math.random() - 0.5) * 6, // Slight left/right unpredictable jump
-            y: -18 // High upward snap
+            x: (Math.random() - 0.5) * 6,
+            y: -18
           });
-          // Give the head a little twist for extra juice!
-          Matter.Body.setAngularVelocity(head, (Math.random() - 0.5) * 0.4);
-
-          lastInteractionTime = Date.now(); // reset the timer
+          Matter.Body.setAngularVelocity(head, (Math.random() - 0.5) * 0.3);
+          lastInteractionTime = Date.now();
         }
-      }, 5000); // Check every 5 seconds
+      }, 5000);
 
       Runner.run(Runner.create(), engine);
     })();

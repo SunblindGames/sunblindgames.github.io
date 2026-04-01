@@ -27,7 +27,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN2P0M8CH3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-VN2P0M8CH3');
   </script>
@@ -230,7 +230,7 @@
         owners.
       </p>
     </div>
-    <div class="footer-version">v1.0</div>
+    <div class="footer-version">v0.35</div>
   </footer>
 
   <!-- SCRIPTS -->
@@ -462,68 +462,41 @@
       Runner.run(Runner.create(), engine);
     })();
 
-    // --- CLICK PARTICLE SYSTEM (EGG SPLATTER) ---
+    // --- CLICK PARTICLE SYSTEM (BROKEN EGG DIRECT) ---
     document.addEventListener('click', function (e) {
       // Ignore clicks on hoverable cards, gallery items, links, buttons, and ragdoll
       if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button') || e.target.closest('#ragdoll-container')) return;
 
       const egg = document.createElement('img');
-      egg.src = 'egg.png';
+      egg.src = 'broken_egg.png';
       egg.style.position = 'fixed';
-      egg.style.left = (e.clientX - 20) + 'px'; // Center 40px egg
-      egg.style.top = (e.clientY - 20) + 'px';
-      egg.style.width = '40px';
-      egg.style.pointerEvents = 'none'; // Clicks go through it
+      egg.style.pointerEvents = 'none';
       egg.style.zIndex = '9999';
+      egg.style.width = '140px';
 
-      // Start small simulating depth
-      egg.style.transform = 'scale(0.1)';
-      egg.style.transition = 'transform 0.15s cubic-bezier(0.55, 0.085, 0.68, 0.53)'; // Fast accelerating "throw"
+      const randomRot = (Math.random() - 0.5) * 90;
+      const splatLeft = e.clientX - 70;
+      const splatTop = e.clientY - 70;
+
+      egg.style.left = splatLeft + 'px';
+      egg.style.top = splatTop + 'px';
+      egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
 
       document.body.appendChild(egg);
 
-      // Force repaint
       void egg.offsetWidth;
 
-      // Animate: throw it *at the screen* (scale up wildly to smack the viewport)
-      egg.style.transform = 'scale(3)';
+      const driftX = (Math.random() - 0.5) * 80;
+      const fallY = 100 + Math.random() * 120;
 
-      // Impact logic
+      egg.style.transition = 'left 3.5s ease-in, top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in 1.5s';
+      egg.style.left = (splatLeft + driftX) + 'px';
+      egg.style.top = (splatTop + fallY) + 'px';
+      egg.style.opacity = '0';
+
       setTimeout(() => {
-        // Swap image to broken egg splatter
-        egg.src = 'broken_egg.png';
-        const randomRot = (Math.random() - 0.5) * 90; // Tilt but not full spin so splat looks natural
-
-        // Remove transitions momentarily to lock the new size and setup
-        egg.style.transition = 'none';
-        egg.style.width = '140px';
-
-        // Anchor to impact point
-        const splatLeft = e.clientX - 70;
-        const splatTop = e.clientY - 70;
-        egg.style.left = splatLeft + 'px';
-        egg.style.top = splatTop + 'px';
-        egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
-
-        // Reflow to apply instant changes
-        void egg.offsetWidth;
-
-        // Gravity drip: always falls DOWN using top (absolute coords, not local axis)
-        // Varied trajectories: random horizontal drift + random fall distance
-        const driftX = (Math.random() - 0.5) * 80;  // -40px to +40px sideways
-        const fallY = 100 + Math.random() * 120;     // 100–220px downward
-
-        egg.style.transition = 'left 3.5s ease-in, top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in 1.5s';
-        egg.style.left = (splatLeft + driftX) + 'px';
-        egg.style.top = (splatTop + fallY) + 'px';  // always moves down
-        egg.style.opacity = '0';
-
-        // Clean up DOM after the drip finishes
-        setTimeout(() => {
-          if (egg.parentNode) egg.parentNode.removeChild(egg);
-        }, 3500);
-
-      }, 150); // Impact hits after 150ms of flight
+        if (egg.parentNode) egg.parentNode.removeChild(egg);
+      }, 3500);
     });
 
     // --- TOGGLE CHICKEN BUTTON ---

@@ -114,7 +114,7 @@ a:hover, button:hover {
 }
 
 .top-bar-logo {
-  height: 64px;
+  height: 90px;
   width: auto;
 }
 
@@ -235,7 +235,7 @@ body::before {
 
 .hero-title-fkc {
   display: block;
-  font-size: clamp(5rem, 18vw, 14rem);
+  font-size: clamp(6rem, 25vw, 18rem);
   color: var(--orange);
   text-shadow: 
     4px 4px 0px var(--orange-dark),
@@ -346,9 +346,9 @@ body::before {
 .gameplay-inner {
   position: relative;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 16px;
 }
 
 .gameplay-label {

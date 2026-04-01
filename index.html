@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FKC! Fighting Krazy Chickens! | Sunblind Games</title>
-  <meta name="description" content="FKC! Fighting Krazy Chickens! — A comedic bullet-heaven action game where enemies are your ammunition. Grab, throw, and cause physics-based chaos. By Sunblind Games.">
+  <meta name="description"
+    content="FKC! Fighting Krazy Chickens! — A comedic bullet-heaven action game where enemies are your ammunition. Grab, throw, and cause physics-based chaos. By Sunblind Games.">
   <meta property="og:title" content="FKC! Fighting Krazy Chickens!">
-  <meta property="og:description" content="A comedic bullet-heaven where enemies are your ammunition. Grab. Throw. Chaos.">
+  <meta property="og:description"
+    content="A comedic bullet-heaven where enemies are your ammunition. Grab. Throw. Chaos.">
   <meta property="og:image" content="poster feria.png">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#D96A30">
@@ -14,11 +17,13 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Outfit:wght@300;400;700&display=swap"
+    rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- TOP BAR -->
@@ -69,7 +74,8 @@
       <div class="about-text reveal">
         <h2>Enemies Are Your Ammunition</h2>
         <p>
-          <strong>FKC!</strong> is a <strong>comedic bullet-heaven action game</strong> that turns the genre on its head. 
+          <strong>FKC!</strong> is a <strong>comedic bullet-heaven action game</strong> that turns the genre on its
+          head.
           Forget auto-fire — here you <strong>grab enemies and hurl them</strong> back into the chaos.
         </p>
       </div>
@@ -112,7 +118,7 @@
     </div>
 
     <div class="gallery-grid arsenal-grid">
-      
+
       <!-- Basic Chicken -->
       <div class="gallery-item arsenal-card reveal">
         <div class="arsenal-img-container">
@@ -131,22 +137,22 @@
         <h4>Bomba Chicken</h4>
       </div>
 
-      <!-- Fast Chicken -->
+      <!-- Kraze Chicken -->
       <div class="gallery-item arsenal-card reveal reveal-delay-2">
+        <div class="arsenal-img-container">
+          <img src="kraze.png" alt="Kraze Chicken" class="img-base">
+          <img src="kraze2.png" alt="Kraze Chicken Enraged" class="img-hover">
+        </div>
+        <h4>Kraze Chicken (You)</h4>
+      </div>
+
+      <!-- Fast Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-3">
         <div class="arsenal-img-container">
           <img src="fast.png" alt="Fast Chicken" class="img-base">
           <img src="fast2.png" alt="Fast Chicken Enraged" class="img-hover">
         </div>
         <h4>Fast Chicken</h4>
-      </div>
-
-      <!-- Kraze Chicken -->
-      <div class="gallery-item arsenal-card reveal reveal-delay-3">
-        <div class="arsenal-img-container">
-          <img src="kraze.png" alt="Kraze Chicken" class="img-base">
-          <img src="kraze2.png" alt="Kraze Chicken Enraged" class="img-hover">
-        </div>
-        <h4>Kraze Chicken</h4>
       </div>
 
       <!-- Big Chicken -->
@@ -166,8 +172,11 @@
     <div class="cta-card">
       <h2>Hope you are excited!</h2>
       <p>FKC! is currently in development. Stay tuned for the playable demo and release date.</p>
-      <a href="#" class="btn-primary" onclick="alert('Thank you for the interest! But it\'s not ready yet...'); return false;">Add to Wishlist! (Soon)</a>
-      <p style="font-size: 0.85rem; margin-top: 16px; color: rgba(255,255,255,0.7);">*Button disabled. The chickens are still in development.</p>
+      <a href="#" class="btn-primary"
+        onclick="alert('Thank you for the interest! But it\'s not ready yet...'); return false;">Add to Wishlist!
+        (Soon)</a>
+      <p style="font-size: 0.85rem; margin-top: 16px; color: rgba(255,255,255,0.7);">*Button disabled. The chickens are
+        still in development.</p>
     </div>
   </section>
 
@@ -176,9 +185,10 @@
     <h2>Contact Us</h2>
     <p>We're an indie studio based in Madrid, Spain. Got questions, feedback, or press inquiries?</p>
     <a href="mailto:contact@sunblindgames.com" class="contact-email">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
       </svg>
       contact@sunblindgames.com
     </a>
@@ -194,10 +204,10 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-  
+
   <script>
     // Scroll Reveal
-    (function() {
+    (function () {
       const reveals = document.querySelectorAll('.reveal');
       if (!reveals.length) return;
       const observer = new IntersectionObserver((entries) => {
@@ -212,7 +222,7 @@
     })();
 
     // Top bar: hide on scroll down, show on scroll up
-    (function() {
+    (function () {
       const topBar = document.getElementById('topBar');
       let lastScroll = 0;
       let ticking = false;
@@ -234,10 +244,10 @@
         }
       });
     })();
-    
+
     // Smooth scroll for nav links
     document.querySelectorAll('.top-bar-nav a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -261,30 +271,30 @@
     }
 
     // --- MATTER.JS HEADLESS RAGDOLL PHYSICS ---
-    (function() {
+    (function () {
       if (typeof Matter === 'undefined') return;
-      
+
       const Engine = Matter.Engine,
-            Render = Matter.Render,
-            Runner = Matter.Runner,
-            Composites = Matter.Composites,
-            MouseConstraint = Matter.MouseConstraint,
-            Mouse = Matter.Mouse,
-            Composite = Matter.Composite,
-            Constraint = Matter.Constraint,
-            Bodies = Matter.Bodies;
+        Render = Matter.Render,
+        Runner = Matter.Runner,
+        Composites = Matter.Composites,
+        MouseConstraint = Matter.MouseConstraint,
+        Mouse = Matter.Mouse,
+        Composite = Matter.Composite,
+        Constraint = Matter.Constraint,
+        Bodies = Matter.Bodies;
 
       const engine = Engine.create();
       const world = engine.world;
 
       const group = Matter.Body.nextGroup(true); // Don't collide with self
-      
+
       const w = window.innerWidth;
       const h = window.innerHeight;
 
       const startX = w * 0.7;
       const startY = h * 0.2;
-      
+
       // Ragdoll Part Bodies
       // Sizes calculated based on original image proportions to fit their transparent paddings better (Neck increased 15%)
       const head = Bodies.circle(startX, startY - 90, 45, { collisionFilter: { group: group }, density: 0.02, frictionAir: 0.05, restitution: 0.4 });
@@ -294,21 +304,21 @@
 
       // Constraints (Hinges) - Hight stiffness to prevent separation!
       const neckToHead = Constraint.create({
-          bodyA: neck, bodyB: head,
-          pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
-          length: 0, stiffness: 0.99, damping: 0.1
+        bodyA: neck, bodyB: head,
+        pointA: { x: 5, y: -40 }, pointB: { x: -5, y: 35 },
+        length: 0, stiffness: 0.99, damping: 0.1
       });
 
       const bodyToNeck = Constraint.create({
-          bodyA: body, bodyB: neck,
-          pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
-          length: 0, stiffness: 0.99, damping: 0.1
+        bodyA: body, bodyB: neck,
+        pointA: { x: -45, y: -65 }, pointB: { x: -5, y: 40 },
+        length: 0, stiffness: 0.99, damping: 0.1
       });
 
       const bodyToFeet = Constraint.create({
-          bodyA: body, bodyB: feet,
-          pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
-          length: 0, stiffness: 0.99, damping: 0.1
+        bodyA: body, bodyB: feet,
+        pointA: { x: -15, y: 65 }, pointB: { x: 0, y: -15 },
+        length: 0, stiffness: 0.99, damping: 0.1
       });
 
       Composite.add(world, [head, neck, body, feet, neckToHead, bodyToNeck, bodyToFeet]);
@@ -316,10 +326,10 @@
       // Invisible Walls for fixed Viewport
       const wallOptions = { isStatic: true, friction: 0.1, restitution: 0.5 };
       Composite.add(world, [
-          Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions), // Ceiling
-          Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions), // Floor
-          Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions), // Left
-          Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
+        Bodies.rectangle(w / 2, -500, w * 3, 1000, wallOptions), // Ceiling
+        Bodies.rectangle(w / 2, h + 50, w * 3, 100, wallOptions), // Floor
+        Bodies.rectangle(-200, h / 2, 400, h * 3, wallOptions), // Left
+        Bodies.rectangle(w + 200, h / 2, 400, h * 3, wallOptions) // Right
       ]);
 
       // DOM Elements hook
@@ -333,48 +343,48 @@
       let lastInteractionTime = Date.now(); // AFK Tracker
 
       const handleGrab = (e, tgtBody, domEl) => {
-         e.preventDefault();
-         lastInteractionTime = Date.now();
-         if(dragConstraint) return; // already dragging something
-         
-         let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-         let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-         
-         dragConstraint = Constraint.create({
-             pointA: { x: clientX, y: clientY },
-             bodyB: tgtBody,
-             pointB: { x: 0, y: 0 },
-             stiffness: 0.1, // Elastic feel
-             damping: 0.1
-         });
-         Composite.add(world, dragConstraint);
-         domEl.classList.add('is-grabbing');
-         dragConstraint.renderEl = domEl;
+        e.preventDefault();
+        lastInteractionTime = Date.now();
+        if (dragConstraint) return; // already dragging something
+
+        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+        dragConstraint = Constraint.create({
+          pointA: { x: clientX, y: clientY },
+          bodyB: tgtBody,
+          pointB: { x: 0, y: 0 },
+          stiffness: 0.1, // Elastic feel
+          damping: 0.1
+        });
+        Composite.add(world, dragConstraint);
+        domEl.classList.add('is-grabbing');
+        dragConstraint.renderEl = domEl;
       };
 
       // Ensure ONLY HEAD can be grabbed as a pivot
       domHead.addEventListener('mousedown', (e) => handleGrab(e, head, domHead));
-      domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), {passive: false});
+      domHead.addEventListener('touchstart', (e) => handleGrab(e, head, domHead), { passive: false });
 
       const handleMove = (e) => {
-         if(dragConstraint) {
-             lastInteractionTime = Date.now();
-             let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-             let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-             dragConstraint.pointA = { x: clientX, y: clientY };
-         }
+        if (dragConstraint) {
+          lastInteractionTime = Date.now();
+          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          dragConstraint.pointA = { x: clientX, y: clientY };
+        }
       };
 
       const handleRelease = () => {
-         if(dragConstraint) {
-             Composite.remove(world, dragConstraint);
-             if(dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
-             dragConstraint = null;
-         }
+        if (dragConstraint) {
+          Composite.remove(world, dragConstraint);
+          if (dragConstraint.renderEl) dragConstraint.renderEl.classList.remove('is-grabbing');
+          dragConstraint = null;
+        }
       };
 
       document.addEventListener('mousemove', handleMove);
-      document.addEventListener('touchmove', handleMove, {passive: false});
+      document.addEventListener('touchmove', handleMove, { passive: false });
       document.addEventListener('mouseup', handleRelease);
       document.addEventListener('touchend', handleRelease);
 
@@ -386,33 +396,33 @@
         element.style.transform = `rotate(${physicsBody.angle}rad)`;
       };
 
-      Matter.Events.on(engine, 'afterUpdate', function() {
-          updateDom(head, domHead);
-          updateDom(neck, domNeck);
-          updateDom(body, domBody);
-          updateDom(feet, domFeet);
+      Matter.Events.on(engine, 'afterUpdate', function () {
+        updateDom(head, domHead);
+        updateDom(neck, domNeck);
+        updateDom(body, domBody);
+        updateDom(feet, domFeet);
       });
 
       // IDLE JUMP MECHANIC (Botes AFK)
       setInterval(() => {
-          if(!dragConstraint && (Date.now() - lastInteractionTime) > 4800) {
-              // Apply an explosive upward velocity to the body occasionally to keep it alive
-              Matter.Body.setVelocity(body, { 
-                  x: (Math.random() - 0.5) * 6, // Slight left/right unpredictable jump
-                  y: -18 // High upward snap
-              });
-              // Give the head a little twist for extra juice!
-              Matter.Body.setAngularVelocity(head, (Math.random() - 0.5) * 0.4);
-              
-              lastInteractionTime = Date.now(); // reset the timer
-          }
+        if (!dragConstraint && (Date.now() - lastInteractionTime) > 4800) {
+          // Apply an explosive upward velocity to the body occasionally to keep it alive
+          Matter.Body.setVelocity(body, {
+            x: (Math.random() - 0.5) * 6, // Slight left/right unpredictable jump
+            y: -18 // High upward snap
+          });
+          // Give the head a little twist for extra juice!
+          Matter.Body.setAngularVelocity(head, (Math.random() - 0.5) * 0.4);
+
+          lastInteractionTime = Date.now(); // reset the timer
+        }
       }, 5000); // Check every 5 seconds
 
       Runner.run(Runner.create(), engine);
     })();
 
     // --- CLICK PARTICLE SYSTEM (EGG SPLATTER) ---
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       // Ignore clicks on hoverable cards, gallery items, links, buttons, and ragdoll
       if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button') || e.target.closest('#ragdoll-container')) return;
 
@@ -424,47 +434,48 @@
       egg.style.width = '40px';
       egg.style.pointerEvents = 'none'; // Clicks go through it
       egg.style.zIndex = '9999';
-      
+
       // Start small simulating depth
       egg.style.transform = 'scale(0.1)';
       egg.style.transition = 'transform 0.15s cubic-bezier(0.55, 0.085, 0.68, 0.53)'; // Fast accelerating "throw"
-      
+
       document.body.appendChild(egg);
-      
+
       // Force repaint
       void egg.offsetWidth;
-      
+
       // Animate: throw it *at the screen* (scale up wildly to smack the viewport)
       egg.style.transform = 'scale(3)';
-      
+
       // Impact logic
       setTimeout(() => {
         // Swap image to broken egg splatter
         egg.src = 'broken_egg.png';
         const randomRot = (Math.random() - 0.5) * 360; // Splat in any angle
-        
+
         // Remove transitions momentarily to lock the new size and setup
         egg.style.transition = 'none';
         egg.style.width = '140px';
-        egg.style.left = (e.clientX - 70) + 'px'; 
+        egg.style.left = (e.clientX - 70) + 'px';
         egg.style.top = (e.clientY - 70) + 'px';
         egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
-        
+
         // Reflow to apply instant changes
         void egg.offsetWidth;
-        
+
         // Add "dripping off the screen" and fade-out animations
         egg.style.transition = 'transform 3.5s ease-in, opacity 2s ease-in 1.5s';
         egg.style.transform = `scale(1) rotate(${randomRot}deg) translateY(120px)`; // Drip down 120px
         egg.style.opacity = '0'; // Starts fading at 1.5s, ends at 3.5s
-        
+
         // Clean up DOM after the drip finishes
         setTimeout(() => {
           if (egg.parentNode) egg.parentNode.removeChild(egg);
         }, 3500);
-        
+
       }, 150); // Impact hits after 150ms of flight
     });
   </script>
 </body>
+
 </html>

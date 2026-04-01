@@ -116,6 +116,13 @@ a:hover, button:hover {
 .top-bar-logo {
   height: 90px;
   width: auto;
+  flex-shrink: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
 }
 
 .top-bar-nav {
@@ -1049,16 +1056,17 @@ body::before {
     gap: 12px;
   }
 
-  /* Logo más pequeño para dejar espacio al botón toggle */
+  /* Logo más pequeño en móvil */
   .top-bar-logo {
     height: 44px;
   }
 
+  /* Ocultar solo los 3 links - el botón Hide sigue visible */
   .top-bar-nav {
     display: none;
   }
 
-  /* Botón toggle visible en móvil */
+  /* Botón toggle siempre visible en móvil */
   #toggleChickenBtn {
     display: inline-flex;
     align-items: center;

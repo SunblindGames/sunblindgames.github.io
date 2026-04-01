@@ -38,7 +38,7 @@
     <div class="feather"></div>
     <div class="feather"></div>
 
-    <img src="fallingChicken.png" alt="Pollo flotante" class="floating-chicken grabbable" id="draggableChicken" title="¡Agárrame y lánzame!">
+    <img src="fallingChicken.png" alt="Pollo flotante" class="floating-chicken grabbable" id="draggableChicken" title="¡Agárrame y lánzame!" draggable="false" ondragstart="return false;">
 
     <h1 class="hero-title">
       <span class="hero-title-fkc">
@@ -139,6 +139,7 @@
     <div class="cta-card">
       <h2>Hope you are excited!</h2>
       <p>FKC! is currently in development. Stay tuned for the playable demo and release date.</p>
+      <a href="#contact" class="btn-primary">¡Añadir a la Wishlist!</a>
     </div>
   </section>
 
@@ -298,6 +299,7 @@
 
       function dragStart(e) {
         if (e.target.tagName === 'A') return;
+        e.preventDefault(); // SUPER IMPORTANT: Prevents native browser image dragging
         isDragging = true;
         el.classList.add('is-grabbing');
         

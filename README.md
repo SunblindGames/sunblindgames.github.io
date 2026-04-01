@@ -39,20 +39,11 @@
       <span class="hero-title-sub">Fighting Krazy Chickens!</span>
     </h1>
 
-    <div class="hero-scroll-indicator" aria-hidden="true">
-      <span>Scroll</span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 5v14M19 12l-7 7-7-7"/>
-      </svg>
-    </div>
   </section>
 
   <!-- GAMEPLAY VIDEO -->
   <section class="gameplay" id="gameplay">
     <div class="gameplay-inner reveal">
-      <div class="gameplay-label">
-        <span>&#9654; Gameplay Preview</span>
-      </div>
       <div class="video-wrapper">
         <video autoplay muted loop playsinline>
           <source src="gameplay.mp4" type="video/mp4">

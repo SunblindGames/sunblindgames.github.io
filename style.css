@@ -126,13 +126,12 @@ a:hover {
    SECTION: Hero
    ============================================ */
 .hero {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 24px 80px;
+  padding: 140px 24px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -257,7 +256,7 @@ a:hover {
    SECTION: Gameplay Video
    ============================================ */
 .gameplay {
-  padding: 0 0;
+  padding: 20px 0 80px;
   position: relative;
 }
 
@@ -922,8 +921,7 @@ a:hover {
   }
 
   .hero {
-    padding: 100px 20px 60px;
-    min-height: 90vh;
+    padding: 100px 20px 40px;
   }
 
   .hero-poster {

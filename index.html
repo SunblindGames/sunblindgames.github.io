@@ -139,7 +139,8 @@
     <div class="cta-card">
       <h2>Hope you are excited!</h2>
       <p>FKC! is currently in development. Stay tuned for the playable demo and release date.</p>
-      <a href="#contact" class="btn-primary">¡Añadir a la Wishlist!</a>
+      <a href="#" class="btn-primary" onclick="alert('Thank you for the interest! But it\'s not ready yet...'); return false;">Add to Wishlist! (Soon)</a>
+      <p style="font-size: 0.85rem; margin-top: 16px; color: rgba(255,255,255,0.7);">*Button disabled. The chickens are still in development.</p>
     </div>
   </section>
 
@@ -288,7 +289,7 @@
           el.style.top = posY + 'px';
           
           // Add chaotic spin based on horizontal speed
-          let rot = velocityX * 3;
+          let rot = velocityX * 1.5;
           el.style.transform = `rotate(${rot}deg)`;
         }
         requestAnimationFrame(updatePhysics);
@@ -340,8 +341,8 @@
         let now = Date.now();
         let dt = now - lastTime;
         if (dt > 0) {
-          velocityX = (clientX - lastX) / dt * 15;
-          velocityY = (clientY - lastY) / dt * 15;
+          velocityX = (clientX - lastX) / dt * 7;
+          velocityY = (clientY - lastY) / dt * 7;
         }
         
         lastX = clientX;
@@ -360,6 +361,41 @@
       
       requestAnimationFrame(updatePhysics);
     })();
+
+    // --- CLICK PARTICLE SYSTEM (SHOOT CHICKENS) ---
+    document.addEventListener('click', function(e) {
+      // Ignore clicks on the grabbable chicken to avoid interfering with it
+      if (e.target.id === 'draggableChicken') return;
+
+      const bulletChicken = document.createElement('img');
+      bulletChicken.src = 'fallingChicken.png'; // Reuses the loaded image
+      bulletChicken.style.position = 'fixed';
+      // Center the image around the pointer
+      bulletChicken.style.left = (e.clientX - 30) + 'px';
+      bulletChicken.style.top = (e.clientY - 30) + 'px';
+      bulletChicken.style.width = '60px';
+      bulletChicken.style.pointerEvents = 'none'; // Clicks go through it
+      bulletChicken.style.zIndex = '9999';
+      bulletChicken.style.transition = 'transform 0.6s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.6s ease-in';
+      
+      document.body.appendChild(bulletChicken);
+      
+      // Calculate random spread and flight path
+      const randomRot = (Math.random() - 0.5) * 360; // Spin wildly
+      const randomX = (Math.random() - 0.5) * 300; // Drift left or right
+      
+      // Force repaint
+      void bulletChicken.offsetWidth;
+      
+      // Shoot upwards and "into the distance" (scale to 0)
+      bulletChicken.style.transform = `translate(${randomX}px, -400px) rotate(${randomRot}deg) scale(0)`;
+      bulletChicken.style.opacity = '0';
+      
+      // Clean up DOM after animation
+      setTimeout(() => {
+        if (bulletChicken.parentNode) bulletChicken.parentNode.removeChild(bulletChicken);
+      }, 600);
+    });
   </script>
 </body>
 </html>

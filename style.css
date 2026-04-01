@@ -1045,15 +1045,28 @@ body::before {
 
 @media (max-width: 768px) {
   .top-bar {
-    padding: 12px 20px;
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  /* Logo más pequeño para dejar espacio al botón toggle */
+  .top-bar-logo {
+    height: 44px;
   }
 
   .top-bar-nav {
     display: none;
   }
 
+  /* Botón toggle visible en móvil */
+  #toggleChickenBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
   .hero {
-    padding: 100px 20px 40px;
+    padding: 110px 20px 40px;
   }
 
   .hero-poster {
@@ -1085,6 +1098,12 @@ body::before {
   .features-list {
     grid-template-columns: 1fr;
   }
+
+  /* Ragdoll más pequeño en móvil */
+  #part-body { width: 110px; }
+  #part-head { width: 60px; }
+  #part-neck { width: 32px; }
+  #part-feet { width: 44px; }
 }
 
 @media (max-width: 480px) {

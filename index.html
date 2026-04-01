@@ -38,8 +38,12 @@
     <div class="feather"></div>
     <div class="feather"></div>
 
+    <img src="fallingChicken.png" alt="Pollo flotante" class="floating-chicken grabbable" id="draggableChicken" title="¡Agárrame y lánzame!">
+
     <h1 class="hero-title">
-      <span class="hero-title-fkc">FKC!</span>
+      <span class="hero-title-fkc">
+        <span>F</span><span>K</span><span>C</span><span>!</span>
+      </span>
       <span class="hero-title-sub">Fighting Krazy Chickens!</span>
     </h1>
   </section>
@@ -159,6 +163,9 @@
   </footer>
 
   <!-- SCRIPTS -->
+  <!-- Vanilla Tilt 3D Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  
   <script>
     // Scroll Reveal
     (function() {
@@ -209,7 +216,148 @@
         }
       });
     });
-  </script>
 
+    // --- TILT 3D HOVER EFFECT ---
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelectorAll(".mode-card"), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2
+      });
+      VanillaTilt.init(document.querySelectorAll(".gallery-item"), {
+        max: 10,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.5
+      });
+    }
+
+    // --- GRABBABLE CHICKEN PHYSICS ---
+    (function() {
+      const el = document.getElementById('draggableChicken');
+      if (!el) return;
+      
+      let isDragging = false;
+      let startX, startY, initialX, initialY;
+      let velocityX = 0, velocityY = 0;
+      let lastX, lastY, lastTime;
+      
+      let posX = window.innerWidth * 0.7;
+      let posY = window.innerHeight * 0.15;
+      
+      // Force Absolute positioning for smooth Physics
+      el.style.position = 'fixed';
+      el.style.right = 'auto';
+      el.style.top = posY + 'px';
+      el.style.left = posX + 'px';
+      el.style.animation = 'none';
+
+      function updatePhysics() {
+        if (!isDragging) {
+          velocityY += 0.5; // Gravity
+          posX += velocityX;
+          posY += velocityY;
+          
+          velocityX *= 0.99; // Air friction
+          velocityY *= 0.99;
+
+          const rect = el.getBoundingClientRect();
+          // Floor bounce
+          if (posY + rect.height > window.innerHeight) {
+            posY = window.innerHeight - rect.height;
+            velocityY *= -0.6;
+            velocityX *= 0.8;
+          }
+          // Walls bounce
+          if (posX + rect.width > window.innerWidth) {
+            posX = window.innerWidth - rect.width;
+            velocityX *= -0.6;
+          } else if (posX < 0) {
+            posX = 0;
+            velocityX *= -0.6;
+          }
+          // Ceiling bounce
+          if (posY < 0) {
+            posY = 0;
+            velocityY *= -0.6;
+          }
+          
+          el.style.left = posX + 'px';
+          el.style.top = posY + 'px';
+          
+          // Add chaotic spin based on horizontal speed
+          let rot = velocityX * 3;
+          el.style.transform = `rotate(${rot}deg)`;
+        }
+        requestAnimationFrame(updatePhysics);
+      }
+      
+      el.addEventListener('mousedown', dragStart);
+      el.addEventListener('touchstart', dragStart, {passive: false});
+
+      function dragStart(e) {
+        if (e.target.tagName === 'A') return;
+        isDragging = true;
+        el.classList.add('is-grabbing');
+        
+        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        
+        startX = clientX;
+        startY = clientY;
+        initialX = posX;
+        initialY = posY;
+        
+        lastX = clientX;
+        lastY = clientY;
+        lastTime = Date.now();
+        
+        velocityX = 0;
+        velocityY = 0;
+        
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, {passive: false});
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
+      }
+
+      function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        
+        posX = initialX + (clientX - startX);
+        posY = initialY + (clientY - startY);
+        
+        el.style.left = posX + 'px';
+        el.style.top = posY + 'px';
+        
+        let now = Date.now();
+        let dt = now - lastTime;
+        if (dt > 0) {
+          velocityX = (clientX - lastX) / dt * 15;
+          velocityY = (clientY - lastY) / dt * 15;
+        }
+        
+        lastX = clientX;
+        lastY = clientY;
+        lastTime = now;
+      }
+
+      function dragEnd() {
+        isDragging = false;
+        el.classList.remove('is-grabbing');
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('touchmove', drag);
+        document.removeEventListener('mouseup', dragEnd);
+        document.removeEventListener('touchend', dragEnd);
+      }
+      
+      requestAnimationFrame(updatePhysics);
+    })();
+  </script>
 </body>
 </html>

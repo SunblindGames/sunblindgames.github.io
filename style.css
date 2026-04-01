@@ -50,6 +50,8 @@ body {
   font-weight: 300;
   line-height: 1.7;
   overflow-x: hidden;
+  /* Custom Crosshair Cursor for ultimate Chicken-Hunting juice! */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle fill='none' stroke='%23D96A30' stroke-width='3' cx='16' cy='16' r='10'/%3E%3Cpath stroke='%23D96A30' stroke-width='3' stroke-linecap='round' d='M16 2v6m0 16v6M2 16h6m16 0h6'/%3E%3C/svg%3E") 16 16, auto;
 }
 
 img {
@@ -62,10 +64,12 @@ a {
   color: var(--orange);
   text-decoration: none;
   transition: color var(--transition);
+  cursor: inherit; /* Inherit the custom cursor */
 }
 
-a:hover {
+a:hover, button:hover {
   color: var(--orange-dark);
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle fill='none' stroke='%23B8502A' stroke-width='4' cx='16' cy='16' r='12'/%3E%3Ccircle fill='%23B8502A' cx='16' cy='16' r='4'/%3E%3C/svg%3E") 16 16, pointer !important;
 }
 
 /* --- Utility: Scroll Reveal --- */
@@ -240,6 +244,19 @@ body::before {
   letter-spacing: 0.05em;
 }
 
+/* Jitter Animation for Hero Title Spans */
+.hero-title-fkc span {
+  display: inline-block;
+  animation: jitter 0.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.hero-title-fkc span:nth-child(1) { animation-duration: 0.18s; animation-delay: 0.0s; }
+.hero-title-fkc span:nth-child(2) { animation-duration: 0.22s; animation-delay: 0.1s; }
+.hero-title-fkc span:nth-child(3) { animation-duration: 0.25s; animation-delay: 0.2s; }
+.hero-title-fkc span:nth-child(4) { animation-duration: 0.2s;  animation-delay: 0.15s; }
+
 .hero-title-sub {
   display: block;
   font-size: clamp(1.2rem, 3.5vw, 2.8rem);
@@ -255,9 +272,24 @@ body::before {
   top: 10%;
   max-width: 280px;
   width: 25vw;
-  z-index: 2;
+  z-index: 50; /* Higher z-index for grabbing */
   animation: float 5s ease-in-out infinite, titleSlideUp 0.8s ease 0.6s both;
-  pointer-events: none;
+  /* pointer-events: none; Removed so we can grab it! */
+}
+
+/* Grabbable Physics Chicken Styles */
+.grabbable {
+  cursor: grab !important;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+}
+.grabbable.is-grabbing {
+  cursor: grabbing !important;
+  animation: none !important; /* stop the float animation while dragging */
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(1.15) rotate(-5deg); /* scale up and pop slightly when grabbed */
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
 }
 
 .hero-tagline {
@@ -498,6 +530,7 @@ body::before {
   transition: transform var(--transition-bounce), box-shadow var(--transition);
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d; /* For Vanilla-Tilt 3D Effect */
 }
 
 .mode-card::before {
@@ -537,6 +570,7 @@ body::before {
   font-size: 1.6rem;
   color: var(--text);
   margin-bottom: 12px;
+  transform: translateZ(30px); /* 3D pop out effect */
 }
 
 .mode-card p {
@@ -624,6 +658,7 @@ body::before {
   transition: transform var(--transition-bounce), box-shadow var(--transition);
   position: relative;
   cursor: pointer;
+  transform-style: preserve-3d; /* For Vanilla Tilt */
 }
 
 .gallery-item.full-width {
@@ -643,6 +678,7 @@ body::before {
   width: 100%;
   display: block;
   transition: transform var(--transition);
+  transform: translateZ(20px); /* 3D pop inside card on tilt */
 }
 
 .gallery-item:hover img {
@@ -740,6 +776,13 @@ body::before {
   color: var(--orange-dark);
 }
 
+/* Squishy Button State */
+.btn-primary:active {
+  transform: translateY(2px) scale(0.92);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* ============================================
    SECTION: Contact
    ============================================ */
@@ -791,6 +834,13 @@ body::before {
   flex-shrink: 0;
 }
 
+/* Squishy Contact Button State */
+.contact-email:active {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* ============================================
    SECTION: Footer
    ============================================ */
@@ -828,6 +878,20 @@ body::before {
 /* ============================================
    ANIMATIONS
    ============================================ */
+@keyframes jitter {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
 @keyframes titlePop {
   0% {
     opacity: 0;

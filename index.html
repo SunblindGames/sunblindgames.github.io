@@ -366,6 +366,8 @@
     document.addEventListener('click', function(e) {
       // Ignore clicks on the grabbable chicken to avoid interfering with it
       if (e.target.id === 'draggableChicken') return;
+      // Ignore clicks on hoverable cards, gallery items, links and buttons
+      if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button')) return;
 
       const bulletChicken = document.createElement('img');
       bulletChicken.src = 'fallingChicken.png'; // Reuses the loaded image
@@ -376,7 +378,7 @@
       bulletChicken.style.width = '60px';
       bulletChicken.style.pointerEvents = 'none'; // Clicks go through it
       bulletChicken.style.zIndex = '9999';
-      bulletChicken.style.transition = 'transform 0.6s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.6s ease-in';
+      bulletChicken.style.transition = 'transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-in';
       
       document.body.appendChild(bulletChicken);
       
@@ -394,7 +396,7 @@
       // Clean up DOM after animation
       setTimeout(() => {
         if (bulletChicken.parentNode) bulletChicken.parentNode.removeChild(bulletChicken);
-      }, 600);
+      }, 1200);
     });
   </script>
 </body>

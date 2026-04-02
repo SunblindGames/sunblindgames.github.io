@@ -178,7 +178,7 @@
     <div class="cta-card">
       <h2>Hope you are excited!</h2>
       <p>FKC! is currently in development. Stay tuned for the playable demo and release date.</p>
-      <a href="#" class="btn-primary"
+      <a href="#" id="wishlistBtn" class="btn-primary"
         onclick="alert('Thank you for the interest! But it\'s not ready yet...'); return false;">Add to Wishlist!
         (Soon)</a>
       <p style="font-size: 0.85rem; margin-top: 16px; color: rgba(255,255,255,0.7);">*Button disabled. The chickens are
@@ -190,8 +190,8 @@
   <section class="contact" id="contact">
     <h2>Contact Us</h2>
     <p>We're an indie studio based in Madrid, Spain. Got questions, feedback, or press inquiries?</p>
-    <a href="mailto:contact@sunblindgames.com" class="contact-email">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+<a href="mailto:contact@sunblindgames.com" id="contactEmail" class="contact-email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
         stroke-linejoin="round">
         <rect x="2" y="4" width="20" height="16" rx="2" />
         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
@@ -222,7 +222,7 @@
         owners.
       </p>
     </div>
-    <div class="footer-version">v0.36</div>
+    <div class="footer-version">v0.38</div>
   </footer>
 
   <!-- SCRIPTS -->
@@ -329,6 +329,114 @@
         if (egg.parentNode) egg.parentNode.removeChild(egg);
       }, 3500);
     });
+
+    const wishlistBtn = document.getElementById('wishlistBtn');
+if (wishlistBtn) {
+  wishlistBtn.addEventListener('click', function () {
+    gtag('event', 'wishlist_click', {
+      platform: 'website_placeholder',
+      game_title: 'FKC',
+      page_section: 'cta'
+    });
+  });
+}
+
+const contactEmail = document.getElementById('contactEmail');
+if (contactEmail) {
+  contactEmail.addEventListener('click', function () {
+    gtag('event', 'contact_click', {
+      contact_method: 'email',
+      page_section: 'contact'
+    });
+  });
+}
+
+let scrollTracked50 = false;
+let scrollTracked75 = false;
+
+window.addEventListener('scroll', function () {
+  const scrollTop = window.scrollY || window.pageYOffset;
+  const windowHeight = window.innerHeight;
+  const docHeight = document.documentElement.scrollHeight;
+  const scrollPercent = ((scrollTop + windowHeight) / docHeight) * 100;
+
+  if (scrollPercent >= 50 && !scrollTracked50) {
+    scrollTracked50 = true;
+    gtag('event', 'scroll_50', {
+      percent_scrolled: 50,
+      page_type: 'landing_page'
+    });
+  }
+
+  if (scrollPercent >= 75 && !scrollTracked75) {
+    scrollTracked75 = true;
+    gtag('event', 'scroll_75', {
+      percent_scrolled: 75,
+      page_type: 'landing_page'
+    });
+  }
+});
+
+let eggCount = 0;
+document.addEventListener('click', function (e) {
+  if (
+    e.target.closest('.mode-card') ||
+    e.target.closest('.gallery-item') ||
+    e.target.closest('a') ||
+    e.target.closest('button') ||
+    e.target.closest('.ragdoll-container')
+  ) return;
+
+  eggCount += 1;
+
+  gtag('event', 'egg_launch', {
+    egg_number_session: eggCount,
+    page_section: 'global'
+  });
+});
+
+const gameplayVideo = document.querySelector('.video-wrapper video');
+
+if (gameplayVideo) {
+  const videoMilestones = { 25: false, 50: false, 75: false, 100: false };
+  let videoStarted = false;
+  const videoSource =
+    (gameplayVideo.querySelector('source') &&
+      gameplayVideo.querySelector('source').getAttribute('src')) ||
+    'gameplay_video';
+
+  gameplayVideo.addEventListener('play', function () {
+    if (videoStarted) return;
+    videoStarted = true;
+
+    gtag('event', 'video_start', {
+      video_name: videoSource,
+      autoplay: true,
+      page_section: 'gameplay'
+    });
+  });
+
+  gameplayVideo.addEventListener('timeupdate', function () {
+    if (!gameplayVideo.duration || !isFinite(gameplayVideo.duration)) return;
+
+    const percent = Math.floor(
+      (gameplayVideo.currentTime / gameplayVideo.duration) * 100
+    );
+
+    [25, 50, 75, 100].forEach(function (mark) {
+      if (percent >= mark && !videoMilestones[mark]) {
+        videoMilestones[mark] = true;
+
+        gtag('event', mark === 100 ? 'video_complete' : 'video_progress', {
+          video_name: videoSource,
+          video_percent: mark,
+          autoplay: true,
+          page_section: 'gameplay'
+        });
+      }
+    });
+  });
+}
 
   </script>
 </body>

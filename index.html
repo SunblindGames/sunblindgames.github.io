@@ -12,12 +12,12 @@
     content="A comedic bullet-heaven where enemies are your ammunition. Grab. Throw. Chaos.">
   <meta property="og:image" content="poster feria.png">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#D96A30">
+  <meta name="theme-color" content="#E25A1C">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Outfit:wght@300;400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Bowlby+One&family=Manrope:wght@300;400;500;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Styles -->
@@ -39,7 +39,17 @@
 
   <!-- TOP BAR -->
   <nav class="top-bar" id="topBar">
-    <img src="LOGO.png" alt="Sunblind Games" class="top-bar-logo">
+    <div class="top-bar-left">
+      <img src="LOGO.png" alt="Sunblind Games" class="top-bar-logo">
+      <a href="#hero" class="top-bar-game-title" aria-label="FKC!">
+        <span class="top-bar-game-title-inner" aria-hidden="true">
+          <span>F</span>
+          <span>K</span>
+          <span>C</span>
+          <span>!</span>
+        </span>
+      </a>
+    </div>
     <div class="top-bar-right">
       <ul class="top-bar-nav">
         <li><a href="#gameplay">Teaser</a></li>
@@ -53,19 +63,16 @@
   <section class="hero" id="hero">
     <div class="feather"></div>
     <div class="feather"></div>
-
-    <h1 class="hero-title">
-      <span class="hero-title-fkc">
-        <span>F</span><span>K</span><span>C</span><span>!</span>
-      </span>
-      <span class="hero-title-sub">Fighting Krazy Chickens!</span>
-    </h1>
   </section>
 
   <!-- GAMEPLAY VIDEO -->
   <section class="gameplay" id="gameplay">
     <div class="gameplay-inner reveal">
+      <h2 class="gameplay-title">Fighting Krazy Chickens!</h2>
       <div class="video-wrapper">
+        <button type="button" class="video-fullscreen-btn" id="fullscreenBtn" aria-label="Open gameplay in fullscreen">
+          Fullscreen
+        </button>
         <video autoplay muted loop playsinline>
           <source src="gameplay.mp4" type="video/mp4">
           Your browser does not support video playback.
@@ -87,31 +94,6 @@
       </div>
       <div class="about-visual reveal reveal-delay-2">
         <img src="tractor_chcken.png" alt="Chicken driving a crazy tractor">
-      </div>
-    </div>
-  </section>
-
-  <!-- GAME MODES -->
-  <section class="modes" id="modes">
-    <div class="section-header reveal">
-      <h2>Three Ways to Play</h2>
-      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos, FKC! has you covered.</p>
-    </div>
-
-    <div class="modes-grid">
-      <div class="mode-card reveal reveal-delay-1">
-        <div class="mode-icon">⚔️</div>
-        <h3>Adventure</h3>
-      </div>
-
-      <div class="mode-card reveal reveal-delay-2">
-        <div class="mode-icon">🤝</div>
-        <h3>Co-op</h3>
-      </div>
-
-      <div class="mode-card reveal reveal-delay-3">
-        <div class="mode-icon">👑</div>
-        <h3>King of the Ring</h3>
       </div>
     </div>
   </section>
@@ -173,6 +155,31 @@
     </div>
   </section>
 
+  <!-- GAME MODES -->
+  <section class="modes" id="modes">
+    <div class="section-header reveal">
+      <h2>Three Ways to Play</h2>
+      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos, FKC! has you covered.</p>
+    </div>
+
+    <div class="modes-grid">
+      <div class="mode-card reveal reveal-delay-1">
+        <div class="mode-icon">⚔️</div>
+        <h3>Adventure</h3>
+      </div>
+
+      <div class="mode-card reveal reveal-delay-2">
+        <div class="mode-icon">🤝</div>
+        <h3>Co-op</h3>
+      </div>
+
+      <div class="mode-card reveal reveal-delay-3">
+        <div class="mode-icon">👑</div>
+        <h3>King of the Ring</h3>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta reveal">
     <div class="cta-card">
@@ -222,7 +229,7 @@
         owners.
       </p>
     </div>
-    <div class="footer-version">v0.39</div>
+    <div class="footer-version">v0.40</div>
   </footer>
 
   <!-- SCRIPTS -->
@@ -329,119 +336,286 @@
         if (egg.parentNode) egg.parentNode.removeChild(egg);
       }, 3500);
     });
+    const safeGtagEvent = function (eventName, params) {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, params || {});
+      }
+    };
+
+    let maxScrollPercent = 0;
+    let interactionsCount = 0;
+    let videoProgressMax = 0;
+    let sessionEndSent = false;
+
+    const IDLE_TIMEOUT_MS = 15000;
+    const ENGAGED_MILESTONES_MS = [10000, 30000, 60000, 120000];
+    const engagedMilestonesHit = {};
+    let lastActivityAt = Date.now();
+    let isUserActive = document.visibilityState === 'visible';
+    let activeSliceStart = isUserActive ? Date.now() : null;
+    let totalActiveTimeMs = 0;
+
+    const flushActiveSlice = function (now) {
+      const ts = now || Date.now();
+      if (activeSliceStart !== null) {
+        totalActiveTimeMs += (ts - activeSliceStart);
+        activeSliceStart = null;
+      }
+    };
+
+    const getActiveTimeMs = function (now) {
+      const ts = now || Date.now();
+      if (activeSliceStart !== null) {
+        return totalActiveTimeMs + (ts - activeSliceStart);
+      }
+      return totalActiveTimeMs;
+    };
+
+    const resumeActiveSliceIfNeeded = function (now) {
+      const ts = now || Date.now();
+      if (document.visibilityState === 'visible' && isUserActive && activeSliceStart === null) {
+        activeSliceStart = ts;
+      }
+    };
+
+    const markUserActivity = function (countInteraction) {
+      const now = Date.now();
+      lastActivityAt = now;
+      if (countInteraction) {
+        interactionsCount += 1;
+      }
+      if (!isUserActive) {
+        isUserActive = true;
+        resumeActiveSliceIfNeeded(now);
+      }
+    };
+
+    const sendEngagedMilestones = function () {
+      const activeTimeMs = getActiveTimeMs();
+      ENGAGED_MILESTONES_MS.forEach(function (mark) {
+        if (activeTimeMs >= mark && !engagedMilestonesHit[mark]) {
+          engagedMilestonesHit[mark] = true;
+          safeGtagEvent('engaged_' + (mark / 1000) + 's', {
+            active_time_ms: mark,
+            page_type: 'landing_page'
+          });
+        }
+      });
+    };
+
+    const sendSessionEnd = function (reason) {
+      if (sessionEndSent) return;
+      sessionEndSent = true;
+      flushActiveSlice(Date.now());
+      safeGtagEvent('session_end', {
+        exit_reason: reason,
+        active_time_ms: Math.round(getActiveTimeMs()),
+        max_scroll_percent: Math.round(maxScrollPercent),
+        interactions_count: interactionsCount,
+        video_progress_max: videoProgressMax,
+        page_type: 'landing_page'
+      });
+    };
+
+    const engagementTimer = window.setInterval(function () {
+      const now = Date.now();
+      if (isUserActive && now - lastActivityAt > IDLE_TIMEOUT_MS) {
+        isUserActive = false;
+        flushActiveSlice(now);
+      }
+      sendEngagedMilestones();
+    }, 1000);
+
+    document.addEventListener('visibilitychange', function () {
+      const now = Date.now();
+      if (document.visibilityState === 'hidden') {
+        flushActiveSlice(now);
+      } else if (now - lastActivityAt <= IDLE_TIMEOUT_MS) {
+        isUserActive = true;
+        resumeActiveSliceIfNeeded(now);
+      }
+    });
+
+    window.addEventListener('pagehide', function () {
+      window.clearInterval(engagementTimer);
+      sendSessionEnd('pagehide');
+    });
+
+    window.addEventListener('beforeunload', function () {
+      window.clearInterval(engagementTimer);
+      sendSessionEnd('beforeunload');
+    });
+
+    document.addEventListener('click', function () {
+      markUserActivity(true);
+    }, true);
+
+    document.addEventListener('keydown', function () {
+      markUserActivity(true);
+    }, true);
+
+    document.addEventListener('touchstart', function () {
+      markUserActivity(true);
+    }, { passive: true });
+
+    let lastPointerActivityAt = 0;
+    document.addEventListener('pointermove', function () {
+      const now = Date.now();
+      if (now - lastPointerActivityAt < 1200) return;
+      lastPointerActivityAt = now;
+      markUserActivity(false);
+    }, { passive: true });
 
     const wishlistBtn = document.getElementById('wishlistBtn');
-if (wishlistBtn) {
-  wishlistBtn.addEventListener('click', function () {
-    gtag('event', 'wishlist_click', {
-      platform: 'website_placeholder',
-      game_title: 'FKC',
-      page_section: 'cta'
+    if (wishlistBtn) {
+      wishlistBtn.addEventListener('click', function () {
+        safeGtagEvent('wishlist_click', {
+          platform: 'website_placeholder',
+          game_title: 'FKC',
+          page_section: 'cta'
+        });
+      });
+    }
+
+    const contactEmail = document.getElementById('contactEmail');
+    if (contactEmail) {
+      contactEmail.addEventListener('click', function () {
+        safeGtagEvent('contact_click', {
+          contact_method: 'email',
+          page_section: 'contact'
+        });
+      });
+    }
+
+    let scrollTracked50 = false;
+    let scrollTracked75 = false;
+    let scrollTracked90 = false;
+
+    window.addEventListener('scroll', function () {
+      markUserActivity(false);
+
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollPercent = ((scrollTop + windowHeight) / docHeight) * 100;
+
+      maxScrollPercent = Math.max(maxScrollPercent, scrollPercent);
+
+      if (scrollPercent >= 50 && !scrollTracked50) {
+        scrollTracked50 = true;
+        safeGtagEvent('scroll_50', {
+          percent_scrolled: 50,
+          page_type: 'landing_page'
+        });
+      }
+
+      if (scrollPercent >= 75 && !scrollTracked75) {
+        scrollTracked75 = true;
+        safeGtagEvent('scroll_75', {
+          percent_scrolled: 75,
+          page_type: 'landing_page'
+        });
+      }
+
+      if (scrollPercent >= 90 && !scrollTracked90) {
+        scrollTracked90 = true;
+        safeGtagEvent('scroll_90', {
+          percent_scrolled: 90,
+          page_type: 'landing_page'
+        });
+      }
+    }, { passive: true });
+
+    let eggCount = 0;
+    document.addEventListener('click', function (e) {
+      if (
+        e.target.closest('.mode-card') ||
+        e.target.closest('.gallery-item') ||
+        e.target.closest('a') ||
+        e.target.closest('button') ||
+        e.target.closest('#ragdoll-container')
+      ) return;
+
+      eggCount += 1;
+
+      safeGtagEvent('egg_launch', {
+        egg_number_session: eggCount,
+        page_section: 'global'
+      });
     });
-  });
-}
 
-const contactEmail = document.getElementById('contactEmail');
-if (contactEmail) {
-  contactEmail.addEventListener('click', function () {
-    gtag('event', 'contact_click', {
-      contact_method: 'email',
-      page_section: 'contact'
-    });
-  });
-}
+    const gameplayVideo = document.querySelector('.video-wrapper video');
 
-let scrollTracked50 = false;
-let scrollTracked75 = false;
+    if (gameplayVideo) {
+      const videoMilestones = { 25: false, 50: false, 75: false, 100: false };
+      let videoStarted = false;
+      const videoSource =
+        (gameplayVideo.querySelector('source') &&
+          gameplayVideo.querySelector('source').getAttribute('src')) ||
+        'gameplay_video';
 
-window.addEventListener('scroll', function () {
-  const scrollTop = window.scrollY || window.pageYOffset;
-  const windowHeight = window.innerHeight;
-  const docHeight = document.documentElement.scrollHeight;
-  const scrollPercent = ((scrollTop + windowHeight) / docHeight) * 100;
+      gameplayVideo.addEventListener('play', function () {
+        if (videoStarted) return;
+        videoStarted = true;
 
-  if (scrollPercent >= 50 && !scrollTracked50) {
-    scrollTracked50 = true;
-    gtag('event', 'scroll_50', {
-      percent_scrolled: 50,
-      page_type: 'landing_page'
-    });
-  }
-
-  if (scrollPercent >= 75 && !scrollTracked75) {
-    scrollTracked75 = true;
-    gtag('event', 'scroll_75', {
-      percent_scrolled: 75,
-      page_type: 'landing_page'
-    });
-  }
-});
-
-let eggCount = 0;
-document.addEventListener('click', function (e) {
-  if (
-    e.target.closest('.mode-card') ||
-    e.target.closest('.gallery-item') ||
-    e.target.closest('a') ||
-    e.target.closest('button') ||
-    e.target.closest('.ragdoll-container')
-  ) return;
-
-  eggCount += 1;
-
-  gtag('event', 'egg_launch', {
-    egg_number_session: eggCount,
-    page_section: 'global'
-  });
-});
-
-const gameplayVideo = document.querySelector('.video-wrapper video');
-
-if (gameplayVideo) {
-  const videoMilestones = { 25: false, 50: false, 75: false, 100: false };
-  let videoStarted = false;
-  const videoSource =
-    (gameplayVideo.querySelector('source') &&
-      gameplayVideo.querySelector('source').getAttribute('src')) ||
-    'gameplay_video';
-
-  gameplayVideo.addEventListener('play', function () {
-    if (videoStarted) return;
-    videoStarted = true;
-
-    gtag('event', 'video_start', {
-      video_name: videoSource,
-      autoplay: true,
-      page_section: 'gameplay'
-    });
-  });
-
-  gameplayVideo.addEventListener('timeupdate', function () {
-    if (!gameplayVideo.duration || !isFinite(gameplayVideo.duration)) return;
-
-    const percent = Math.floor(
-      (gameplayVideo.currentTime / gameplayVideo.duration) * 100
-    );
-
-    [25, 50, 75, 100].forEach(function (mark) {
-      if (percent >= mark && !videoMilestones[mark]) {
-        videoMilestones[mark] = true;
-
-        gtag('event', mark === 100 ? 'video_complete' : 'video_progress', {
+        safeGtagEvent('video_start', {
           video_name: videoSource,
-          video_percent: mark,
           autoplay: true,
           page_section: 'gameplay'
         });
-      }
-    });
-  });
-}
+      });
 
-gtag('event', 'test_event', {
-  debug_mode: true
-});
-  </script>
+      gameplayVideo.addEventListener('timeupdate', function () {
+        if (!gameplayVideo.duration || !isFinite(gameplayVideo.duration)) return;
+
+        const percent = Math.floor(
+          (gameplayVideo.currentTime / gameplayVideo.duration) * 100
+        );
+
+        videoProgressMax = Math.max(videoProgressMax, percent);
+
+        [25, 50, 75, 100].forEach(function (mark) {
+          if (percent >= mark && !videoMilestones[mark]) {
+            videoMilestones[mark] = true;
+            videoProgressMax = Math.max(videoProgressMax, mark);
+
+            safeGtagEvent(mark === 100 ? 'video_complete' : 'video_progress', {
+              video_name: videoSource,
+              video_percent: mark,
+              autoplay: true,
+              page_section: 'gameplay'
+            });
+          }
+        });
+      });
+    }
+
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const videoWrapper = document.querySelector('.video-wrapper');
+
+    if (fullscreenBtn && videoWrapper) {
+      fullscreenBtn.addEventListener('click', async function () {
+        try {
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
+
+          if (videoWrapper.requestFullscreen) {
+            await videoWrapper.requestFullscreen();
+          } else if (videoWrapper.webkitRequestFullscreen) {
+            videoWrapper.webkitRequestFullscreen();
+          }
+        } catch (error) {
+          console.error('Fullscreen request failed', error);
+        }
+      });
+
+      document.addEventListener('fullscreenchange', function () {
+        fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+      });
+    }
+</script>
 </body>
 
 </html>

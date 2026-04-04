@@ -8,10 +8,11 @@
   --bg: #FAF6F0;
   --bg-warm: #F3EDE4;
   --bg-card: #FFFFFF;
-  --orange: #D96A30;
-  --orange-light: #E8834D;
-  --orange-dark: #B8502A;
+  --orange: #E25A1C;
+  --orange-light: #F07A3E;
+  --orange-dark: #C74714;
   --burgundy: #8B2B3E;
+  --gold: #F6D36B;
   --text: #2A2320;
   --text-muted: #6B5E54;
   --text-light: #9A8E83;
@@ -24,8 +25,9 @@
   --radius-md: 20px;
   --radius-lg: 32px;
   --radius-xl: 48px;
-  --font-display: 'Luckiest Guy', cursive;
-  --font-body: 'Outfit', sans-serif;
+  --font-display: 'Baloo 2', cursive;
+  --font-body: 'Manrope', sans-serif;
+  --font-title-impact: 'Bowlby One', cursive;
   --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -46,10 +48,12 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  background:
+    linear-gradient(180deg, #fbf6ef 0%, #f8efe3 38%, #f4e6d3 100%);
   color: var(--text);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 1.0625rem;
   line-height: 1.7;
   overflow-x: hidden;
   /* Custom Crosshair Cursor for ultimate Chicken-Hunting juice! */
@@ -122,6 +126,7 @@ button:hover {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: fixed;
 }
 
 .top-bar.hidden {
@@ -132,6 +137,66 @@ button:hover {
   height: 90px;
   width: auto;
   flex-shrink: 0;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.top-bar-game-title {
+  font-family: var(--font-title-impact);
+  font-size: clamp(3rem, 6vw, 5.8rem);
+  line-height: 0.85;
+  color: var(--orange);
+  text-shadow:
+    3px 3px 0 var(--orange-dark),
+    5px 5px 0 rgba(199, 71, 20, 0.2);
+  white-space: nowrap;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.top-bar-game-title-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.05em;
+}
+
+.top-bar-game-title-inner span {
+  display: inline-block;
+  transform-origin: center;
+  will-change: transform;
+  animation: jitterSoft 0.82s ease-in-out infinite;
+}
+
+.top-bar-game-title-inner span:nth-child(1) {
+  animation-duration: 0.8s;
+  animation-delay: 0s;
+}
+
+.top-bar-game-title-inner span:nth-child(2) {
+  animation-duration: 0.9s;
+  animation-delay: 0.03s;
+}
+
+.top-bar-game-title-inner span:nth-child(3) {
+  animation-duration: 0.85s;
+  animation-delay: 0.08s;
+}
+
+.top-bar-game-title-inner span:nth-child(4) {
+  animation-duration: 0.76s;
+  animation-delay: 0.05s;
+}
+
+.top-bar-game-title:hover {
+  color: var(--orange);
 }
 
 .top-bar-right {
@@ -197,7 +262,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 140px 24px 20px;
+  padding: 106px 24px 8px;
   position: relative;
   overflow: hidden;
 }
@@ -300,8 +365,8 @@ body::before {
 
 .hero-title-sub {
   display: block;
-  font-size: clamp(1.2rem, 3.5vw, 2.8rem);
-  color: var(--text);
+  font-size: clamp(1.35rem, 3.8vw, 3.1rem);
+  color: var(--burgundy);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   animation: titleSlideUp 0.8s ease 0.3s both;
@@ -458,6 +523,17 @@ body::before {
   margin-bottom: 32px;
 }
 
+.gameplay-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-shadow: none;
+}
+
 .gameplay-label span {
   display: inline-block;
   font-size: 0.75rem;
@@ -472,11 +548,12 @@ body::before {
 
 .video-wrapper {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: var(--shadow-xl);
   background: #1a1714;
   aspect-ratio: 16 / 9;
+  border: 2px solid rgba(226, 90, 28, 0.12);
 }
 
 .video-wrapper video {
@@ -508,11 +585,50 @@ body::before {
   background: linear-gradient(to top, rgba(26, 23, 20, 0.3), transparent);
 }
 
+.video-fullscreen-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff8ef;
+  background: rgba(42, 35, 32, 0.66);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transition: transform var(--transition-bounce), background var(--transition), border-color var(--transition);
+}
+
+.video-fullscreen-btn:hover {
+  background: rgba(226, 90, 28, 0.92);
+  border-color: rgba(255, 255, 255, 0.26);
+  color: #fff8ef;
+  transform: translateY(-2px);
+}
+
+.video-wrapper:fullscreen {
+  border: none;
+  border-radius: 0;
+  background: #000;
+}
+
+.video-wrapper:fullscreen .video-fullscreen-btn {
+  top: 24px;
+  right: 24px;
+}
+
 /* ============================================
    SECTION: About / Description
    ============================================ */
 .about {
-  padding: 120px 24px;
+  padding: 96px 24px;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -520,7 +636,7 @@ body::before {
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 48px;
   align-items: center;
 }
 
@@ -533,7 +649,7 @@ body::before {
 }
 
 .about-text p {
-  font-size: 1.1rem;
+  font-size: 1.18rem;
   color: var(--text-muted);
   margin-bottom: 16px;
 }
@@ -581,8 +697,8 @@ body::before {
    SECTION: Game Modes
    ============================================ */
 .modes {
-  padding: 100px 24px;
-  background: var(--bg-warm);
+  padding: 84px 24px;
+  background: transparent;
   position: relative;
 }
 
@@ -599,25 +715,25 @@ body::before {
 .section-header {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto 64px;
+  margin: 0 auto 40px;
 }
 
 .section-header h2 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
   color: var(--orange);
   margin-bottom: 12px;
 }
 
 .section-header p {
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.18rem;
 }
 
 .modes-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -625,7 +741,7 @@ body::before {
 .mode-card {
   background: var(--bg-card);
   border-radius: var(--radius-md);
-  padding: 48px 36px;
+  padding: 44px 32px;
   text-align: center;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -662,6 +778,7 @@ body::before {
   margin-bottom: 20px;
   display: inline-block;
   transition: transform var(--transition-bounce);
+  filter: none;
 }
 
 .mode-card:hover .mode-icon {
@@ -670,7 +787,7 @@ body::before {
 
 .mode-card h3 {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: var(--text);
   margin-bottom: 12px;
   transform: translateZ(30px);
@@ -679,7 +796,7 @@ body::before {
 
 .mode-card p {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 1.03rem;
   line-height: 1.6;
 }
 
@@ -742,8 +859,8 @@ body::before {
    SECTION: Gallery (Masonry Cascade)
    ============================================ */
 .gallery {
-  padding: 100px 24px;
-  background: var(--bg-warm);
+  padding: 84px 24px;
+  background: transparent;
 }
 
 .gallery-grid {
@@ -754,7 +871,7 @@ body::before {
 .arsenal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 32px;
+  gap: 20px;
 }
 
 .gallery-item {
@@ -771,7 +888,7 @@ body::before {
 .arsenal-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 32px 24px 24px;
+  padding: 28px 20px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -781,6 +898,7 @@ body::before {
 .arsenal-card:hover {
   box-shadow: var(--shadow-xl);
   z-index: 2;
+  background: var(--bg-card);
 }
 
 .arsenal-img-container {
@@ -820,7 +938,7 @@ body::before {
 
 .arsenal-card h4 {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   color: var(--text);
   text-align: center;
   letter-spacing: 0.03em;
@@ -831,7 +949,7 @@ body::before {
    SECTION: CTA
    ============================================ */
 .cta {
-  padding: 100px 24px;
+  padding: 84px 24px;
   text-align: center;
   position: relative;
 }
@@ -869,7 +987,7 @@ body::before {
 }
 
 .cta-card p {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   opacity: 0.9;
   margin-bottom: 36px;
   position: relative;
@@ -923,7 +1041,7 @@ body::before {
 
 .contact p {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.08rem;
   margin-bottom: 24px;
 }
 
@@ -971,17 +1089,19 @@ body::before {
   border-top: 1px solid var(--border);
   color: var(--text-light);
   font-size: 0.85rem;
+  background: transparent;
 }
 
 .site-footer-logo {
   height: 56px;
   margin: 0 auto 12px;
-  opacity: 0.5;
+  opacity: 0.85;
+  filter: saturate(1.15) brightness(1.05);
   transition: opacity var(--transition);
 }
 
 .site-footer-logo:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .site-footer p {
@@ -1018,6 +1138,32 @@ body::before {
 
   100% {
     transform: translate(1px, 0px) rotate(0deg);
+  }
+}
+
+@keyframes jitterSoft {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  20% {
+    transform: translate(0.95px, -0.7px) rotate(-1deg);
+  }
+
+  40% {
+    transform: translate(-0.8px, 0.6px) rotate(0.8deg);
+  }
+
+  60% {
+    transform: translate(0.7px, 0.75px) rotate(-0.75deg);
+  }
+
+  80% {
+    transform: translate(-0.6px, -0.45px) rotate(0.55deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg);
   }
 }
 
@@ -1192,6 +1338,18 @@ body::before {
     height: 44px;
   }
 
+  .top-bar-game-title {
+    font-size: 2rem;
+    left: 50%;
+  }
+
+  .video-fullscreen-btn {
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    font-size: 0.72rem;
+  }
+
   /* Ocultar solo los 3 links - el botón Hide sigue visible */
   .top-bar-nav {
     display: none;
@@ -1205,7 +1363,7 @@ body::before {
   }
 
   .hero {
-    padding: 110px 20px 40px;
+    padding: 84px 20px 8px;
   }
 
   .hero-poster {
@@ -1319,6 +1477,11 @@ body::before {
     height: 44px;
   }
 
+  .top-bar-game-title {
+    font-size: 1.8rem;
+    left: 50%;
+  }
+
   /* Hide text nav links on mobile — it's a single-page scroll, not needed */
   .top-bar-nav {
     display: none;
@@ -1326,7 +1489,7 @@ body::before {
 
   /* FKC title: prevent overlap with fixed nav on small screens */
   .hero {
-    padding-top: 110px;
+    padding-top: 84px;
   }
 
   /* Ragdoll visible on mobile but smaller */

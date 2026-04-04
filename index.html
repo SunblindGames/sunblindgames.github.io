@@ -338,13 +338,22 @@
     });
     const safeGtagEvent = function (eventName, params) {
       if (typeof gtag === 'function') {
-        gtag('event', eventName, params || {});
+        const baseParams = params || {};
+        if (eventName === 'session_end') {
+          gtag('event', eventName, Object.assign({}, baseParams, {
+            transport_type: 'beacon'
+          }));
+          return;
+        }
+        gtag('event', eventName, baseParams);
       }
     };
 
     let maxScrollPercent = 0;
     let interactionsCount = 0;
     let videoProgressMax = 0;
+    let teaserWatched5s = false;
+    let teaserWatched10s = false;
     let sessionEndSent = false;
 
     const IDLE_TIMEOUT_MS = 15000;
@@ -413,6 +422,8 @@
         max_scroll_percent: Math.round(maxScrollPercent),
         interactions_count: interactionsCount,
         video_progress_max: videoProgressMax,
+        teaser_watched_5s: teaserWatched5s ? 1 : 0,
+        teaser_watched_10s: teaserWatched10s ? 1 : 0,
         page_type: 'landing_page'
       });
     };
@@ -446,17 +457,13 @@
       sendSessionEnd('beforeunload');
     });
 
-    document.addEventListener('click', function () {
+    document.addEventListener('pointerdown', function () {
       markUserActivity(true);
     }, true);
 
     document.addEventListener('keydown', function () {
       markUserActivity(true);
     }, true);
-
-    document.addEventListener('touchstart', function () {
-      markUserActivity(true);
-    }, { passive: true });
 
     let lastPointerActivityAt = 0;
     document.addEventListener('pointermove', function () {
@@ -568,6 +575,26 @@
       gameplayVideo.addEventListener('timeupdate', function () {
         if (!gameplayVideo.duration || !isFinite(gameplayVideo.duration)) return;
 
+        if (!teaserWatched5s && gameplayVideo.currentTime >= 5) {
+          teaserWatched5s = true;
+          safeGtagEvent('video_watch_5s', {
+            video_name: videoSource,
+            watched_seconds: 5,
+            autoplay: true,
+            page_section: 'gameplay'
+          });
+        }
+
+        if (!teaserWatched10s && gameplayVideo.currentTime >= 10) {
+          teaserWatched10s = true;
+          safeGtagEvent('video_watch_10s', {
+            video_name: videoSource,
+            watched_seconds: 10,
+            autoplay: true,
+            page_section: 'gameplay'
+          });
+        }
+
         const percent = Math.floor(
           (gameplayVideo.currentTime / gameplayVideo.duration) * 100
         );
@@ -595,6 +622,7 @@
 
     if (fullscreenBtn && videoWrapper && gameplayVideo) {
       fullscreenBtn.addEventListener('click', async function () {
+        let fullscreenMethod = 'standard';
         try {
           if (document.fullscreenElement) {
             await document.exitFullscreen();
@@ -604,10 +632,17 @@
           if (videoWrapper.requestFullscreen) {
             await videoWrapper.requestFullscreen();
           } else if (videoWrapper.webkitRequestFullscreen) {
+            fullscreenMethod = 'webkit_wrapper';
             videoWrapper.webkitRequestFullscreen();
           } else if (gameplayVideo.webkitEnterFullscreen) {
+            fullscreenMethod = 'ios_video';
             gameplayVideo.webkitEnterFullscreen();
           }
+
+          safeGtagEvent('fullscreen_click', {
+            page_section: 'gameplay',
+            fullscreen_method: fullscreenMethod
+          });
         } catch (error) {
           console.error('Fullscreen request failed', error);
 
@@ -616,6 +651,10 @@
           if (gameplayVideo.webkitEnterFullscreen) {
             try {
               gameplayVideo.webkitEnterFullscreen();
+              safeGtagEvent('fullscreen_click', {
+                page_section: 'gameplay',
+                fullscreen_method: 'ios_video_fallback'
+              });
             } catch (fallbackError) {
               console.error('iOS video fullscreen fallback failed', fallbackError);
             }
@@ -625,14 +664,26 @@
 
       document.addEventListener('fullscreenchange', function () {
         fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+        safeGtagEvent(document.fullscreenElement ? 'fullscreen_enter' : 'fullscreen_exit', {
+          page_section: 'gameplay',
+          fullscreen_method: 'standard'
+        });
       });
 
       gameplayVideo.addEventListener('webkitbeginfullscreen', function () {
         fullscreenBtn.textContent = 'Exit Fullscreen';
+        safeGtagEvent('fullscreen_enter', {
+          page_section: 'gameplay',
+          fullscreen_method: 'ios_video'
+        });
       });
 
       gameplayVideo.addEventListener('webkitendfullscreen', function () {
         fullscreenBtn.textContent = 'Fullscreen';
+        safeGtagEvent('fullscreen_exit', {
+          page_section: 'gameplay',
+          fullscreen_method: 'ios_video'
+        });
       });
     }
 </script>

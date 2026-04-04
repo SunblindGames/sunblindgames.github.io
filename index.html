@@ -21,7 +21,7 @@
     rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=20260404-2">
+  <link rel="stylesheet" href="style.css?v=20260404-3">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
@@ -593,7 +593,7 @@
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const videoWrapper = document.querySelector('.video-wrapper');
 
-    if (fullscreenBtn && videoWrapper) {
+    if (fullscreenBtn && videoWrapper && gameplayVideo) {
       fullscreenBtn.addEventListener('click', async function () {
         try {
           if (document.fullscreenElement) {
@@ -605,14 +605,34 @@
             await videoWrapper.requestFullscreen();
           } else if (videoWrapper.webkitRequestFullscreen) {
             videoWrapper.webkitRequestFullscreen();
+          } else if (gameplayVideo.webkitEnterFullscreen) {
+            gameplayVideo.webkitEnterFullscreen();
           }
         } catch (error) {
           console.error('Fullscreen request failed', error);
+
+          // iOS Safari often rejects generic fullscreen requests but still
+          // allows fullscreen on the video element itself from a user gesture.
+          if (gameplayVideo.webkitEnterFullscreen) {
+            try {
+              gameplayVideo.webkitEnterFullscreen();
+            } catch (fallbackError) {
+              console.error('iOS video fullscreen fallback failed', fallbackError);
+            }
+          }
         }
       });
 
       document.addEventListener('fullscreenchange', function () {
         fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+      });
+
+      gameplayVideo.addEventListener('webkitbeginfullscreen', function () {
+        fullscreenBtn.textContent = 'Exit Fullscreen';
+      });
+
+      gameplayVideo.addEventListener('webkitendfullscreen', function () {
+        fullscreenBtn.textContent = 'Fullscreen';
       });
     }
 </script>

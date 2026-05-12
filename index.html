@@ -25,14 +25,35 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VN2P0M8CH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-VN2P0M8CH3');
-</script>
+  <!-- Google tag (gtag.js) loads only after cookie consent -->
+  <script>
+    window.SUNBLIND_GA_ID = 'G-VN2P0M8CH3';
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    window.enableSunblindAnalytics = function () {
+      if (window.sunblindAnalyticsLoaded) return;
+      window.sunblindAnalyticsLoaded = true;
+
+      const analyticsScript = document.createElement('script');
+      analyticsScript.async = true;
+      analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.SUNBLIND_GA_ID;
+      document.head.appendChild(analyticsScript);
+
+      gtag('js', new Date());
+      gtag('config', window.SUNBLIND_GA_ID, {
+        anonymize_ip: true
+      });
+    };
+
+    try {
+      if (localStorage.getItem('sunblind_cookie_consent') === 'accepted') {
+        window.enableSunblindAnalytics();
+      }
+    } catch (error) {
+      // If storage is unavailable, keep analytics disabled until this visit is accepted.
+    }
+  </script>
 </head>
 
 <body>
@@ -231,6 +252,18 @@
     </div>
     <div class="footer-version">v0.40</div>
   </footer>
+
+  <!-- COOKIE NOTICE -->
+  <aside class="cookie-notice" id="cookieNotice" aria-label="Cookie notice" hidden>
+    <div class="cookie-notice-copy">
+      <h2>Cookies, but make them tiny</h2>
+      <p>We use a small analytics cookie to learn what parts of the page work best. No ads, no weird tracking.</p>
+    </div>
+    <div class="cookie-notice-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookieRejectBtn">Only necessary</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" id="cookieAcceptBtn">Got it!</button>
+    </div>
+  </aside>
 
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
@@ -686,6 +719,52 @@
         });
       });
     }
+
+    (function () {
+      const cookieNotice = document.getElementById('cookieNotice');
+      const acceptBtn = document.getElementById('cookieAcceptBtn');
+      const rejectBtn = document.getElementById('cookieRejectBtn');
+      if (!cookieNotice || !acceptBtn || !rejectBtn) return;
+
+      const setConsent = function (choice) {
+        try {
+          localStorage.setItem('sunblind_cookie_consent', choice);
+        } catch (error) {
+          // Consent still applies for this page view if local storage is blocked.
+        }
+
+        if (choice === 'accepted' && typeof window.enableSunblindAnalytics === 'function') {
+          window.enableSunblindAnalytics();
+        }
+
+        cookieNotice.classList.remove('visible');
+        window.setTimeout(function () {
+          cookieNotice.hidden = true;
+        }, 250);
+      };
+
+      let savedConsent = null;
+      try {
+        savedConsent = localStorage.getItem('sunblind_cookie_consent');
+      } catch (error) {
+        savedConsent = null;
+      }
+
+      if (!savedConsent) {
+        cookieNotice.hidden = false;
+        window.requestAnimationFrame(function () {
+          cookieNotice.classList.add('visible');
+        });
+      }
+
+      acceptBtn.addEventListener('click', function () {
+        setConsent('accepted');
+      });
+
+      rejectBtn.addEventListener('click', function () {
+        setConsent('necessary');
+      });
+    })();
 </script>
 </body>
 

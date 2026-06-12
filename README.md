@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FKC! Fighting Krazy Chickens! | Sunblind Games</title>
-  <meta name="description" content="FKC! Fighting Krazy Chickens! — A comedic bullet-heaven action game where enemies are your ammunition. Grab, throw, and cause physics-based chaos. By Sunblind Games.">
-  <meta property="og:title" content="FKC! Fighting Krazy Chickens!">
+  <title>FKC: Fighting Krazy Chickens! | Sunblind Games</title>
+  <meta name="description" content="FKC: Fighting Krazy Chickens! — A comedic bullet-heaven action game where enemies are your ammunition. Grab, throw, and cause physics-based chaos. By Sunblind Games.">
+  <meta property="og:title" content="FKC: Fighting Krazy Chickens!">
   <meta property="og:description" content="A comedic bullet-heaven where enemies are your ammunition. Grab. Throw. Chaos.">
   <meta property="og:image" content="poster feria.png">
   <meta property="og:type" content="website">
@@ -39,7 +39,7 @@
     <div class="feather"></div>
 
     <h1 class="hero-title">
-      <span class="hero-title-fkc">FKC!</span>
+      <span class="hero-title-fkc">FKC</span>
       <span class="hero-title-sub">Fighting Krazy Chickens!</span>
     </h1>
   </section>
@@ -62,7 +62,7 @@
       <div class="about-text reveal">
         <h2>Enemies Are Your Ammunition</h2>
         <p>
-          <strong>FKC!</strong> is a <strong>comedic bullet-heaven action game</strong> that turns the genre on its head. 
+          <strong>FKC</strong> is a <strong>comedic bullet-heaven action game</strong> that turns the genre on its head. 
           Forget auto-fire — here you <strong>grab enemies and hurl them</strong> back into the chaos.
         </p>
       </div>
@@ -76,7 +76,7 @@
   <section class="modes" id="modes">
     <div class="section-header reveal">
       <h2>Three Ways to Play</h2>
-      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos — FKC! has you covered.</p>
+      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos — FKC has you covered.</p>
     </div>
 
     <div class="modes-grid">
@@ -125,7 +125,7 @@
       </div>
 
       <div class="gallery-item reveal reveal-delay-4">
-        <img src="poster feria.png" alt="FKC! official poster artwork">
+        <img src="poster feria.png" alt="FKC official poster artwork">
       </div>
     </div>
   </section>
@@ -134,7 +134,7 @@
   <section class="cta reveal">
     <div class="cta-card">
       <h2>Hope you are excited!</h2>
-      <p>FKC! is currently in development. Stay tuned for the playable demo and release date.</p>
+      <p>FKC is currently in development. Stay tuned for the playable demo and release date.</p>
     </div>
   </section>
 

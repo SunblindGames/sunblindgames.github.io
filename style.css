@@ -1,5 +1,5 @@
 /* ============================================
-   FKC! Fighting Krazy Chickens — Landing Page
+   FKC: Fighting Krazy Chickens! — Landing Page
    Sunblind Games · 2026
    ============================================ */
 
@@ -188,11 +188,6 @@ button:hover {
 .top-bar-game-title-inner span:nth-child(3) {
   animation-duration: 0.85s;
   animation-delay: 0.08s;
-}
-
-.top-bar-game-title-inner span:nth-child(4) {
-  animation-duration: 0.76s;
-  animation-delay: 0.05s;
 }
 
 .top-bar-game-title:hover {
@@ -506,7 +501,7 @@ body::before {
    SECTION: Gameplay Video
    ============================================ */
 .gameplay {
-  padding: 20px 0 80px;
+  padding: 20px 0 36px;
   position: relative;
 }
 
@@ -622,6 +617,21 @@ body::before {
 .video-wrapper:fullscreen .video-fullscreen-btn {
   top: 24px;
   right: 24px;
+}
+
+.gameplay-social {
+  padding: 0 24px 60px;
+  position: relative;
+  text-align: center;
+}
+
+.gameplay-social-title {
+  margin-bottom: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  line-height: 1.05;
+  color: var(--burgundy);
+  letter-spacing: 0.02em;
 }
 
 /* ============================================
@@ -1080,6 +1090,97 @@ body::before {
   transition: transform 0.05s ease-out !important;
 }
 
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.gameplay-social-links {
+  margin: 0 auto;
+}
+
+.social-link {
+  --social-color: var(--orange);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(42, 35, 32, 0.1);
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-bounce),
+    color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+}
+
+.social-link:hover {
+  transform: translateY(-3px) scale(1.06);
+  color: var(--social-color);
+  border-color: color-mix(in srgb, var(--social-color) 34%, transparent);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md);
+}
+
+.social-link:active {
+  transform: translateY(3px) scale(0.9) !important;
+  box-shadow: none !important;
+  transition: transform 0.05s ease-out !important;
+}
+
+.social-link svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.social-youtube svg path:first-child,
+.social-linkedin svg path,
+.social-x svg path:first-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+.social-x svg path:last-child {
+  stroke-width: 2.1;
+}
+
+.social-instagram {
+  --social-color: #E4405F;
+}
+
+.social-tiktok {
+  --social-color: #111111;
+}
+
+.social-x {
+  --social-color: #111111;
+}
+
+.social-youtube {
+  --social-color: #FF0033;
+}
+
+.social-twitch {
+  --social-color: #9146FF;
+}
+
+.social-linkedin {
+  --social-color: #0A66C2;
+}
+
 /* ============================================
    SECTION: Footer
    ============================================ */
@@ -1104,6 +1205,10 @@ body::before {
   opacity: 1;
 }
 
+.footer-social-links {
+  margin: 0 auto 18px;
+}
+
 .site-footer p {
   margin-bottom: 4px;
 }
@@ -1114,6 +1219,10 @@ body::before {
 
 .site-footer a:hover {
   color: var(--orange);
+}
+
+.site-footer .social-link:hover {
+  color: var(--social-color);
 }
 
 /* ============================================
@@ -1357,10 +1466,6 @@ body::before {
 
   .top-bar-game-title-inner span:nth-child(3) {
     animation-duration: 1.04s;
-  }
-
-  .top-bar-game-title-inner span:nth-child(4) {
-    animation-duration: 0.94s;
   }
 
   .video-fullscreen-btn {

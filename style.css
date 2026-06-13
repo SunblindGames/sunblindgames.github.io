@@ -1749,6 +1749,18 @@ body::before {
   line-height: 1.45;
 }
 
+.cookie-notice-copy a {
+  color: var(--orange);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.cookie-notice-copy a:hover {
+  color: var(--orange-dark);
+}
+
 .cookie-notice-actions {
   display: flex;
   align-items: center;

@@ -25,13 +25,30 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
-  <!-- Google tag (gtag.js) loads only after cookie consent -->
+  <!-- Basic audience measurement runs without optional analytics cookies.
+       Rich behavior events are enabled only after consent. -->
   <script>
     window.SUNBLIND_GA_ID = 'G-VN2P0M8CH3';
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
 
-    window.enableSunblindAnalytics = function () {
+    window.sunblindBehaviorAnalyticsConsent = false;
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted'
+    });
+    gtag('set', {
+      ads_data_redaction: true,
+      url_passthrough: false
+    });
+
+    window.loadSunblindAnalytics = function () {
       if (window.sunblindAnalyticsLoaded) return;
       window.sunblindAnalyticsLoaded = true;
 
@@ -42,16 +59,28 @@
 
       gtag('js', new Date());
       gtag('config', window.SUNBLIND_GA_ID, {
-        anonymize_ip: true
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
       });
+    };
+
+    window.enableSunblindBehaviorAnalytics = function () {
+      window.sunblindBehaviorAnalyticsConsent = true;
+      gtag('consent', 'update', {
+        analytics_storage: 'granted'
+      });
+      window.loadSunblindAnalytics();
     };
 
     try {
       if (localStorage.getItem('sunblind_cookie_consent') === 'accepted') {
-        window.enableSunblindAnalytics();
+        window.enableSunblindBehaviorAnalytics();
+      } else {
+        window.loadSunblindAnalytics();
       }
     } catch (error) {
-      // If storage is unavailable, keep analytics disabled until this visit is accepted.
+      window.loadSunblindAnalytics();
     }
   </script>
 </head>
@@ -350,6 +379,11 @@
         FKC is a trademark of Sunblind Games. All trademarks referenced herein are the property of their respective
         owners.
       </p>
+      <p>
+        We use Google Analytics for basic audience measurement without optional analytics cookies: aggregated region,
+        page time, scroll depth and bot-filtering signals. If you allow optional analytics, we also measure richer
+        behavior events such as video progress, clicks and interactions.
+      </p>
     </div>
     <div class="footer-version">v0.40</div>
   </footer>
@@ -357,12 +391,13 @@
   <!-- COOKIE NOTICE -->
   <aside class="cookie-notice" id="cookieNotice" aria-label="Cookie notice" hidden>
     <div class="cookie-notice-copy">
-      <h2>Cookies, but make them tiny</h2>
-      <p>We use a small analytics cookie to learn what parts of the page work best. No ads, no weird tracking.</p>
+      <h2>Optional analytics</h2>
+      <p>Basic anonymous stats run without optional cookies: region, page time, scroll depth and bot-filtering signals.
+        Accept to allow richer behavior events like video progress, clicks and interactions.</p>
     </div>
     <div class="cookie-notice-actions">
-      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookieRejectBtn">Only necessary</button>
-      <button type="button" class="cookie-btn cookie-btn-primary" id="cookieAcceptBtn">Got it!</button>
+      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookieRejectBtn">Basic only</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" id="cookieAcceptBtn">Allow behavior analytics</button>
     </div>
   </aside>
 
@@ -470,10 +505,10 @@
         if (egg.parentNode) egg.parentNode.removeChild(egg);
       }, 3500);
     });
-    const safeGtagEvent = function (eventName, params) {
+    const sendGtagEvent = function (eventName, params) {
       if (typeof gtag === 'function') {
         const baseParams = params || {};
-        if (eventName === 'session_end') {
+        if (eventName.indexOf('session_end') !== -1) {
           gtag('event', eventName, Object.assign({}, baseParams, {
             transport_type: 'beacon'
           }));
@@ -483,12 +518,23 @@
       }
     };
 
+    const safeBasicAnalyticsEvent = function (eventName, params) {
+      sendGtagEvent(eventName, params);
+    };
+
+    const safeBehaviorAnalyticsEvent = function (eventName, params) {
+      if (!window.sunblindBehaviorAnalyticsConsent) return;
+      sendGtagEvent(eventName, params);
+    };
+
     let maxScrollPercent = 0;
     let interactionsCount = 0;
     let videoProgressMax = 0;
     let teaserWatched5s = false;
     let teaserWatched10s = false;
     let sessionEndSent = false;
+    let pointerSignalSeen = false;
+    let keyboardSignalSeen = false;
 
     const IDLE_TIMEOUT_MS = 15000;
     const ENGAGED_MILESTONES_MS = [10000, 30000, 60000, 120000];
@@ -538,7 +584,7 @@
       ENGAGED_MILESTONES_MS.forEach(function (mark) {
         if (activeTimeMs >= mark && !engagedMilestonesHit[mark]) {
           engagedMilestonesHit[mark] = true;
-          safeGtagEvent('engaged_' + (mark / 1000) + 's', {
+          safeBasicAnalyticsEvent('basic_engaged_' + (mark / 1000) + 's', {
             active_time_ms: mark,
             page_type: 'landing_page'
           });
@@ -550,7 +596,17 @@
       if (sessionEndSent) return;
       sessionEndSent = true;
       flushActiveSlice(Date.now());
-      safeGtagEvent('session_end', {
+      safeBasicAnalyticsEvent('basic_session_end', {
+        exit_reason: reason,
+        active_time_ms: Math.round(getActiveTimeMs()),
+        max_scroll_percent: Math.round(maxScrollPercent),
+        interactions_count: interactionsCount,
+        pointer_signal_seen: pointerSignalSeen ? 1 : 0,
+        keyboard_signal_seen: keyboardSignalSeen ? 1 : 0,
+        page_type: 'landing_page'
+      });
+
+      safeBehaviorAnalyticsEvent('behavior_session_end', {
         exit_reason: reason,
         active_time_ms: Math.round(getActiveTimeMs()),
         max_scroll_percent: Math.round(maxScrollPercent),
@@ -592,10 +648,12 @@
     });
 
     document.addEventListener('pointerdown', function () {
+      pointerSignalSeen = true;
       markUserActivity(true);
     }, true);
 
     document.addEventListener('keydown', function () {
+      keyboardSignalSeen = true;
       markUserActivity(true);
     }, true);
 
@@ -604,13 +662,14 @@
       const now = Date.now();
       if (now - lastPointerActivityAt < 1200) return;
       lastPointerActivityAt = now;
+      pointerSignalSeen = true;
       markUserActivity(false);
     }, { passive: true });
 
     const wishlistBtn = document.getElementById('wishlistBtn');
     if (wishlistBtn) {
       wishlistBtn.addEventListener('click', function () {
-        safeGtagEvent('wishlist_click', {
+        safeBehaviorAnalyticsEvent('wishlist_click', {
           platform: 'website_placeholder',
           game_title: 'FKC',
           page_section: 'cta'
@@ -621,7 +680,7 @@
     const contactEmail = document.getElementById('contactEmail');
     if (contactEmail) {
       contactEmail.addEventListener('click', function () {
-        safeGtagEvent('contact_click', {
+        safeBehaviorAnalyticsEvent('contact_click', {
           contact_method: 'email',
           page_section: 'contact'
         });
@@ -630,7 +689,7 @@
 
     document.querySelectorAll('.social-link').forEach(function (link) {
       link.addEventListener('click', function () {
-        safeGtagEvent('social_click', {
+        safeBehaviorAnalyticsEvent('social_click', {
           social_platform: link.dataset.socialPlatform || 'unknown',
           page_section: link.closest('.site-footer') ? 'footer' : 'gameplay'
         });
@@ -653,7 +712,7 @@
 
       if (scrollPercent >= 50 && !scrollTracked50) {
         scrollTracked50 = true;
-        safeGtagEvent('scroll_50', {
+        safeBasicAnalyticsEvent('basic_scroll_50', {
           percent_scrolled: 50,
           page_type: 'landing_page'
         });
@@ -661,7 +720,7 @@
 
       if (scrollPercent >= 75 && !scrollTracked75) {
         scrollTracked75 = true;
-        safeGtagEvent('scroll_75', {
+        safeBasicAnalyticsEvent('basic_scroll_75', {
           percent_scrolled: 75,
           page_type: 'landing_page'
         });
@@ -669,7 +728,7 @@
 
       if (scrollPercent >= 90 && !scrollTracked90) {
         scrollTracked90 = true;
-        safeGtagEvent('scroll_90', {
+        safeBasicAnalyticsEvent('basic_scroll_90', {
           percent_scrolled: 90,
           page_type: 'landing_page'
         });
@@ -688,7 +747,7 @@
 
       eggCount += 1;
 
-      safeGtagEvent('egg_launch', {
+      safeBehaviorAnalyticsEvent('egg_launch', {
         egg_number_session: eggCount,
         page_section: 'global'
       });
@@ -708,7 +767,7 @@
         if (videoStarted) return;
         videoStarted = true;
 
-        safeGtagEvent('video_start', {
+        safeBehaviorAnalyticsEvent('video_start', {
           video_name: videoSource,
           autoplay: true,
           page_section: 'gameplay'
@@ -720,7 +779,7 @@
 
         if (!teaserWatched5s && gameplayVideo.currentTime >= 5) {
           teaserWatched5s = true;
-          safeGtagEvent('video_watch_5s', {
+          safeBehaviorAnalyticsEvent('video_watch_5s', {
             video_name: videoSource,
             watched_seconds: 5,
             autoplay: true,
@@ -730,7 +789,7 @@
 
         if (!teaserWatched10s && gameplayVideo.currentTime >= 10) {
           teaserWatched10s = true;
-          safeGtagEvent('video_watch_10s', {
+          safeBehaviorAnalyticsEvent('video_watch_10s', {
             video_name: videoSource,
             watched_seconds: 10,
             autoplay: true,
@@ -749,7 +808,7 @@
             videoMilestones[mark] = true;
             videoProgressMax = Math.max(videoProgressMax, mark);
 
-            safeGtagEvent(mark === 100 ? 'video_complete' : 'video_progress', {
+            safeBehaviorAnalyticsEvent(mark === 100 ? 'video_complete' : 'video_progress', {
               video_name: videoSource,
               video_percent: mark,
               autoplay: true,
@@ -782,7 +841,7 @@
             gameplayVideo.webkitEnterFullscreen();
           }
 
-          safeGtagEvent('fullscreen_click', {
+          safeBehaviorAnalyticsEvent('fullscreen_click', {
             page_section: 'gameplay',
             fullscreen_method: fullscreenMethod
           });
@@ -794,7 +853,7 @@
           if (gameplayVideo.webkitEnterFullscreen) {
             try {
               gameplayVideo.webkitEnterFullscreen();
-              safeGtagEvent('fullscreen_click', {
+              safeBehaviorAnalyticsEvent('fullscreen_click', {
                 page_section: 'gameplay',
                 fullscreen_method: 'ios_video_fallback'
               });
@@ -807,7 +866,7 @@
 
       document.addEventListener('fullscreenchange', function () {
         fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
-        safeGtagEvent(document.fullscreenElement ? 'fullscreen_enter' : 'fullscreen_exit', {
+        safeBehaviorAnalyticsEvent(document.fullscreenElement ? 'fullscreen_enter' : 'fullscreen_exit', {
           page_section: 'gameplay',
           fullscreen_method: 'standard'
         });
@@ -815,7 +874,7 @@
 
       gameplayVideo.addEventListener('webkitbeginfullscreen', function () {
         fullscreenBtn.textContent = 'Exit Fullscreen';
-        safeGtagEvent('fullscreen_enter', {
+        safeBehaviorAnalyticsEvent('fullscreen_enter', {
           page_section: 'gameplay',
           fullscreen_method: 'ios_video'
         });
@@ -823,7 +882,7 @@
 
       gameplayVideo.addEventListener('webkitendfullscreen', function () {
         fullscreenBtn.textContent = 'Fullscreen';
-        safeGtagEvent('fullscreen_exit', {
+        safeBehaviorAnalyticsEvent('fullscreen_exit', {
           page_section: 'gameplay',
           fullscreen_method: 'ios_video'
         });
@@ -843,8 +902,8 @@
           // Consent still applies for this page view if local storage is blocked.
         }
 
-        if (choice === 'accepted' && typeof window.enableSunblindAnalytics === 'function') {
-          window.enableSunblindAnalytics();
+        if (choice === 'accepted' && typeof window.enableSunblindBehaviorAnalytics === 'function') {
+          window.enableSunblindBehaviorAnalytics();
         }
 
         cookieNotice.classList.remove('visible');

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Opening FKC on Steam...</title>
+</head>
+
+<body>
+  <p>Opening <a id="steam-link" href="https://store.steampowered.com/app/4916140/FKC_Fighting_Krazy_Chickens/">FKC: Fighting Krazy Chickens! on Steam</a>...</p>
+
+  <script>
+    // UTM convention:
+    // source: platform (instagram, tiktok, x, youtube, twitch, linkedin, linktree)
+    // medium: channel type (organic_social, paid_social, referral, email, event, press)
+    // campaign: stable initiative name in snake_case (demo_evergreen, next_fest_2027)
+    // content: link placement or creative variant (bio, post, reel, qr, trailer_a)
+    const steamUrl = new URL('https://store.steampowered.com/app/4916140/FKC_Fighting_Krazy_Chickens/');
+    steamUrl.search = window.location.search;
+    document.getElementById('steam-link').href = steamUrl;
+    window.location.replace(steamUrl);
+  </script>
+</body>
+
+</html>

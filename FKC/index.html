@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKC: Fighting Krazy Chickens! | Sunblind Games</title>
+  <meta name="description"
+    content="FKC: Fighting Krazy Chickens! is a comedic physics-based action game where enemies become ammunition. Grab chickens, throw them, and embrace the chaos.">
+  <link rel="canonical" href="https://sunblindgames.com/FKC/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-video-preview:-1">
+  <meta property="og:title" content="FKC: Fighting Krazy Chickens! | Sunblind Games">
+  <meta property="og:description"
+    content="A comedic physics-based action game where enemies are your ammunition. Grab. Throw. Chaos.">
+  <meta property="og:image" content="https://sunblindgames.com/poster%20feria.png">
+  <meta property="og:image:alt" content="Official artwork for FKC: Fighting Krazy Chickens!">
+  <meta property="og:url" content="https://sunblindgames.com/FKC/">
+  <meta property="og:site_name" content="Sunblind Games">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FKC: Fighting Krazy Chickens! | Sunblind Games">
+  <meta name="twitter:description"
+    content="Grab your enemies, throw them back, and cause physics-based chicken chaos.">
+  <meta name="twitter:image" content="https://sunblindgames.com/poster%20feria.png">
+  <meta name="theme-color" content="#FF3D38">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Patua+One&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../style.css?v=20260803-brand-seo">
+  <link rel="icon" type="image/jpeg" href="../sunblind-games-logo.jpeg">
+  <link rel="apple-touch-icon" href="../sunblind-games-logo.jpeg">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "@id": "https://sunblindgames.com/FKC/#game",
+      "name": "FKC: Fighting Krazy Chickens!",
+      "alternateName": "FKC",
+      "url": "https://sunblindgames.com/FKC/",
+      "description": "A comedic physics-based action and bullet-heaven game where players grab enemies and throw them back into the chaos.",
+      "genre": ["Action", "Bullet heaven", "Comedy", "Physics"],
+      "playMode": ["SinglePlayer", "CoOp", "MultiPlayer"],
+      "image": "https://sunblindgames.com/poster%20feria.png",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://sunblindgames.com/TheStudio/#studio",
+        "name": "Sunblind Games",
+        "url": "https://sunblindgames.com/TheStudio/"
+      },
+      "sameAs": "https://store.steampowered.com/app/4916140/FKC_Fighting_Krazy_Chickens/"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "FKC: Fighting Krazy Chickens! gameplay teaser",
+      "description": "Gameplay footage showing the physics-based action of FKC: Fighting Krazy Chickens!",
+      "thumbnailUrl": "https://sunblindgames.com/poster%20feria.png",
+      "contentUrl": "https://sunblindgames.com/gameplay.mp4",
+      "embedUrl": "https://sunblindgames.com/FKC/#gameplay"
+    }
+  </script>
+
+  <!-- Basic audience measurement runs without optional analytics cookies.
+       Rich behavior events are enabled only after consent. -->
+  <script>
+    window.SUNBLIND_GA_ID = 'G-VN2P0M8CH3';
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    window.sunblindBehaviorAnalyticsConsent = false;
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted'
+    });
+    gtag('set', {
+      ads_data_redaction: true,
+      url_passthrough: false
+    });
+
+    window.loadSunblindAnalytics = function () {
+      if (window.sunblindAnalyticsLoaded) return;
+      window.sunblindAnalyticsLoaded = true;
+
+      const analyticsScript = document.createElement('script');
+      analyticsScript.async = true;
+      analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.SUNBLIND_GA_ID;
+      document.head.appendChild(analyticsScript);
+
+      gtag('js', new Date());
+      gtag('config', window.SUNBLIND_GA_ID, {
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
+      });
+    };
+
+    window.enableSunblindBehaviorAnalytics = function () {
+      window.sunblindBehaviorAnalyticsConsent = true;
+      gtag('consent', 'update', {
+        analytics_storage: 'granted'
+      });
+      window.loadSunblindAnalytics();
+    };
+
+    try {
+      if (localStorage.getItem('sunblind_cookie_consent') === 'accepted') {
+        window.enableSunblindBehaviorAnalytics();
+      } else {
+        window.loadSunblindAnalytics();
+      }
+    } catch (error) {
+      window.loadSunblindAnalytics();
+    }
+  </script>
+</head>
+
+<body class="fkc-page">
+
+  <!-- TOP BAR -->
+  <nav class="top-bar" id="topBar">
+    <div class="top-bar-left">
+      <a href="../TheStudio/" aria-label="About Sunblind Games">
+        <img src="../sunblind-games-logo.jpeg" alt="Sunblind Games" class="top-bar-logo">
+      </a>
+      <a href="../FKC/" class="top-bar-game-title" aria-label="FKC: Fighting Krazy Chickens!">
+        <span class="top-bar-game-title-inner" aria-hidden="true">
+          <span>F</span>
+          <span>K</span>
+          <span>C</span>
+        </span>
+      </a>
+    </div>
+    <div class="top-bar-right">
+      <ul class="top-bar-nav">
+        <li><a href="#gameplay">Gameplay</a></li>
+        <li><a href="#about">About FKC</a></li>
+        <li class="mobile-page-link"><a href="../TheStudio/">The Studio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="hero-kicker">A game by Sunblind Games</p>
+      <h1>FKC: Fighting Krazy Chickens!</h1>
+      <p>A comedic physics-based action game where enemies are your ammunition.</p>
+    </div>
+  </section>
+
+  <!-- GAMEPLAY VIDEO -->
+  <section class="gameplay" id="gameplay">
+    <div class="gameplay-inner reveal">
+      <h2 class="gameplay-title">Grab. Throw. Chicken chaos.</h2>
+      <div class="video-wrapper">
+        <button type="button" class="video-fullscreen-btn" id="fullscreenBtn" aria-label="Open gameplay in fullscreen">
+          Fullscreen
+        </button>
+        <video autoplay muted loop playsinline preload="metadata" poster="../tractor_chcken.png"
+          aria-label="Gameplay teaser for FKC: Fighting Krazy Chickens!">
+          <source src="../gameplay.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL LINKS -->
+  <section class="gameplay-social reveal" aria-label="Sunblind Games social media">
+    <p class="gameplay-social-title">Follow us on our socials!</p>
+    <div class="social-links gameplay-social-links">
+      <a class="social-link social-instagram" href="https://instagram.com/sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="Sunblind Games on Instagram" title="Instagram" data-social-platform="instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1.1" />
+        </svg>
+      </a>
+      <a class="social-link social-tiktok" href="https://tiktok.com/@sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="Sunblind Games on TikTok" title="TikTok" data-social-platform="tiktok">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 4v9.2a4.3 4.3 0 1 1-4.3-4.3" />
+          <path d="M14 4c.7 3 2.6 4.8 5.5 5.2" />
+        </svg>
+      </a>
+      <a class="social-link social-x" href="https://x.com/sunblindgames" target="_blank" rel="noopener noreferrer"
+        aria-label="Sunblind Games on X" title="X" data-social-platform="x">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m4 4 11.7 16H20L8.3 4H4Z" />
+          <path d="M4 20 20 4" />
+        </svg>
+      </a>
+      <a class="social-link social-youtube" href="https://www.youtube.com/channel/UCTbciEMnNbSYmuBE7_ZFUiA"
+        target="_blank" rel="noopener noreferrer" aria-label="Sunblind Games on YouTube" title="YouTube"
+        data-social-platform="youtube">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 12s0-3.3-.4-4.8a2.7 2.7 0 0 0-1.9-1.9C18.2 5 12 5 12 5s-6.2 0-7.7.4a2.7 2.7 0 0 0-1.9 1.9C2 8.7 2 12 2 12s0 3.3.4 4.8a2.7 2.7 0 0 0 1.9 1.9c1.5.4 7.7.4 7.7.4s6.2 0 7.7-.4a2.7 2.7 0 0 0 1.9-1.9c.4-1.5.4-4.8.4-4.8Z" />
+          <path d="m10 9 5 3-5 3V9Z" />
+        </svg>
+      </a>
+      <a class="social-link social-twitch" href="https://www.twitch.tv/sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="Sunblind Games on Twitch" title="Twitch" data-social-platform="twitch">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 4h16v11l-4 4h-4l-3 3v-3H5V4Z" />
+          <path d="M10 8v5" />
+          <path d="M15 8v5" />
+        </svg>
+      </a>
+      <a class="social-link social-linkedin" href="https://www.linkedin.com/company/sunblind-games/" target="_blank"
+        rel="noopener noreferrer" aria-label="Sunblind Games on LinkedIn" title="LinkedIn"
+        data-social-platform="linkedin">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 9h4v11H5V9Z" />
+          <path d="M6.9 4.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z" />
+          <path d="M12 9h3.7v1.6c.6-1 1.7-1.9 3.4-1.9 2.5 0 4 1.7 4 5.1V20h-4v-5.5c0-1.6-.6-2.4-1.8-2.4-1.3 0-2.2.9-2.2 2.4V20H12V9Z" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2>Enemies Are Your Ammunition</h2>
+        <p>
+          <strong>FKC: Fighting Krazy Chickens!</strong> is a <strong>comedic physics-based action and bullet-heaven
+            game</strong> by Sunblind Games. Forget auto-fire: here you <strong>grab enemy chickens and throw them</strong>
+          back into the chaos, turning every opponent into a weapon.
+        </p>
+      </div>
+      <div class="about-visual reveal reveal-delay-2">
+        <img src="../tractor_chcken.png" alt="Enemy chicken driving a tractor in FKC: Fighting Krazy Chickens!">
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY / ARSENAL -->
+  <section class="gallery" id="gallery">
+    <div class="section-header reveal">
+      <h2>Meet your enemies!</h2>
+      <p>From enemies to lovers?</p>
+    </div>
+
+    <div class="gallery-grid arsenal-grid">
+
+      <!-- Basic Chicken -->
+      <div class="gallery-item arsenal-card reveal">
+        <div class="arsenal-img-container">
+          <img src="../basic.png" alt="Basic Chicken enemy in FKC" class="img-base">
+          <img src="../basic2.png" alt="Enraged Basic Chicken enemy in FKC" class="img-hover">
+        </div>
+        <h4>Basic Chicken</h4>
+      </div>
+
+      <!-- Bomba Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-1">
+        <div class="arsenal-img-container">
+          <img src="../bomba.png" alt="Bomb Chicken enemy in FKC" class="img-base">
+          <img src="../bomb2.png" alt="Enraged Bomb Chicken enemy in FKC" class="img-hover">
+        </div>
+        <h4>Bomb Chicken</h4>
+      </div>
+
+      <!-- Kraze Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-2">
+        <div class="arsenal-img-container">
+          <img src="../kraze.png" alt="Playable Kraze Chicken in FKC" class="img-base">
+          <img src="../kraze2.png" alt="Enraged Kraze Chicken in FKC" class="img-hover">
+        </div>
+        <h4>Kraze Chickens (You!)</h4>
+      </div>
+
+      <!-- Fast Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-3">
+        <div class="arsenal-img-container">
+          <img src="../fast.png" alt="Fast Chicken enemy in FKC" class="img-base">
+          <img src="../fast2.png" alt="Enraged Fast Chicken enemy in FKC" class="img-hover">
+        </div>
+        <h4>Fast Chicken</h4>
+      </div>
+
+      <!-- Big Chicken -->
+      <div class="gallery-item arsenal-card reveal reveal-delay-4">
+        <div class="arsenal-img-container">
+          <img src="../big.png" alt="Big Chicken enemy in FKC" class="img-base">
+          <img src="../big2.png" alt="Enraged Big Chicken enemy in FKC" class="img-hover">
+        </div>
+        <h4>Big Chicken</h4>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GAME MODES -->
+  <section class="modes" id="modes">
+    <div class="section-header reveal">
+      <h2>Three Ways to Play</h2>
+      <p>Whether you want a solo adventure, cooperative madness, or competitive chaos, FKC has you covered.</p>
+    </div>
+
+    <div class="modes-grid">
+      <div class="mode-card reveal reveal-delay-1">
+        <div class="mode-icon">⚔️</div>
+        <h3>Adventure</h3>
+        <p>Fight through FKC's solo action adventure and turn every enemy into ammunition.</p>
+      </div>
+
+      <div class="mode-card reveal reveal-delay-2">
+        <div class="mode-icon">🤝</div>
+        <h3>Co-op</h3>
+        <p>Share the physics-based chaos with friends in cooperative multiplayer.</p>
+      </div>
+
+      <div class="mode-card reveal reveal-delay-3">
+        <div class="mode-icon">👑</div>
+        <h3>King of the Ring</h3>
+        <p>Throw, survive, and be the last Kraze Chicken standing in competitive multiplayer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <div class="cta-card">
+      <h2>Ready for more chicken chaos?</h2>
+      <p>The FKC: Fighting Krazy Chickens! demo is available now on Steam. Grab your enemies and start throwing chickens!</p>
+      <a href="../go/steam/?utm_source=sunblindgames.com&amp;utm_medium=website&amp;utm_campaign=fkc_demo&amp;utm_content=main_cta"
+        id="wishlistBtn" class="btn-primary">Play the demo on Steam!</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <p>Sunblind Games is an independent video game studio based in Madrid, Spain. Got questions, feedback, or press inquiries?</p>
+    <a href="mailto:contact@sunblindgames.com" id="contactEmail" class="contact-email">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </svg>
+      contact@sunblindgames.com
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <a href="../TheStudio/" aria-label="Learn about Sunblind Games">
+      <img src="../sunblind-games-logo.jpeg" alt="Sunblind Games" class="site-footer-logo">
+    </a>
+    <div class="social-links footer-social-links" aria-label="Sunblind Games social media">
+      <a class="social-link social-instagram" href="https://instagram.com/sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="Instagram" title="Instagram" data-social-platform="instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1.1" />
+        </svg>
+      </a>
+      <a class="social-link social-tiktok" href="https://tiktok.com/@sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="TikTok" title="TikTok" data-social-platform="tiktok">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 4v9.2a4.3 4.3 0 1 1-4.3-4.3" />
+          <path d="M14 4c.7 3 2.6 4.8 5.5 5.2" />
+        </svg>
+      </a>
+      <a class="social-link social-x" href="https://x.com/sunblindgames" target="_blank" rel="noopener noreferrer"
+        aria-label="X" title="X" data-social-platform="x">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m4 4 11.7 16H20L8.3 4H4Z" />
+          <path d="M4 20 20 4" />
+        </svg>
+      </a>
+      <a class="social-link social-youtube" href="https://www.youtube.com/channel/UCTbciEMnNbSYmuBE7_ZFUiA"
+        target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"
+        data-social-platform="youtube">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 12s0-3.3-.4-4.8a2.7 2.7 0 0 0-1.9-1.9C18.2 5 12 5 12 5s-6.2 0-7.7.4a2.7 2.7 0 0 0-1.9 1.9C2 8.7 2 12 2 12s0 3.3.4 4.8a2.7 2.7 0 0 0 1.9 1.9c1.5.4 7.7.4 7.7.4s6.2 0 7.7-.4a2.7 2.7 0 0 0 1.9-1.9c.4-1.5.4-4.8.4-4.8Z" />
+          <path d="m10 9 5 3-5 3V9Z" />
+        </svg>
+      </a>
+      <a class="social-link social-twitch" href="https://www.twitch.tv/sunblindgames" target="_blank"
+        rel="noopener noreferrer" aria-label="Twitch" title="Twitch" data-social-platform="twitch">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 4h16v11l-4 4h-4l-3 3v-3H5V4Z" />
+          <path d="M10 8v5" />
+          <path d="M15 8v5" />
+        </svg>
+      </a>
+      <a class="social-link social-linkedin" href="https://www.linkedin.com/company/sunblind-games/" target="_blank"
+        rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn" data-social-platform="linkedin">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 9h4v11H5V9Z" />
+          <path d="M6.9 4.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z" />
+          <path d="M12 9h3.7v1.6c.6-1 1.7-1.9 3.4-1.9 2.5 0 4 1.7 4 5.1V20h-4v-5.5c0-1.6-.6-2.4-1.8-2.4-1.3 0-2.2.9-2.2 2.4V20H12V9Z" />
+        </svg>
+      </a>
+    </div>
+    <p class="footer-tagline">Made with 🐔 and a lot of chaos</p>
+    <p class="footer-copy">&copy; 2026 Sunblind Games, S.L. · Madrid, Spain</p>
+    <nav class="footer-page-links" aria-label="Main pages">
+      <a href="../FKC/">FKC</a>
+      <a href="../TheStudio/">The Studio</a>
+      <a href="mailto:contact@sunblindgames.com">Contact</a>
+    </nav>
+
+    <div class="footer-disclaimer">
+      <p>
+        <strong>FKC: Fighting Krazy Chickens!</strong>, the <strong>Sunblind Games</strong> name, logo, all game
+        characters, artwork, assets, and associated intellectual property are the exclusive property of
+        <strong>Sunblind Games, S.L.</strong>. All rights reserved.
+      </p>
+      <p>
+        Unauthorized reproduction, distribution, modification, or commercial use of any content from this website or the
+        game — including but not limited to character designs, game mechanics, visual assets, and branding — is strictly
+        prohibited without prior written consent from Sunblind Games, S.L.
+      </p>
+      <p>
+        FKC is a trademark of Sunblind Games, S.L. All trademarks referenced herein are the property of their respective
+        owners.
+      </p>
+      <p id="cookieDetails">
+        Cookie details: Google Analytics is set to collect only basic audience measurement without optional analytics
+        cookies by default. That means aggregated region, page time, scroll depth and bot-filtering signals. If you
+        allow optional analytics, we also measure richer behavior events such as video progress, clicks and
+        interactions, so we can improve what real players actually use.
+      </p>
+    </div>
+    <div class="footer-version">v45</div>
+  </footer>
+
+  <!-- COOKIE NOTICE -->
+  <aside class="cookie-notice" id="cookieNotice" aria-label="Cookie notice" hidden>
+    <div class="cookie-notice-copy">
+      <h2>Cookies, but tiny!</h2>
+      <p>Tiny basics stay on. No ads, no creepy stuff. Want to help us polish the trailer, buttons and chaos?
+        <a href="#cookieDetails">Details at the bottom.</a></p>
+    </div>
+    <div class="cookie-notice-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookieRejectBtn">Keep it tiny</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" id="cookieAcceptBtn">Yes, help improve FKC</button>
+    </div>
+  </aside>
+
+  <button type="button" class="debug-color-toggle" id="debugRedBtn" aria-pressed="true"
+    aria-label="Disable the red FKC background" title="Debug: red background on">
+    <span class="debug-color-swatch" aria-hidden="true"></span>
+    <span class="debug-color-label">Red on</span>
+  </button>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+  <script>
+    // Scroll Reveal
+    (function () {
+      const reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(el => observer.observe(el));
+    })();
+
+    // Top bar: hide on scroll down, show on scroll up
+    (function () {
+      const topBar = document.getElementById('topBar');
+      let lastScroll = 0;
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 80) {
+              topBar.classList.remove('hidden');
+            } else if (currentScroll > lastScroll) {
+              topBar.classList.add('hidden');
+            } else {
+              topBar.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.top-bar-nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // --- TILT 3D HOVER EFFECT ---
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelectorAll(".mode-card"), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2
+      });
+      VanillaTilt.init(document.querySelectorAll(".gallery-item"), {
+        max: 8,
+        speed: 400
+      });
+    }
+
+    // --- CLICK PARTICLE SYSTEM (BROKEN EGG DIRECT) ---
+    document.addEventListener('click', function (e) {
+      // Ignore clicks on hoverable cards, gallery items, links, buttons, and ragdoll
+      if (e.target.closest('.mode-card') || e.target.closest('.gallery-item') || e.target.closest('a') || e.target.closest('button') || e.target.closest('#ragdoll-container')) return;
+
+      const egg = document.createElement('img');
+      egg.src = '../broken_egg.png';
+      egg.style.position = 'fixed';
+      egg.style.pointerEvents = 'none';
+      egg.style.zIndex = '9999';
+      egg.style.width = '140px';
+
+      const randomRot = (Math.random() - 0.5) * 90;
+      const splatLeft = e.clientX - 70;
+      const splatTop = e.clientY - 70;
+
+      egg.style.left = splatLeft + 'px';
+      egg.style.top = splatTop + 'px';
+      egg.style.transform = `scale(1) rotate(${randomRot}deg)`;
+
+      document.body.appendChild(egg);
+
+      void egg.offsetWidth;
+
+      const driftX = (Math.random() - 0.5) * 80;
+      const fallY = 100 + Math.random() * 120;
+
+      egg.style.transition = 'left 3.5s ease-in, top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in 1.5s';
+      egg.style.left = (splatLeft + driftX) + 'px';
+      egg.style.top = (splatTop + fallY) + 'px';
+      egg.style.opacity = '0';
+
+      setTimeout(() => {
+        if (egg.parentNode) egg.parentNode.removeChild(egg);
+      }, 3500);
+    });
+    const sendGtagEvent = function (eventName, params) {
+      if (typeof gtag === 'function') {
+        const baseParams = params || {};
+        if (eventName.indexOf('session_end') !== -1) {
+          gtag('event', eventName, Object.assign({}, baseParams, {
+            transport_type: 'beacon'
+          }));
+          return;
+        }
+        gtag('event', eventName, baseParams);
+      }
+    };
+
+    const safeBasicAnalyticsEvent = function (eventName, params) {
+      sendGtagEvent(eventName, params);
+    };
+
+    const safeBehaviorAnalyticsEvent = function (eventName, params) {
+      if (!window.sunblindBehaviorAnalyticsConsent) return;
+      sendGtagEvent(eventName, params);
+    };
+
+    let maxScrollPercent = 0;
+    let interactionsCount = 0;
+    let videoProgressMax = 0;
+    let teaserWatched5s = false;
+    let teaserWatched10s = false;
+    let sessionEndSent = false;
+    let pointerSignalSeen = false;
+    let keyboardSignalSeen = false;
+
+    const IDLE_TIMEOUT_MS = 15000;
+    const ENGAGED_MILESTONES_MS = [10000, 30000, 60000, 120000];
+    const engagedMilestonesHit = {};
+    let lastActivityAt = Date.now();
+    let isUserActive = document.visibilityState === 'visible';
+    let activeSliceStart = isUserActive ? Date.now() : null;
+    let totalActiveTimeMs = 0;
+
+    const flushActiveSlice = function (now) {
+      const ts = now || Date.now();
+      if (activeSliceStart !== null) {
+        totalActiveTimeMs += (ts - activeSliceStart);
+        activeSliceStart = null;
+      }
+    };
+
+    const getActiveTimeMs = function (now) {
+      const ts = now || Date.now();
+      if (activeSliceStart !== null) {
+        return totalActiveTimeMs + (ts - activeSliceStart);
+      }
+      return totalActiveTimeMs;
+    };
+
+    const resumeActiveSliceIfNeeded = function (now) {
+      const ts = now || Date.now();
+      if (document.visibilityState === 'visible' && isUserActive && activeSliceStart === null) {
+        activeSliceStart = ts;
+      }
+    };
+
+    const markUserActivity = function (countInteraction) {
+      const now = Date.now();
+      lastActivityAt = now;
+      if (countInteraction) {
+        interactionsCount += 1;
+      }
+      if (!isUserActive) {
+        isUserActive = true;
+        resumeActiveSliceIfNeeded(now);
+      }
+    };
+
+    const sendEngagedMilestones = function () {
+      const activeTimeMs = getActiveTimeMs();
+      ENGAGED_MILESTONES_MS.forEach(function (mark) {
+        if (activeTimeMs >= mark && !engagedMilestonesHit[mark]) {
+          engagedMilestonesHit[mark] = true;
+          safeBasicAnalyticsEvent('basic_engaged_' + (mark / 1000) + 's', {
+            active_time_ms: mark,
+            page_type: 'landing_page'
+          });
+        }
+      });
+    };
+
+    const sendSessionEnd = function (reason) {
+      if (sessionEndSent) return;
+      sessionEndSent = true;
+      flushActiveSlice(Date.now());
+      safeBasicAnalyticsEvent('basic_session_end', {
+        exit_reason: reason,
+        active_time_ms: Math.round(getActiveTimeMs()),
+        max_scroll_percent: Math.round(maxScrollPercent),
+        interactions_count: interactionsCount,
+        pointer_signal_seen: pointerSignalSeen ? 1 : 0,
+        keyboard_signal_seen: keyboardSignalSeen ? 1 : 0,
+        page_type: 'landing_page'
+      });
+
+      safeBehaviorAnalyticsEvent('behavior_session_end', {
+        exit_reason: reason,
+        active_time_ms: Math.round(getActiveTimeMs()),
+        max_scroll_percent: Math.round(maxScrollPercent),
+        interactions_count: interactionsCount,
+        video_progress_max: videoProgressMax,
+        teaser_watched_5s: teaserWatched5s ? 1 : 0,
+        teaser_watched_10s: teaserWatched10s ? 1 : 0,
+        page_type: 'landing_page'
+      });
+    };
+
+    const engagementTimer = window.setInterval(function () {
+      const now = Date.now();
+      if (isUserActive && now - lastActivityAt > IDLE_TIMEOUT_MS) {
+        isUserActive = false;
+        flushActiveSlice(now);
+      }
+      sendEngagedMilestones();
+    }, 1000);
+
+    document.addEventListener('visibilitychange', function () {
+      const now = Date.now();
+      if (document.visibilityState === 'hidden') {
+        flushActiveSlice(now);
+      } else if (now - lastActivityAt <= IDLE_TIMEOUT_MS) {
+        isUserActive = true;
+        resumeActiveSliceIfNeeded(now);
+      }
+    });
+
+    window.addEventListener('pagehide', function () {
+      window.clearInterval(engagementTimer);
+      sendSessionEnd('pagehide');
+    });
+
+    window.addEventListener('beforeunload', function () {
+      window.clearInterval(engagementTimer);
+      sendSessionEnd('beforeunload');
+    });
+
+    document.addEventListener('pointerdown', function () {
+      pointerSignalSeen = true;
+      markUserActivity(true);
+    }, true);
+
+    document.addEventListener('keydown', function () {
+      keyboardSignalSeen = true;
+      markUserActivity(true);
+    }, true);
+
+    let lastPointerActivityAt = 0;
+    document.addEventListener('pointermove', function () {
+      const now = Date.now();
+      if (now - lastPointerActivityAt < 1200) return;
+      lastPointerActivityAt = now;
+      pointerSignalSeen = true;
+      markUserActivity(false);
+    }, { passive: true });
+
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    if (wishlistBtn) {
+      wishlistBtn.addEventListener('click', function () {
+        safeBehaviorAnalyticsEvent('steam_click', {
+          platform: 'steam',
+          game_title: 'FKC',
+          page_section: 'cta',
+          link_text: wishlistBtn.textContent.trim(),
+          link_url: wishlistBtn.href,
+          utm_campaign: 'fkc_demo'
+        });
+      });
+    }
+
+    const contactEmail = document.getElementById('contactEmail');
+    if (contactEmail) {
+      contactEmail.addEventListener('click', function () {
+        safeBehaviorAnalyticsEvent('contact_click', {
+          contact_method: 'email',
+          page_section: 'contact'
+        });
+      });
+    }
+
+    document.querySelectorAll('.social-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        safeBehaviorAnalyticsEvent('social_click', {
+          social_platform: link.dataset.socialPlatform || 'unknown',
+          page_section: link.closest('.site-footer') ? 'footer' : 'gameplay',
+          link_url: link.href
+        });
+      });
+    });
+
+    let scrollTracked50 = false;
+    let scrollTracked75 = false;
+    let scrollTracked90 = false;
+
+    window.addEventListener('scroll', function () {
+      markUserActivity(false);
+
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollPercent = ((scrollTop + windowHeight) / docHeight) * 100;
+
+      maxScrollPercent = Math.max(maxScrollPercent, scrollPercent);
+
+      if (scrollPercent >= 50 && !scrollTracked50) {
+        scrollTracked50 = true;
+        safeBasicAnalyticsEvent('basic_scroll_50', {
+          percent_scrolled: 50,
+          page_type: 'landing_page'
+        });
+      }
+
+      if (scrollPercent >= 75 && !scrollTracked75) {
+        scrollTracked75 = true;
+        safeBasicAnalyticsEvent('basic_scroll_75', {
+          percent_scrolled: 75,
+          page_type: 'landing_page'
+        });
+      }
+
+      if (scrollPercent >= 90 && !scrollTracked90) {
+        scrollTracked90 = true;
+        safeBasicAnalyticsEvent('basic_scroll_90', {
+          percent_scrolled: 90,
+          page_type: 'landing_page'
+        });
+      }
+    }, { passive: true });
+
+    let eggCount = 0;
+    document.addEventListener('click', function (e) {
+      if (
+        e.target.closest('.mode-card') ||
+        e.target.closest('.gallery-item') ||
+        e.target.closest('a') ||
+        e.target.closest('button') ||
+        e.target.closest('#ragdoll-container')
+      ) return;
+
+      eggCount += 1;
+
+      safeBehaviorAnalyticsEvent('egg_launch', {
+        egg_number_session: eggCount,
+        page_section: 'global'
+      });
+    });
+
+    const gameplayVideo = document.querySelector('.video-wrapper video');
+
+    if (gameplayVideo) {
+      const videoMilestones = { 25: false, 50: false, 75: false, 100: false };
+      let videoStarted = false;
+      const videoSource =
+        (gameplayVideo.querySelector('source') &&
+          gameplayVideo.querySelector('source').getAttribute('src')) ||
+        'gameplay_video';
+
+      gameplayVideo.addEventListener('play', function () {
+        if (videoStarted) return;
+        videoStarted = true;
+
+        safeBehaviorAnalyticsEvent('video_start', {
+          video_name: videoSource,
+          autoplay: true,
+          page_section: 'gameplay'
+        });
+      });
+
+      gameplayVideo.addEventListener('timeupdate', function () {
+        if (!gameplayVideo.duration || !isFinite(gameplayVideo.duration)) return;
+
+        if (!teaserWatched5s && gameplayVideo.currentTime >= 5) {
+          teaserWatched5s = true;
+          safeBehaviorAnalyticsEvent('video_watch_5s', {
+            video_name: videoSource,
+            watched_seconds: 5,
+            autoplay: true,
+            page_section: 'gameplay'
+          });
+        }
+
+        if (!teaserWatched10s && gameplayVideo.currentTime >= 10) {
+          teaserWatched10s = true;
+          safeBehaviorAnalyticsEvent('video_watch_10s', {
+            video_name: videoSource,
+            watched_seconds: 10,
+            autoplay: true,
+            page_section: 'gameplay'
+          });
+        }
+
+        const percent = Math.floor(
+          (gameplayVideo.currentTime / gameplayVideo.duration) * 100
+        );
+
+        videoProgressMax = Math.max(videoProgressMax, percent);
+
+        [25, 50, 75, 100].forEach(function (mark) {
+          if (percent >= mark && !videoMilestones[mark]) {
+            videoMilestones[mark] = true;
+            videoProgressMax = Math.max(videoProgressMax, mark);
+
+            safeBehaviorAnalyticsEvent(mark === 100 ? 'video_complete' : 'video_progress', {
+              video_name: videoSource,
+              video_percent: mark,
+              autoplay: true,
+              page_section: 'gameplay'
+            });
+          }
+        });
+      });
+    }
+
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const videoWrapper = document.querySelector('.video-wrapper');
+
+    if (fullscreenBtn && videoWrapper && gameplayVideo) {
+      fullscreenBtn.addEventListener('click', async function () {
+        let fullscreenMethod = 'standard';
+        try {
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
+
+          if (videoWrapper.requestFullscreen) {
+            await videoWrapper.requestFullscreen();
+          } else if (videoWrapper.webkitRequestFullscreen) {
+            fullscreenMethod = 'webkit_wrapper';
+            videoWrapper.webkitRequestFullscreen();
+          } else if (gameplayVideo.webkitEnterFullscreen) {
+            fullscreenMethod = 'ios_video';
+            gameplayVideo.webkitEnterFullscreen();
+          }
+
+          safeBehaviorAnalyticsEvent('fullscreen_click', {
+            page_section: 'gameplay',
+            fullscreen_method: fullscreenMethod
+          });
+        } catch (error) {
+          console.error('Fullscreen request failed', error);
+
+          // iOS Safari often rejects generic fullscreen requests but still
+          // allows fullscreen on the video element itself from a user gesture.
+          if (gameplayVideo.webkitEnterFullscreen) {
+            try {
+              gameplayVideo.webkitEnterFullscreen();
+              safeBehaviorAnalyticsEvent('fullscreen_click', {
+                page_section: 'gameplay',
+                fullscreen_method: 'ios_video_fallback'
+              });
+            } catch (fallbackError) {
+              console.error('iOS video fullscreen fallback failed', fallbackError);
+            }
+          }
+        }
+      });
+
+      document.addEventListener('fullscreenchange', function () {
+        fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+        safeBehaviorAnalyticsEvent(document.fullscreenElement ? 'fullscreen_enter' : 'fullscreen_exit', {
+          page_section: 'gameplay',
+          fullscreen_method: 'standard'
+        });
+      });
+
+      gameplayVideo.addEventListener('webkitbeginfullscreen', function () {
+        fullscreenBtn.textContent = 'Exit Fullscreen';
+        safeBehaviorAnalyticsEvent('fullscreen_enter', {
+          page_section: 'gameplay',
+          fullscreen_method: 'ios_video'
+        });
+      });
+
+      gameplayVideo.addEventListener('webkitendfullscreen', function () {
+        fullscreenBtn.textContent = 'Fullscreen';
+        safeBehaviorAnalyticsEvent('fullscreen_exit', {
+          page_section: 'gameplay',
+          fullscreen_method: 'ios_video'
+        });
+      });
+    }
+
+    (function () {
+      const debugRedBtn = document.getElementById('debugRedBtn');
+      if (debugRedBtn) {
+        debugRedBtn.addEventListener('click', function () {
+          const redEnabled = document.body.classList.toggle('debug-red-disabled') === false;
+          debugRedBtn.setAttribute('aria-pressed', String(redEnabled));
+          debugRedBtn.setAttribute('aria-label', redEnabled ? 'Disable the red FKC background' : 'Enable the red FKC background');
+          debugRedBtn.title = redEnabled ? 'Debug: red background on' : 'Debug: red background off';
+          debugRedBtn.querySelector('.debug-color-label').textContent = redEnabled ? 'Red on' : 'Red off';
+        });
+      }
+
+      const cookieNotice = document.getElementById('cookieNotice');
+      const acceptBtn = document.getElementById('cookieAcceptBtn');
+      const rejectBtn = document.getElementById('cookieRejectBtn');
+      if (!cookieNotice || !acceptBtn || !rejectBtn) return;
+
+      const setConsent = function (choice) {
+        try {
+          localStorage.setItem('sunblind_cookie_consent', choice);
+        } catch (error) {
+          // Consent still applies for this page view if local storage is blocked.
+        }
+
+        if (choice === 'accepted' && typeof window.enableSunblindBehaviorAnalytics === 'function') {
+          window.enableSunblindBehaviorAnalytics();
+        }
+
+        cookieNotice.classList.remove('visible');
+        window.setTimeout(function () {
+          cookieNotice.hidden = true;
+        }, 250);
+      };
+
+      let savedConsent = null;
+      try {
+        savedConsent = localStorage.getItem('sunblind_cookie_consent');
+      } catch (error) {
+        savedConsent = null;
+      }
+
+      if (!savedConsent) {
+        cookieNotice.hidden = false;
+        window.requestAnimationFrame(function () {
+          cookieNotice.classList.add('visible');
+        });
+      }
+
+      acceptBtn.addEventListener('click', function () {
+        setConsent('accepted');
+      });
+
+      rejectBtn.addEventListener('click', function () {
+        setConsent('necessary');
+      });
+    })();
+</script>
+</body>
+
+</html>

@@ -13,7 +13,7 @@
 - Short name: FKC
 - Developer and publisher: Sunblind Games
 - Genre: comedic physics-based action roguelike, roguelite, and bullet-heaven game
-- Related classifications: survival, arcade, co-op, multiplayer, indie PC game, and Steam demo
+- Related classifications: bullet hell, survival, loot, action, single-player, arcade, 3D, casual, hack and slash, score attack, co-op, multiplayer, indie PC game, and Steam demo
 - Core mechanic: grab enemy chickens and throw them back into battle as ammunition
 - Modes presented on the official site: Adventure, co-op, and King of the Ring
 - Official Steam page: https://store.steampowered.com/app/4916140/FKC_Fighting_Krazy_Chickens/

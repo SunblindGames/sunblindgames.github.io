@@ -4,7 +4,7 @@
 
 ## Main pages
 
-- [FKC: Fighting Krazy Chickens!](https://sunblindgames.com/FKC/): Official game page with gameplay, premise, characters, modes, Steam link, and contact information.
+- [FKC: Fighting Krazy Chickens!](https://sunblindgames.com/FKC/): Official page for a comedic physics-based action roguelike and bullet-heaven game, with gameplay, characters, modes, Steam demo link, and contact information.
 - [The Studio](https://sunblindgames.com/TheStudio/): Official information about Sunblind Games, its current project, social profiles, and press contact.
 
 ## FKC facts
@@ -12,7 +12,8 @@
 - Full name: FKC: Fighting Krazy Chickens!
 - Short name: FKC
 - Developer and publisher: Sunblind Games
-- Genre: comedic physics-based action and bullet-heaven game
+- Genre: comedic physics-based action roguelike, roguelite, and bullet-heaven game
+- Related classifications: survival, arcade, co-op, multiplayer, indie PC game, and Steam demo
 - Core mechanic: grab enemy chickens and throw them back into battle as ammunition
 - Modes presented on the official site: Adventure, co-op, and King of the Ring
 - Official Steam page: https://store.steampowered.com/app/4916140/FKC_Fighting_Krazy_Chickens/

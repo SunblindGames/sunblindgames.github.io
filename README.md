@@ -7,7 +7,7 @@
   <meta name="description" content="FKC: Fighting Krazy Chickens! — A comedic bullet-heaven action game where enemies are your ammunition. Grab, throw, and cause physics-based chaos. By Sunblind Games.">
   <meta property="og:title" content="FKC: Fighting Krazy Chickens!">
   <meta property="og:description" content="A comedic bullet-heaven where enemies are your ammunition. Grab. Throw. Chaos.">
-  <meta property="og:image" content="poster feria.png">
+  <meta property="og:image" content="KeyArt_FKC_New.png">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#D96A30">
 
@@ -23,7 +23,7 @@
 
   <!-- TOP BAR -->
   <nav class="top-bar" id="topBar">
-    <img src="LOGO.png" alt="Sunblind Games" class="top-bar-logo">
+    <img src="sunblind-games-logo.jpeg" alt="Sunblind Games" class="top-bar-logo">
     <ul class="top-bar-nav">
       <li><a href="#gameplay">Teaser</a></li>
       <li><a href="#about">About</a></li>
@@ -125,7 +125,7 @@
       </div>
 
       <div class="gallery-item reveal reveal-delay-4">
-        <img src="poster feria.png" alt="FKC official poster artwork">
+        <img src="KeyArt_FKC_New.png" alt="FKC official key art">
       </div>
     </div>
   </section>
@@ -153,7 +153,7 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <img src="LOGO.png" alt="Sunblind Games" class="site-footer-logo">
+    <img src="sunblind-games-logo.jpeg" alt="Sunblind Games" class="site-footer-logo">
     <p>&copy; 2026 Sunblind Games · Madrid, Spain</p>
     <p>Made with 🐔 and a lot of chaos</p>
   </footer>

@@ -2456,96 +2456,6 @@ body::before,
   color: var(--text);
 }
 
-.fkc-page.debug-red-disabled {
-  background: var(--bg);
-}
-
-.fkc-page.debug-red-disabled .hero,
-.fkc-page.debug-red-disabled .about,
-.fkc-page.debug-red-disabled .modes {
-  background: var(--fkc-sky-light);
-}
-
-.fkc-page.debug-red-disabled .gameplay,
-.fkc-page.debug-red-disabled .gameplay-social,
-.fkc-page.debug-red-disabled .gallery,
-.fkc-page.debug-red-disabled .cta,
-.fkc-page.debug-red-disabled .contact {
-  background: var(--bg);
-}
-
-.fkc-page.debug-red-disabled .hero-copy h1,
-.fkc-page.debug-red-disabled .gameplay-title,
-.fkc-page.debug-red-disabled .about-text h2,
-.fkc-page.debug-red-disabled .section-header h2,
-.fkc-page.debug-red-disabled .contact h2 {
-  color: var(--fkc-red);
-}
-
-.fkc-page.debug-red-disabled .hero-copy .hero-kicker,
-.fkc-page.debug-red-disabled .gameplay-social-title {
-  color: var(--sunblind-red);
-}
-
-.fkc-page.debug-red-disabled .hero-copy p,
-.fkc-page.debug-red-disabled .about-text p,
-.fkc-page.debug-red-disabled .section-header p,
-.fkc-page.debug-red-disabled .contact p {
-  color: var(--text-muted);
-}
-
-.fkc-page.debug-red-disabled .about-text p strong {
-  color: var(--text);
-}
-
-.fkc-page.debug-red-disabled .cta-card {
-  border-color: transparent;
-  background: var(--fkc-red);
-}
-
-.fkc-page.debug-red-disabled .contact-email {
-  color: var(--text);
-}
-
-.debug-color-toggle {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 115;
-  min-width: 92px;
-  height: 42px;
-  padding: 6px 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  color: var(--text);
-  background: #FFFFFF;
-  border: 2px solid var(--text);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 800;
-  box-shadow: var(--shadow-sm);
-}
-
-.debug-color-toggle:hover {
-  color: var(--sunblind-red);
-  border-color: var(--sunblind-red);
-}
-
-.debug-color-swatch {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
-  background: var(--fkc-red);
-  border: 1px solid rgba(17, 17, 17, 0.25);
-}
-
-.debug-color-toggle[aria-pressed="false"] .debug-color-swatch {
-  background: #FFFFFF;
-}
-
 /* The Studio uses the sampled Sunblind red across the complete page. */
 .studio-page,
 .studio-page .top-bar-studio,
@@ -2600,11 +2510,4 @@ body::before,
 
 .studio-page .studio-social-links a {
   text-decoration-color: #FFFFFF;
-}
-
-@media (max-width: 640px) {
-  .debug-color-toggle {
-    right: 12px;
-    bottom: 12px;
-  }
 }

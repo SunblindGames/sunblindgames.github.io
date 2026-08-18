@@ -14,7 +14,7 @@
   <meta property="og:title" content="FKC: Fighting Krazy Chickens! | Action Roguelike">
   <meta property="og:description"
     content="A comedic physics-based action roguelike and bullet heaven where enemies are your ammunition. Grab, throw, survive, and embrace the chicken chaos.">
-  <meta property="og:image" content="https://sunblindgames.com/poster%20feria.png">
+  <meta property="og:image" content="https://sunblindgames.com/KeyArt_FKC_New.png">
   <meta property="og:image:alt" content="Official artwork for FKC: Fighting Krazy Chickens!">
   <meta property="og:url" content="https://sunblindgames.com/FKC/">
   <meta property="og:site_name" content="Sunblind Games">
@@ -23,7 +23,7 @@
   <meta name="twitter:title" content="FKC: Fighting Krazy Chickens! | Action Roguelike">
   <meta name="twitter:description"
     content="A physics-based action roguelike and bullet heaven where enemies become your ammunition.">
-  <meta name="twitter:image" content="https://sunblindgames.com/poster%20feria.png">
+  <meta name="twitter:image" content="https://sunblindgames.com/KeyArt_FKC_New.png">
   <meta name="theme-color" content="#FF3D38">
 
   <!-- Fonts -->
@@ -49,7 +49,7 @@
       "genre": ["Action Roguelike", "Roguelike", "Roguelite", "Bullet Heaven", "Bullet Hell", "Survival", "Loot", "Action", "Arcade", "Casual", "Hack and Slash", "Score Attack", "Physics", "Comedy", "Co-op", "Multiplayer"],
       "keywords": "action roguelike, roguelike, roguelite, bullet heaven, bullet hell, survival, loot, action, singleplayer, arcade, 3D, casual, hack and slash, score attack, physics-based action, co-op, multiplayer, indie game, PC game, Steam demo",
       "playMode": ["SinglePlayer", "CoOp", "MultiPlayer"],
-      "image": "https://sunblindgames.com/poster%20feria.png",
+      "image": "https://sunblindgames.com/KeyArt_FKC_New.png",
       "publisher": {
         "@type": "Organization",
         "@id": "https://sunblindgames.com/TheStudio/#studio",
@@ -65,7 +65,7 @@
       "@type": "VideoObject",
       "name": "FKC: Fighting Krazy Chickens! gameplay teaser",
       "description": "Gameplay footage showing the physics-based action roguelike and bullet-heaven combat of FKC: Fighting Krazy Chickens!",
-      "thumbnailUrl": "https://sunblindgames.com/poster%20feria.png",
+      "thumbnailUrl": "https://sunblindgames.com/KeyArt_FKC_New.png",
       "contentUrl": "https://sunblindgames.com/gameplay.mp4",
       "embedUrl": "https://sunblindgames.com/FKC/#gameplay"
     }
@@ -432,7 +432,7 @@
       </p>
       <p>
         Unauthorized reproduction, distribution, modification, or commercial use of any content from this website or the
-        game — including but not limited to character designs, game mechanics, visual assets, and branding — is strictly
+        game, including but not limited to character designs, game mechanics, visual assets, and branding, is strictly
         prohibited without prior written consent from Sunblind Games, S.L.
       </p>
       <p>
@@ -446,7 +446,7 @@
         interactions, so we can improve what real players actually use.
       </p>
     </div>
-    <div class="footer-version">v45</div>
+    <div class="footer-version">v46</div>
   </footer>
 
   <!-- COOKIE NOTICE -->
@@ -461,12 +461,6 @@
       <button type="button" class="cookie-btn cookie-btn-primary" id="cookieAcceptBtn">Yes, help improve FKC</button>
     </div>
   </aside>
-
-  <button type="button" class="debug-color-toggle" id="debugRedBtn" aria-pressed="true"
-    aria-label="Disable the red FKC background" title="Debug: red background on">
-    <span class="debug-color-swatch" aria-hidden="true"></span>
-    <span class="debug-color-label">Red on</span>
-  </button>
 
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
@@ -961,17 +955,6 @@
     }
 
     (function () {
-      const debugRedBtn = document.getElementById('debugRedBtn');
-      if (debugRedBtn) {
-        debugRedBtn.addEventListener('click', function () {
-          const redEnabled = document.body.classList.toggle('debug-red-disabled') === false;
-          debugRedBtn.setAttribute('aria-pressed', String(redEnabled));
-          debugRedBtn.setAttribute('aria-label', redEnabled ? 'Disable the red FKC background' : 'Enable the red FKC background');
-          debugRedBtn.title = redEnabled ? 'Debug: red background on' : 'Debug: red background off';
-          debugRedBtn.querySelector('.debug-color-label').textContent = redEnabled ? 'Red on' : 'Red off';
-        });
-      }
-
       const cookieNotice = document.getElementById('cookieNotice');
       const acceptBtn = document.getElementById('cookieAcceptBtn');
       const rejectBtn = document.getElementById('cookieRejectBtn');

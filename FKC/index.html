@@ -112,16 +112,6 @@
       font-size: 1.4rem;
     }
 
-    .studio-link {
-      padding: 10px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
     .hero {
       position: relative;
       min-height: 100svh;
@@ -144,7 +134,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      filter: saturate(0.82);
+      filter: saturate(0.9) brightness(1.05);
       transform: scale(1.01);
       transition: transform 400ms ease, filter 400ms ease;
     }
@@ -154,7 +144,7 @@
       z-index: -2;
       inset: 0;
       content: "";
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 15%, rgba(0, 0, 0, 0.28) 43%, rgba(0, 0, 0, 0.92) 100%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 15%, rgba(0, 0, 0, 0.16) 43%, rgba(0, 0, 0, 0.84) 100%);
     }
 
     .hero::after {
@@ -162,36 +152,10 @@
       z-index: -1;
       inset: 0;
       content: "";
-      background: radial-gradient(circle at 50% 40%, transparent 20%, rgba(0, 0, 0, 0.36) 100%);
+      background: radial-gradient(circle at 50% 40%, transparent 20%, rgba(0, 0, 0, 0.26) 100%);
     }
 
-    .hero:hover .hero-video { filter: saturate(1); transform: scale(1.025); }
-
-    .video-label {
-      position: absolute;
-      z-index: 3;
-      top: 98px;
-      left: clamp(20px, 4vw, 56px);
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.38);
-      border-radius: 999px;
-      background: rgba(17, 17, 17, 0.58);
-      font-size: 0.68rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      backdrop-filter: blur(10px);
-    }
-
-    .video-label::before {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--red);
-      content: "";
-    }
+    .hero:hover .hero-video { filter: saturate(1) brightness(1.08); transform: scale(1.025); }
 
     .full-gameplay-link {
       position: absolute;
@@ -490,8 +454,6 @@
       .site-header { padding: 14px 16px; }
       .brand img { width: 42px; height: 42px; }
       .brand span { display: none; }
-      .studio-link { font-size: 0.66rem; }
-      .video-label { top: 82px; left: 16px; }
       .full-gameplay-link { top: 128px; right: 16px; font-size: 0.63rem; }
       .steam-action { top: 40%; }
       .hero-copy { bottom: 34px; padding-inline: 18px; }
@@ -520,7 +482,7 @@
       .hero-video { display: none; }
       .hero::before {
         background:
-          linear-gradient(180deg, rgba(0, 0, 0, 0.24) 15%, rgba(0, 0, 0, 0.28) 43%, rgba(0, 0, 0, 0.92) 100%),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.14) 15%, rgba(0, 0, 0, 0.16) 43%, rgba(0, 0, 0, 0.84) 100%),
           url("../KeyArt_FKC_New.png") center 42% / cover no-repeat;
       }
       .socials h2 { animation: none; }
@@ -533,7 +495,6 @@
       <img src="../sunblind-games-logo.jpeg" alt="">
       <span>FKC</span>
     </a>
-    <a class="studio-link" href="../TheStudio/" target="_blank" rel="noopener">Sunblind Games ↗</a>
   </header>
 
   <main>
@@ -542,7 +503,6 @@
         <source src="assets/fkc-gameplay-03m00s-03m30s-1080p.mp4" type="video/mp4">
       </video>
       <a class="hero-steam-hitarea" href="../go/steam/?utm_source=sunblindgames.com&amp;utm_medium=website&amp;utm_campaign=fkc_wishlist_demo&amp;utm_content=hero_gameplay" target="_blank" rel="noopener" aria-label="Wishlist FKC and play the free demo on Steam" data-analytics="steam_click"></a>
-      <span class="video-label">Gameplay · 30 second clip</span>
       <a class="full-gameplay-link" href="https://youtu.be/r6mTWVkMOtM" target="_blank" rel="noopener" data-analytics="youtube_gameplay_click">Watch full co-op gameplay! ↗</a>
       <div class="steam-action" aria-hidden="true">
         <span class="steam-cta">
@@ -583,7 +543,6 @@
 
   <footer>
     <span>© 2026 Sunblind Games, S.L. · Madrid, Spain</span>
-    <a href="../TheStudio/" target="_blank" rel="noopener">About Sunblind Games</a>
     <span class="steam-attribution">© 2026 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.</span>
     <p class="cookie-details" id="cookieDetails">Google Analytics uses cookieless audience measurement by default. Optional analytics cookies and interaction tracking are enabled only if you choose “Allow analytics”.</p>
   </footer>
